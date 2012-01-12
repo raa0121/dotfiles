@@ -13,9 +13,9 @@ fi
 #ulimit -s unlimited
 
 # set aliases
-alias ls='ls -F --color=auto'
-alias ll='ls -la --color=auto'
-alias la='ls -a --color=auto'
+alias ls='ls -F --color=auto | nkf -w'
+alias ll='ls -la --color=auto | nkf -w'
+alias la='ls -a --color=auto | nkf -w'
 alias eng='LANG=C LANGUAGE=C LC_ALL=C'
 alias use_pacman='ps aux | grep pacman'
 
@@ -28,7 +28,7 @@ export EDTOR=vim
 
 PS1="\u \! \W\$ "
 
-PATH=$PATH
+PATH=$PATH:/usr/bin:/sbin:/bin
 
 DISPLAY="localhost:0.0"
 
