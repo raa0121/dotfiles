@@ -28,7 +28,7 @@ export EDTOR=vim
 
 PS1="\u \! \W\$ "
 
-PATH=/usr/bin:/sbin:$PATH
+PATH=$PATH:/usr/bin:/sbin:/bin
 
 DISPLAY="localhost:0.0"
 
