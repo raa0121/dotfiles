@@ -149,14 +149,15 @@ let g:neocomplcache_enable_at_startup = 1
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
-
-let g:quickrun_config = { }
-let g:quickrun_config['cs'] = {
-\ 'command' : 'c:/Windows/Microsoft.NET/Framework/v4.0.30319/csc.exe',
-\ 'runmode'  : 'simple',
-\ 'exec'  : ['%c /nologo %s:gs?/?\\? > /dev/null', '"%S:p:r:gs?/?\\?.exe" %a', ':call delete("%S:p:r.exe")'],
-\ 'tempfile' : '{tempname()}.cs',
-\ }
+if has('win32') || has('win64')
+  let g:quickrun_config = { }
+  let g:quickrun_config['cs'] = {
+  \ 'command' : 'c:/Windows/Microsoft.NET/Framework/v4.0.30319/csc.exe',
+  \ 'runmode'  : 'simple',
+  \ 'exec'  : ['%c /nologo %s:gs?/?\\? > /dev/null', '"%S:p:r:gs?/?\\?.exe" %a', ':call delete("%S:p:r.exe")'],
+  \ 'tempfile' : '{tempname()}.cs',
+  \ }
+endif
 
 augroup plugin-lingr-vim
   autocmd!
