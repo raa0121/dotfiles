@@ -1,28 +1,17 @@
-# .bashrc
-
-# User specific aliases and functions
-
-# Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-#stty -ixon
-
-# unlimit stacksize for large aray in user mode
-#ulimit -s unlimited
-
 # set aliases
-alias ls='ls | nkf -w'
-alias ll='ls -la | nkf -w'
-alias la='ls -a | nkf -w'
+alias ll='ls -la'
+alias la='ls -a'
 alias eng='LANG=C LANGUAGE=C LC_ALL=C'
-alias use_pacman='ps aux | grep pacman'
+set meta-flag on
+set convert-meta off
+set output-meta on
 
 # user file-creation mask
 umask 022
-
-#if [[ -s $HOME/.rvm/scripts/rvm ]] ; then source $HOME/.rvm/scripts/rvm ; fi
 
 export EDTOR=vim
 
@@ -30,8 +19,33 @@ PS1="\u \! \W\$ "
 
 PATH=/usr/bin:/sbin:$PATH
 
-DISPLAY="localhost:0.0"
-
-LANG=ja_JP.UTF8
-
-
+_uname=`uname -o`
+if [ $_uname = "Cygwin" ] ; then
+  LANG=ja_JP.UTF-8
+  DISPLAY="localhost:0.0"
+  export ANDROID_SDK_PATH=$HOME/android-sdk-windows
+  export ANDROID_NDK_PATH=$HOME/android-ndk-r8b
+elif [ $_uname = "Msys" ]; then
+  LANG=ja_JP.sjis
+  JLESSCHARSET="japanese-sjis"
+  OUTPUT_CHARSET=sjis
+  PATH=$PATH:/d/Program/Git/bin
+fi
+_vim=`which vim`
+vim(){
+    if [ $1 ] ; then
+        $_vim $1
+    else
+        $_vim ~/.vimrc
+    fi
+}
+_gvim=`which gvim`
+gvim(){
+    if [ $1 ] ; then
+        $_gvim $1
+    else
+        $_gvim ~/.vimrc
+    fi
+}
+export PATH="$HOME/ruby/bin:$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
