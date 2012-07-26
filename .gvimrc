@@ -1,3 +1,8 @@
-" vim:set ts=8 sts=2 sw=2 tw=0: (この行に関しては:help modelineを参照)
-set guifont=Ricty\ 12
-set guifontwide=Ricty\ 12
+if has('win32') || has('win64')
+  set guifont=Ricty:h12
+elseif has('unix')
+  set guifont=Ricty\ 12
+endif
+colorscheme evening
+gui
+set transparency=240
