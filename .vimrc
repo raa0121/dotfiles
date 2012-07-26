@@ -10,9 +10,9 @@ set smartcase
 " 編集に関する設定:
 "
 " タブの画面上での幅
-set tabstop=4
+set tabstop=2
 " タブをスペースに展開しない (expandtab:展開する)
-set noexpandtab
+set expandtab
 " 自動的にインデントする (noautoindent:インデントしない)
 set autoindent
 " バックスペースでインデントや改行を削除できるようにする
@@ -26,11 +26,14 @@ set wildmenu
 " テキスト挿入中の自動折り返しを日本語に対応させる
 set formatoptions+=mM
 
+set softtabstop=2
+
+set shiftwidth=4
 "---------------------------------------------------------------------------
 " GUI固有ではない画面表示の設定:
 "
 " 行番号を非表示 (number:表示)
-set nonumber
+"set nonumber
 " ルーラーを表示 (noruler:非表示)
 set ruler
 " タブや改行を表示 (list:表示)
@@ -100,7 +103,7 @@ endif
 
 NeoBundle 'gmarik/vundle'
 
-NeoBundle 'git://github.com/Shougo/clang_complete.git'
+"NeoBundle 'git://github.com/Shougo/clang_complete.git'
 NeoBundle 'git://github.com/Shougo/echodoc.git'
 NeoBundle 'git://github.com/Shougo/neocomplcache.git'
 NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
@@ -113,6 +116,13 @@ NeoBundle 'git://github.com/Shougo/vinarise.git'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tsukkee/lingr-vim'
+NeoBundle 'Shougo/neocomplcache-snippets-complete'
+NeoBundle 'browser.vim'
+NeoBundle 'synmark.vim'
+NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'mattn/gist-vim'
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'mru.vim'
 
 filetype plugin on
 filetype indent on
@@ -135,3 +145,23 @@ vmap <silent> ,ss :VimShellSendString<CR>
 nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
 
 let g:neocomplcache_enable_at_startup = 1
+
+let g:netrw_nogx = 1 " disable netrw's gx mapping.
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
+
+let g:quickrun_config = { }
+let g:quickrun_config['cs'] = {
+\ 'command' : 'c:/Windows/Microsoft.NET/Framework/v4.0.30319/csc.exe',
+\ 'runmode'  : 'simple',
+\ 'exec'  : ['%c /nologo %s:gs?/?\\? > /dev/null', '"%S:p:r:gs?/?\\?.exe" %a', ':call delete("%S:p:r.exe")'],
+\ 'tempfile' : '{tempname()}.cs',
+\ }
+
+augroup plugin-lingr-vim
+  autocmd!
+  autocmd FileType lingr-messages nmap <silent> <buffer> t <Plug>(lingr-messages-show-say-buffer)
+augroup END
+
+let g:github_user = 'raa0121'
+let g:github_token = 'e3ded9cf6669cc31dbca'
