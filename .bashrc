@@ -23,6 +23,7 @@ _uname=`uname -o`
 if [ $_uname = "Cygwin" ] ; then
   LANG=ja_JP.UTF-8
   DISPLAY="localhost:0.0"
+  export PATH=/cygdrive/c/Program Files/Java/jdk1.6.0_25/bin:$PATH
   export ANDROID_SDK_PATH=$HOME/android-sdk-windows
   export ANDROID_NDK_PATH=$HOME/android-ndk-r8b
 elif [ $_uname = "Msys" ]; then
