@@ -123,6 +123,7 @@ NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mru.vim'
+NeoBundle 'jondistad/vimclojure'
 
 filetype plugin on
 filetype indent on
@@ -166,3 +167,6 @@ augroup END
 
 let g:github_user = 'raa0121'
 let g:github_token = 'e3ded9cf6669cc31dbca'
+
+let g:clj_highlight_builtins = 1
+let g:clj_paren_rainbow = 1
