@@ -33,6 +33,7 @@ elif [ $_uname = "Msys" ]; then
   JLESSCHARSET="japanese-sjis"
   OUTPUT_CHARSET=sjis
   PATH=$PATH:/d/Program/Git/bin:/c/tools
+  [[ -s $USERPROFILE/.pik/.pikrc ]] && source $USERPROFILE/.pik/.pikrc
 fi
 _vim=`which vim`
 vim(){
