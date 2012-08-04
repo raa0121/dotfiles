@@ -32,7 +32,7 @@ elif [ $_uname = "Msys" ]; then
   LANG=ja_JP.sjis
   JLESSCHARSET="japanese-sjis"
   OUTPUT_CHARSET=sjis
-  PATH=$PATH:/d/Program/Git/bin
+  PATH=$PATH:/d/Program/Git/bin:/c/tools
 fi
 _vim=`which vim`
 vim(){
