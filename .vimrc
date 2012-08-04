@@ -92,6 +92,15 @@ endif
 if !has('gui_running') && has('xterm_clipboard')
   set clipboard=exclude:cons\\\|linux\\\|cygwin\\\|rxvt\\\|screen
 endif
+
+" タブページの切り替えをWindowsのように
+" CTRL+Tab SHIFT+Tabで行うように.
+"
+if v:version >= 700
+  nnoremap <C-Tab>   gt
+  nnoremap <C-S-Tab> gT
+endif
+
 set nocompatible
 filetype off
 
@@ -150,6 +159,7 @@ let g:neocomplcache_enable_at_startup = 1
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
+
 if has('win32') || has('win64')
   let g:quickrun_config = { }
   let g:quickrun_config['cs'] = {
