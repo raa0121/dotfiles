@@ -17,7 +17,7 @@ export EDTOR=vim
 
 PS1="\u \! \W\$ "
 
-PATH=/usr/bin:/sbin:$PATH
+PATH=/usr/local/bin:/usr/bin:/sbin:$PATH
 
 _uname=`uname -o`
 if [ $_uname = "Cygwin" ] ; then
