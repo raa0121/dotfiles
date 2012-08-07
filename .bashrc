@@ -23,16 +23,14 @@ _uname=`uname -o`
 if [ $_uname = "Cygwin" ] ; then
   LANG=ja_JP.UTF-8
   DISPLAY="localhost:0.0"
-  export PATH="/cygdrive/c/Program Files/Java/jdk1.6.0_25/bin":$PATH
   export ANDROID_SDK_PATH=$HOME/android-sdk-windows
   export ANDROID_NDK_PATH=$HOME/android-ndk-r8b
-  export PATH="$HOME/ruby/bin:$HOME/.rbenv/bin:$PATH"
+  export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
 elif [ $_uname = "Msys" ]; then
   LANG=ja_JP.sjis
   JLESSCHARSET="japanese-sjis"
   OUTPUT_CHARSET=sjis
-  PATH=$PATH:/d/Program/Git/bin:/c/tools
   [[ -s $USERPROFILE/.pik/.pikrc ]] && source $USERPROFILE/.pik/.pikrc
 fi
 _vim=`which vim`
