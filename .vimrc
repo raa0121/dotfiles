@@ -133,6 +133,7 @@ NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mru.vim'
 NeoBundle 'jondistad/vimclojure'
+NeoBundle 'ujihisa/neco-ghc'
 
 filetype plugin on
 filetype indent on
