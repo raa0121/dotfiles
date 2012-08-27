@@ -117,10 +117,10 @@ NeoBundle 'git://github.com/Shougo/echodoc.git'
 NeoBundle 'git://github.com/Shougo/neocomplcache.git'
 NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
 NeoBundle 'git://github.com/Shougo/unite.vim.git'
-NeoBundle 'git://github.com/Shougo/vim-vcs.git'
+"NeoBundle 'git://github.com/Shougo/vim-vcs.git'
 NeoBundle 'git://github.com/Shougo/vimfiler.git'
 NeoBundle 'git://github.com/Shougo/vimshell.git'
-NeoBundle 'git://github.com/Shougo/vinarise.git'
+"NeoBundle 'git://github.com/Shougo/vinarise.git'
 
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'thinca/vim-quickrun'
@@ -140,7 +140,6 @@ filetype indent on
 
 set ww+=h,l,>,<,[,]
 set number
-
 set mouse=a
 set ttymouse=xterm2 
 
@@ -176,6 +175,89 @@ augroup plugin-lingr-vim
   autocmd FileType lingr-messages nmap <silent> <buffer> t <Plug>(lingr-messages-show-say-buffer)
 augroup END
 
+"augroup vimrc-plugin-lingr
+"  autocmd!
+"  autocmd User plugin-lingr-* call s:lingr_event(
+"  \            matchstr(expand('<amatch>'), 'plugin-lingr-\zs\w*'))
+"augroup END
+"function! s:lingr_event(event)
+"  if a:event ==# 'message' && exists(':WindowName') == 2
+"    execute printf('WindowName %s(%d)', 'lingr-vim', lingr#unread_count())
+"  endif
+"endfunction
+"
+"function! s:set_window_name(name)
+"  let esc = "\<ESC>"
+"  silent! execute '!echo -n "' . esc . 'k' . escape(a:name, '%#!')
+"  \ . esc . '\\"'
+"  redraw!
+"endfunction
+"command! -nargs=? WindowName call s:set_window_name(<q-args>)
+
+augroup vimrc
+    autocmd!
+augroup END
+
+function! s:SID_PREFIX()
+    return matchstr(expand('<sfile>'), '<SNR>\d\+_')
+endfunction
+
+set titlelen=100
+
+autocmd vimrc BufEnter * let &titlestring = '%{' . s:SID_PREFIX() . 'titlestring()}'
+autocmd vimrc User plugin-lingr-unread let &titlestring = '%{' . s:SID_PREFIX() . 'titlestring()}'
+if exists('$TMUX') || exists('$WINDOW')
+    set t_ts=k
+    set t_fs=\
+endif
+function! s:titlestring()
+    if &filetype =~ '^lingr'
+        let &titlestring = 'vim: [lingr: ' . lingr#unread_count() . ']'
+    else
+        let &titlestring = 'vim: %<' . bufname('')
+    endif
+endfunction
+
+" tabline
+set showtabline=2 " always show tabline
+let &tabline = '%!' . s:SID_PREFIX() . 'tabline()'
+function! s:tabline()
+    " show each tab
+    let s = ''
+    for i in range(1, tabpagenr('$'))
+        let list = tabpagebuflist(i)
+        let nr = tabpagewinnr(i)
+        let current_tabnr = tabpagenr()
+
+        if i == current_tabnr
+            let title = fnamemodify(getcwd(), ':t') . '/'
+        else
+            let title = fnamemodify(gettabvar(i, 'cwd'), ':t') . '/'
+        endif
+        let title = empty(title) ? '[No Name]' : title
+
+        let s .= i == current_tabnr ? '%#TabLineSel#' : '%#TabLine#'
+        let s .= '%' . i . 'T[' . i . '] ' . title
+        let s .= '  '
+    endfor
+
+    " show lingr unread count
+    let lingr_unread = ""
+    if exists('*lingr#unread_count')
+        let lingr_unread_count = lingr#unread_count()
+        if lingr_unread_count > 0
+            let lingr_unread = "%#ErrorMsg#(" . lingr_unread_count . ")"
+        elseif lingr_unread_count == 0
+            let lingr_unread = "()"
+        endif
+    endif
+
+    " build tabline
+    let s .= '%#TabLineFill#%T%=%<[' . getcwd() . ']' . lingr_unread
+    return s
+endfunction
+
+"set guitablabel = %{s:titlestring()}
 let g:github_user = 'raa0121'
 let g:github_token = 'e3ded9cf6669cc31dbca'
 
