@@ -1,8 +1,11 @@
-" ツールバーを削除
-set guioptions-=T
-
-"メニューを削除
-set guioptions-=m
+nnoremap <silent> <C-F2> :if &guioptions =~# 'T' <Bar> 
+            \set guioptions-=T <Bar> 
+            \set guioptions-=m <Bar>
+            \else <Bar> 
+            \set guioptions+=T <Bar> 
+            \set guioptions+=m <Bar>
+            \endif<CR>
+ 
 
 if has('win32') || has('win64')
   set guifont=Ricty:h12
