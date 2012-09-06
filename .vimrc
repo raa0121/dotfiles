@@ -1,14 +1,12 @@
-"---------------------------------------------------------------------------
-" 検索の挙動に関する設定:
-"
+
+so $VIMRUNTIME/mswin.vim
+
+
 " 検索時に大文字小文字を無視 (noignorecase:無視しない)
 set ignorecase
 " 大文字小文字の両方が含まれている場合は大文字小文字を区別
 set smartcase
 
-"---------------------------------------------------------------------------
-" 編集に関する設定:
-"
 " タブの画面上での幅
 set tabstop=2
 " タブをスペースに展開しない (expandtab:展開する)
@@ -29,17 +27,15 @@ set formatoptions+=mM
 set softtabstop=2
 
 set shiftwidth=4
-"---------------------------------------------------------------------------
-" GUI固有ではない画面表示の設定:
-"
+
+set fileencodings=utf-8,cp932,euc-jp,default,latin
+
 " 行番号を非表示 (number:表示)
-"set nonumber
+set number
 " ルーラーを表示 (noruler:非表示)
 set ruler
 " タブや改行を表示 (list:表示)
 set nolist
-" どの文字でタブや改行を表示するかを設定
-"set listchars=tab:>-,extends:<,trail:-,eol:<
 " 長い行を折り返して表示 (nowrap:折り返さない)
 set wrap
 " 常にステータス行を表示 (詳細は:he laststatus)
@@ -50,19 +46,10 @@ set cmdheight=2
 set showcmd
 " タイトルを表示
 set title
-" 画面を黒地に白にする (次行の先頭の " を削除すれば有効になる)
-"colorscheme evening " (Windows用gvim使用時はgvimrcを編集すること)
 "シンタックスハイライトを有効にする
 syntax on
 
-"---------------------------------------------------------------------------
-" ファイル操作に関する設定:
-"
-" バックアップファイルを作成しない (次行の先頭の " を削除すれば有効になる)
-"set nobackup
 
-
-"---------------------------------------------------------------------------
 " ファイル名に大文字小文字の区別がないシステム用の設定:
 "   (例: DOS/Windows/MacOS)
 "
@@ -71,7 +58,6 @@ if filereadable($VIM . '/vimrc') && filereadable($VIM . '/ViMrC')
   set tags=./tags,tags
 endif
 
-"---------------------------------------------------------------------------
 " コンソールでのカラー表示のための設定(暫定的にUNIX専用)
 if has('unix') && !has('gui_running')
   let uname = system('uname')
@@ -87,7 +73,6 @@ if has('unix') && !has('gui_running')
   unlet uname
 endif
 
-"---------------------------------------------------------------------------
 " コンソール版で環境変数$DISPLAYが設定されていると起動が遅くなる件へ対応
 if !has('gui_running') && has('xterm_clipboard')
   set clipboard=exclude:cons\\\|linux\\\|cygwin\\\|rxvt\\\|screen
@@ -95,7 +80,6 @@ endif
 
 " タブページの切り替えをWindowsのように
 " CTRL+Tab SHIFT+Tabで行うように.
-"
 if v:version >= 700
   nnoremap <C-Tab>   gt
   nnoremap <C-S-Tab> gT
@@ -132,16 +116,16 @@ NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mru.vim'
-NeoBundle 'jondistad/vimclojure'
+NeoBundle 'VimClojure'
 NeoBundle 'ujihisa/neco-ghc'
 
 filetype plugin on
 filetype indent on
 
 set ww+=h,l,>,<,[,]
-set number
 set mouse=a
-set ttymouse=xterm2 
+set ttymouse=xterm2
+set clipboard+=unnamed
 
 " ,is: シェルを起動
 nnoremap <silent> ,is :VimShell<CR>
@@ -173,26 +157,8 @@ endif
 augroup plugin-lingr-vim
   autocmd!
   autocmd FileType lingr-messages nmap <silent> <buffer> t <Plug>(lingr-messages-show-say-buffer)
+  autocmd FileType lingr-say let &syntax='clojure'
 augroup END
-
-"augroup vimrc-plugin-lingr
-"  autocmd!
-"  autocmd User plugin-lingr-* call s:lingr_event(
-"  \            matchstr(expand('<amatch>'), 'plugin-lingr-\zs\w*'))
-"augroup END
-"function! s:lingr_event(event)
-"  if a:event ==# 'message' && exists(':WindowName') == 2
-"    execute printf('WindowName %s(%d)', 'lingr-vim', lingr#unread_count())
-"  endif
-"endfunction
-"
-"function! s:set_window_name(name)
-"  let esc = "\<ESC>"
-"  silent! execute '!echo -n "' . esc . 'k' . escape(a:name, '%#!')
-"  \ . esc . '\\"'
-"  redraw!
-"endfunction
-"command! -nargs=? WindowName call s:set_window_name(<q-args>)
 
 augroup vimrc
     autocmd!
@@ -203,24 +169,27 @@ function! s:SID_PREFIX()
 endfunction
 
 set titlelen=100
+set guioptions-=e
 
 autocmd vimrc BufEnter * let &titlestring = '%{' . s:SID_PREFIX() . 'titlestring()}'
 autocmd vimrc User plugin-lingr-unread let &titlestring = '%{' . s:SID_PREFIX() . 'titlestring()}'
+
 if exists('$TMUX') || exists('$WINDOW')
     set t_ts=k
     set t_fs=\
 endif
 function! s:titlestring()
     if &filetype =~ '^lingr'
-        let &titlestring = 'vim: [lingr: ' . lingr#unread_count() . ']'
+        let &titlestring = 'lingr: ' . lingr#unread_count()
     else
-        let &titlestring = 'vim: %<' . bufname('')
+        let &titlestring = bufname('')
     endif
 endfunction
 
 " tabline
 set showtabline=2 " always show tabline
 let &tabline = '%!' . s:SID_PREFIX() . 'tabline()'
+
 function! s:tabline()
     " show each tab
     let s = ''
@@ -229,13 +198,14 @@ function! s:tabline()
         let nr = tabpagewinnr(i)
         let current_tabnr = tabpagenr()
 
+        "let title = bufname('') 
         if i == current_tabnr
             let title = fnamemodify(getcwd(), ':t') . '/'
+            "let title = bufname('')
         else
             let title = fnamemodify(gettabvar(i, 'cwd'), ':t') . '/'
         endif
         let title = empty(title) ? '[No Name]' : title
-
         let s .= i == current_tabnr ? '%#TabLineSel#' : '%#TabLine#'
         let s .= '%' . i . 'T[' . i . '] ' . title
         let s .= '  '
@@ -251,15 +221,18 @@ function! s:tabline()
             let lingr_unread = "()"
         endif
     endif
-
     " build tabline
     let s .= '%#TabLineFill#%T%=%<[' . getcwd() . ']' . lingr_unread
     return s
 endfunction
 
-"set guitablabel = %{s:titlestring()}
 let g:github_user = 'raa0121'
 let g:github_token = 'e3ded9cf6669cc31dbca'
 
-let g:clj_highlight_builtins = 1
-let g:clj_paren_rainbow = 1
+let vimclojure#HighlightBuiltins = 1
+let vimclojure#ParenRainbow = 1
+let vimclojure#connector#nailgun#Client = "/usr/bin/ng"
+
+if executable('pdftotext')
+    command! -complete=file -nargs=1 Pdf :r !pdftotext -nopgbrk -layout <q-args> -
+endif
