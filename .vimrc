@@ -94,9 +94,7 @@ if has('vim_starting')
   call neobundle#rc(expand('~/.bundle'))
 endif
 
-NeoBundle 'gmarik/vundle'
 
-"NeoBundle 'git://github.com/Shougo/clang_complete.git'
 NeoBundle 'git://github.com/Shougo/echodoc.git'
 NeoBundle 'git://github.com/Shougo/neocomplcache.git'
 NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
@@ -139,6 +137,10 @@ vmap <silent> ,ss :VimShellSendString<CR>
 nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
 
 let g:neocomplcache_enable_at_startup = 1
+
+"tabで補完候補の選択を行う
+inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
 
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
