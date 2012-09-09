@@ -18,7 +18,7 @@ if has('multi_byte_ime') || has('xim')
   highlight CursorIM guifg=NONE guibg=Purple
 endif
 gui
-if has('win32') || has('win64')
+if has('win32') || has('win64') || has('win32unix')
   set transparency 220
 endif
 
