@@ -99,10 +99,8 @@ NeoBundle 'git://github.com/Shougo/echodoc.git'
 NeoBundle 'git://github.com/Shougo/neocomplcache.git'
 NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
 NeoBundle 'git://github.com/Shougo/unite.vim.git'
-"NeoBundle 'git://github.com/Shougo/vim-vcs.git'
 NeoBundle 'git://github.com/Shougo/vimfiler.git'
 NeoBundle 'git://github.com/Shougo/vimshell.git'
-"NeoBundle 'git://github.com/Shougo/vinarise.git'
 
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'thinca/vim-quickrun'
@@ -114,7 +112,7 @@ NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mru.vim'
-NeoBundle 'VimClojure'
+NeoBundle 'thinca/vim-ft-clojure'
 NeoBundle 'ujihisa/neco-ghc'
 
 filetype plugin on
@@ -145,16 +143,6 @@ inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
-
-if has('win32') || has('win64')
-  let g:quickrun_config = { }
-  let g:quickrun_config['cs'] = {
-  \ 'command' : 'c:/Windows/Microsoft.NET/Framework/v4.0.30319/csc.exe',
-  \ 'runmode'  : 'simple',
-  \ 'exec'  : ['%c /nologo %s:gs?/?\\? > /dev/null', '"%S:p:r:gs?/?\\?.exe" %a', ':call delete("%S:p:r.exe")'],
-  \ 'tempfile' : '{tempname()}.cs',
-  \ }
-endif
 
 augroup plugin-lingr-vim
   autocmd!
@@ -230,10 +218,6 @@ endfunction
 
 let g:github_user = 'raa0121'
 let g:github_token = 'e3ded9cf6669cc31dbca'
-
-let vimclojure#HighlightBuiltins = 1
-let vimclojure#ParenRainbow = 1
-let vimclojure#connector#nailgun#Client = "/usr/bin/ng"
 
 if executable('pdftotext')
     command! -complete=file -nargs=1 Pdf :r !pdftotext -nopgbrk -layout <q-args> -

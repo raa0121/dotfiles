@@ -49,3 +49,12 @@ gvim(){
         $_gvim ~/.vimrc
     fi
 }
+
+ _ping=`which ping`
+ping(){
+  if [ $1 ] ; then
+      `$_ping $* | nkf -w`
+  else
+      `$_ping | nkf -w`
+  fi
+}
