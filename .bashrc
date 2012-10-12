@@ -32,7 +32,7 @@ elif [ $_uname = "Msys" ]; then
   OUTPUT_CHARSET=sjis
   export PATH="$PATH:$WIN_PATH"
   [[ -s $USERPROFILE/.pik/.pikrc ]] && source $USERPROFILE/.pik/.pikrc
-elif [ $HOSTNAME = "ryo"]; then
+elif [ $HOSTNAME = "ryo" ]; then
   export LANG=ja_JP.UTF-8
   export PATH=$WIN_PATH
 fi
