@@ -8,9 +8,9 @@ nnoremap <silent> <C-F2> :if &guioptions =~# 'T' <Bar>
  
 
 if has('win32') || has('win64')
-  set guifont=Ricty:h12
+  set guifont=Aicty:h12
 elseif has('unix')
-  set guifont=Ricty\ 12
+  set guifont=Aicty\ 12
 endif
 colorscheme evening
 if has('multi_byte_ime') || has('xim')

@@ -15,17 +15,13 @@ umask 022
 
 export EDTOR=vim
 
-PS1="\u \! \W\$ "
-
-PATH=/cygdrive/c/Users/raa0121/AppData/Roaming/cabal/bin:/usr/local/bin:/usr/bin:/sbin:$PATH
-
 _uname=`uname -o`
 if [ $_uname = "Cygwin" ] ; then
   LANG=ja_JP.UTF-8
   DISPLAY="localhost:0.0"
   export ANDROID_SDK_PATH=$HOME/android-sdk-windows
   export ANDROID_NDK_PATH=$HOME/android-ndk-r8b
-  export PATH="$HOME/.rbenv/bin:$PATH"
+  export PATH="$HOME/.rbenv/bin:/cygdrive/c/Users/raa0121/AppData/Roaming/cabal/bin:/cygdrive/c/texlive/2012/bin/win32:$PATH"
   eval "$(rbenv init -)"
 elif [ $_uname = "Msys" ]; then
   LANG=ja_JP.sjis
@@ -50,11 +46,3 @@ gvim(){
     fi
 }
 
- _ping=`which ping`
-ping(){
-  if [ $1 ] ; then
-      `$_ping $* | nkf -w`
-  else
-      `$_ping | nkf -w`
-  fi
-}

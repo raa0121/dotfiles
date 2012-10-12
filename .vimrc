@@ -1,6 +1,4 @@
-
-so $VIMRUNTIME/mswin.vim
-
+" coding:utf-8
 
 " 検索時に大文字小文字を無視 (noignorecase:無視しない)
 set ignorecase
@@ -95,12 +93,12 @@ if has('vim_starting')
 endif
 
 
-NeoBundle 'git://github.com/Shougo/echodoc.git'
-NeoBundle 'git://github.com/Shougo/neocomplcache.git'
-NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
-NeoBundle 'git://github.com/Shougo/unite.vim.git'
-NeoBundle 'git://github.com/Shougo/vimfiler.git'
-NeoBundle 'git://github.com/Shougo/vimshell.git'
+NeoBundle 'Shougo/echodoc.git'
+NeoBundle 'Shougo/neocomplcache.git'
+NeoBundle 'Shougo/neobundle.vim.git'
+NeoBundle 'Shougo/unite.vim.git'
+NeoBundle 'Shougo/vimfiler.git'
+NeoBundle 'Shougo/vimshell.git'
 
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'thinca/vim-quickrun'
@@ -114,9 +112,13 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mru.vim'
 NeoBundle 'thinca/vim-ft-clojure'
 NeoBundle 'ujihisa/neco-ghc'
+NeoBundle 'sudo.vim'
+NeoBundle 'ujihisa/vimshell-ssh'
+NeoBundle 'Shougo/unite-ssh'
+NeoBundle 'tyru/skkdict.vim'
+NeoBundle 'tyru/eskk.vim'
 
-filetype plugin on
-filetype indent on
+filetype plugin indent on
 
 set ww+=h,l,>,<,[,]
 set mouse=a
@@ -219,6 +221,9 @@ endfunction
 let g:github_user = 'raa0121'
 let g:github_token = 'e3ded9cf6669cc31dbca'
 
-if executable('pdftotext')
-    command! -complete=file -nargs=1 Pdf :r !pdftotext -nopgbrk -layout <q-args> -
-endif
+let g:eskk#directory = "~/.eskk"
+let g:eskk#dictionary = { 'path': "~/.skk-jisyo", 'sorted': 0, 'encoding': 'utf-8', }
+let g:eskk#large_dictionary = { 'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
+let g:eskk#enable_completion = 1
+
+set imdisable
