@@ -117,6 +117,12 @@ NeoBundle 'ujihisa/vimshell-ssh'
 NeoBundle 'Shougo/unite-ssh'
 NeoBundle 'tyru/skkdict.vim'
 NeoBundle 'tyru/eskk.vim'
+NeoBundle 'ujihisa/neco-look'
+
+NeoBundle 'dag/vim2hs'
+NeoBundle 'eagletmt/ghcmod-vim'
+
+NeoBundle 'git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex'
 
 filetype plugin indent on
 
@@ -226,4 +232,14 @@ let g:eskk#dictionary = { 'path': "~/.skk-jisyo", 'sorted': 0, 'encoding': 'utf-
 let g:eskk#large_dictionary = { 'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
 let g:eskk#enable_completion = 1
 
-set imdisable
+" latex
+set shellslash
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor='tex'
+let g:Tex_CompileRule_div = 'platex --interaction=nonstopmode $*'
+let g:Tex_BibtexFlavor = 'jbibtex'
+let g:Tex_ViewRule_dvi = '/cygdrive/c/texlive/2012/bin/win32/dviout.exe'
+let g:Tex_FormatDependency_pdf = 'dvi,pdf'
+let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
+let g:Tex_ViewRule_pdf = '/cygdrive/d/Program/SumatraPDF/SumatraPDF.exe'
+" set imdisable
