@@ -135,6 +135,7 @@ set ww+=h,l,>,<,[,]
 set mouse=a
 set ttymouse=xterm2
 set clipboard+=unnamed
+
 if s:has_plugin('VimShell')
   " ,is: シェルを起動
   nnoremap <silent> ,is :VimShell<CR>
@@ -147,6 +148,7 @@ if s:has_plugin('VimShell')
   " 選択中に,ss: 非同期で開いたインタプリタに選択行を評価させる
   nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
 endif
+
 if s:has_plugin('neocomplcache')
   let g:neocomplcache_enable_at_startup = 1
 
@@ -155,9 +157,10 @@ if s:has_plugin('neocomplcache')
   inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
 endif
 
-let g:netrw_nogx = 1 " disable netrw's gx mapping.
-nmap gx <Plug>(openbrowser-smart-search)
-vmap gx <Plug>(openbrowser-smart-search)
+if s:has_plugin('openbrower.vim')
+  nmap gx <Plug>(openbrowser-smart-search)
+  vmap gx <Plug>(openbrowser-smart-search)
+endif
 
 augroup plugin-lingr-vim
   autocmd!
@@ -183,6 +186,7 @@ if exists('$TMUX') || exists('$WINDOW')
     set t_ts=k
     set t_fs=\
 endif
+
 function! s:titlestring()
     if &filetype =~ '^lingr'
         let &titlestring = 'lingr: ' . lingr#unread_count()
@@ -233,6 +237,7 @@ endfunction
 
 let g:github_user = 'raa0121'
 let g:github_token = 'e3ded9cf6669cc31dbca'
+
 if s:has_plugin('eskk.vim')
   let g:eskk#directory = "~/.eskk"
   let g:eskk#dictionary = { 'path': "~/.skk-jisyo", 'sorted': 0, 'encoding': 'utf-8', }
@@ -240,14 +245,15 @@ if s:has_plugin('eskk.vim')
   let g:eskk#enable_completion = 1
 endif
 
-" latex
-set shellslash
-set grepprg=grep\ -nH\ $*
-let g:tex_flavor='tex'
-let g:Tex_CompileRule_div = 'platex --interaction=nonstopmode $*'
-let g:Tex_BibtexFlavor = 'jbibtex'
-let g:Tex_ViewRule_dvi = '/cygdrive/c/texlive/2012/bin/win32/dviout.exe'
-let g:Tex_FormatDependency_pdf = 'dvi,pdf'
-let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
-let g:Tex_ViewRule_pdf = '/cygdrive/d/Program/SumatraPDF/SumatraPDF.exe'
+if s:has_plugin('vim-latex')
+  set shellslash
+  set grepprg=grep\ -nH\ $*
+  let g:tex_flavor='tex'
+  let g:Tex_CompileRule_div = 'platex --interaction=nonstopmode $*'
+  let g:Tex_BibtexFlavor = 'jbibtex'
+  let g:Tex_ViewRule_dvi = '/cygdrive/c/texlive/2012/bin/win32/dviout.exe'
+  let g:Tex_FormatDependency_pdf = 'dvi,pdf'
+  let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
+  let g:Tex_ViewRule_pdf = '/cygdrive/d/Program/SumatraPDF/SumatraPDF.exe'
+endif
 " set imdisable
