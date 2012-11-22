@@ -83,6 +83,11 @@ if v:version >= 700
   nnoremap <C-S-Tab> gT
 endif
 
+
+function! s:has_plugin(...)
+  return len(filter(copy(a:000), 'index(s:plugins, v:val) >= 0')) == len(a:000)
+endfunction
+
 set nocompatible
 filetype off
 
@@ -130,23 +135,25 @@ set ww+=h,l,>,<,[,]
 set mouse=a
 set ttymouse=xterm2
 set clipboard+=unnamed
+if s:has_plugin('VimShell')
+  " ,is: シェルを起動
+  nnoremap <silent> ,is :VimShell<CR>
+  " ,ipy: pythonを非同期で起動
+  nnoremap <silent> ,ipy :VimShellInteractive python<CR>
+  " ,irb: irbを非同期で起動
+  nnoremap <silent> ,irb :VimShellInteractive irb<CR>
+  " ,ss: 非同期で開いたインタプリタに現在の行を評価させる
+  vmap <silent> ,ss :VimShellSendString<CR>
+  " 選択中に,ss: 非同期で開いたインタプリタに選択行を評価させる
+  nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
+endif
+if s:has_plugin('neocomplcache')
+  let g:neocomplcache_enable_at_startup = 1
 
-" ,is: シェルを起動
-nnoremap <silent> ,is :VimShell<CR>
-" ,ipy: pythonを非同期で起動
-nnoremap <silent> ,ipy :VimShellInteractive python<CR>
-" ,irb: irbを非同期で起動
-nnoremap <silent> ,irb :VimShellInteractive irb<CR>
-" ,ss: 非同期で開いたインタプリタに現在の行を評価させる
-vmap <silent> ,ss :VimShellSendString<CR>
-" 選択中に,ss: 非同期で開いたインタプリタに選択行を評価させる
-nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
-
-let g:neocomplcache_enable_at_startup = 1
-
-"tabで補完候補の選択を行う
-inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
+  "tabで補完候補の選択を行う
+  inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
+  inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
+endif
 
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
@@ -226,11 +233,12 @@ endfunction
 
 let g:github_user = 'raa0121'
 let g:github_token = 'e3ded9cf6669cc31dbca'
-
-let g:eskk#directory = "~/.eskk"
-let g:eskk#dictionary = { 'path': "~/.skk-jisyo", 'sorted': 0, 'encoding': 'utf-8', }
-let g:eskk#large_dictionary = { 'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
-let g:eskk#enable_completion = 1
+if s:has_plugin('eskk.vim')
+  let g:eskk#directory = "~/.eskk"
+  let g:eskk#dictionary = { 'path': "~/.skk-jisyo", 'sorted': 0, 'encoding': 'utf-8', }
+  let g:eskk#large_dictionary = { 'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
+  let g:eskk#enable_completion = 1
+endif
 
 " latex
 set shellslash
