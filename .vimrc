@@ -83,6 +83,11 @@ if v:version >= 700
   nnoremap <C-S-Tab> gT
 endif
 
+try
+  let s:plugins = map(filter(neobundle#config#get_neobundles(), 'isdirectory(v:val.path) && neobundle#config#is_sourced(v:val.name)'), 'v:val.name')
+catch
+  let s:plugins = []
+endtry
 
 function! s:has_plugin(...)
   return len(filter(copy(a:000), 'index(s:plugins, v:val) >= 0')) == len(a:000)

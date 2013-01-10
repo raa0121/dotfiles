@@ -1,3 +1,4 @@
+
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
@@ -24,7 +25,7 @@ if [ $_uname = "Cygwin" ] ; then
   DISPLAY="localhost:0.0"
   export ANDROID_SDK_PATH=$HOME/android-sdk-windows
   export ANDROID_NDK_PATH=$HOME/android-ndk-r8b
-  export PATH="/cygdrive/c/Users/raa0121/AppData/Roaming/cabal/bin:/cygdrive/c/texlive/2012/bin/win32:$PATH:$WIN_PATH"
+  export PATH="$PATH:$WIN_PATH"
   eval "$(rbenv init -)"
 elif [ $_uname = "Msys" ]; then
   LANG=ja_JP.sjis
@@ -36,8 +37,6 @@ elif [ $HOSTNAME = "ryo" || $HOSTNAME = "nakako" ]; then
   export LANG=ja_JP.UTF-8
   export PATH=$WIN_PATH
 fi
-
-if [[ -s $HOME/.rbenv ]] && export PATH=$HOME/.rbenv/bin:$PATH && eval "$(rbenv init -)"
 
 _vim=`which vim`
 vim(){
