@@ -102,14 +102,12 @@ if has('vim_starting')
   call neobundle#rc(expand('~/.bundle'))
 endif
 
-
 NeoBundle 'Shougo/echodoc.git'
 NeoBundle 'Shougo/neocomplcache.git'
 NeoBundle 'Shougo/neobundle.vim.git'
 NeoBundle 'Shougo/unite.vim.git'
 NeoBundle 'Shougo/vimfiler.git'
 NeoBundle 'Shougo/vimshell.git'
-
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tsukkee/lingr-vim'
@@ -120,8 +118,8 @@ NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mru.vim'
-NeoBundle 'thinca/vim-ft-clojure'
-NeoBundle 'ujihisa/neco-ghc'
+NeoBundleLazy 'thinca/vim-ft-clojure',{'autoload' : {'filetypes' : ['clj']}}
+NeoBundleLazy 'ujihisa/neco-ghc',{'autoload' : {'filetypes' : ['hs']}}
 NeoBundle 'sudo.vim'
 NeoBundle 'ujihisa/vimshell-ssh'
 NeoBundle 'Shougo/unite-ssh'
@@ -129,43 +127,58 @@ NeoBundle 'Shougo/unite-ssh'
 "NeoBundle 'tyru/eskk.vim'
 NeoBundle 'ujihisa/neco-look'
 NeoBundle 'vim-jp/vital.vim'
-NeoBundle 'dag/vim2hs'
-NeoBundle 'eagletmt/ghcmod-vim'
+NeoBundleLazy 'dag/vim2hs',{'autoload' : {'filetypes' : ['hs']}}
+NeoBundleLazy 'eagletmt/ghcmod-vim', {'autoload' : {'filetypes' : ['hs']}}
+NeoBundleLazy 'git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex', {
+  \ 'autoload' : {'filetypes' : ['tex', 'sty']}}
 
-NeoBundle 'git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex'
+NeoBundle 'modsound/gips-vim'
+NeoBundle 'thinca/vim-singleton'
 
 filetype plugin indent on
+if has('clientserver')
+  call singleton#enable()
+end
 
 set ww+=h,l,>,<,[,]
 set mouse=a
 set ttymouse=xterm2
 set clipboard+=unnamed
 
-if s:has_plugin('VimShell')
-  " ,is: シェルを起動
-  nnoremap <silent> ,is :VimShell<CR>
-  " ,ipy: pythonを非同期で起動
-  nnoremap <silent> ,ipy :VimShellInteractive python<CR>
-  " ,irb: irbを非同期で起動
-  nnoremap <silent> ,irb :VimShellInteractive irb<CR>
-  " ,ss: 非同期で開いたインタプリタに現在の行を評価させる
-  vmap <silent> ,ss :VimShellSendString<CR>
-  " 選択中に,ss: 非同期で開いたインタプリタに選択行を評価させる
-  nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
-endif
+" ,is: シェルを起動
+nnoremap <silent> ,is :VimShell<CR>
+" ,ipy: pythonを非同期で起動
+nnoremap <silent> ,ipy :VimShellInteractive python<CR>
+" ,irb: irbを非同期で起動
+nnoremap <silent> ,irb :VimShellInteractive irb<CR>
+" ,ss: 非同期で開いたインタプリタに現在の行を評価させる
+vmap <silent> ,ss :VimShellSendString<CR>
+" 選択中に,ss: 非同期で開いたインタプリタに選択行を評価させる
+nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
 
-if s:has_plugin('neocomplcache')
-  let g:neocomplcache_enable_at_startup = 1
 
-  "tabで補完候補の選択を行う
-  inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
-  inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
-endif
+" Disable AutoComplPop. Comment out this line if AutoComplPop is not
+" installed.
+let g:acp_enableAtStartup = 0
+" " Launches neocomplcache automatically on vim startup.
+let g:neocomplcache_enable_at_startup = 1
+" " Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" " Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" " Use underscore completion.
+let g:neocomplcache_enable_underbar_completion = 1
+" " Sets minimum char length of syntax keyword.
+let g:neocomplcache_min_syntax_length = 3
 
-if s:has_plugin('openbrower.vim')
-  nmap gx <Plug>(openbrowser-smart-search)
-  vmap gx <Plug>(openbrowser-smart-search)
-endif
+"tabで補完候補の選択を行う
+inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
+
+let g:netrw_nogx = 1
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
+
 
 augroup plugin-lingr-vim
   autocmd!

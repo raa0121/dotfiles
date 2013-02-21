@@ -25,7 +25,7 @@ if [ $_uname = "Cygwin" ] ; then
   DISPLAY="localhost:0.0"
   export ANDROID_SDK_PATH=$HOME/android-sdk-windows
   export ANDROID_NDK_PATH=$HOME/android-ndk-r8b
-  export PATH="$PATH:$WIN_PATH"
+  export PATH="$ANDROID_SDK_PATH/platform-sdk-windows:~/.rbenv/bin:$PATH:$WIN_PATH"
   eval "$(rbenv init -)"
 elif [ $_uname = "Msys" ]; then
   LANG=ja_JP.sjis
@@ -33,7 +33,7 @@ elif [ $_uname = "Msys" ]; then
   OUTPUT_CHARSET=sjis
   export PATH="$PATH:$WIN_PATH"
   [[ -s $USERPROFILE/.pik/.pikrc ]] && source $USERPROFILE/.pik/.pikrc
-elif [ $HOSTNAME = "ryo" || $HOSTNAME = "nakako" ]; then
+elif [ $HOSTNAME = "ryo" ] || [ $HOSTNAME = "nakako" ]; then
   export LANG=ja_JP.UTF-8
   export PATH=$WIN_PATH
 fi

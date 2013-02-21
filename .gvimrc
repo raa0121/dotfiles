@@ -19,6 +19,6 @@ if has('multi_byte_ime') || has('xim')
 endif
 gui
 if has('win32') || has('win64') || has('win32unix')
-  set transparency 220
+  set transparency=220
 endif
 
