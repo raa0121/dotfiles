@@ -132,8 +132,9 @@ NeoBundleLazy 'eagletmt/ghcmod-vim', {'autoload' : {'filetypes' : ['hs']}}
 NeoBundleLazy 'git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex', {
   \ 'autoload' : {'filetypes' : ['tex', 'sty']}}
 
-NeoBundle 'modsound/gips-vim'
 NeoBundle 'thinca/vim-singleton'
+NeoBundle 'mattn/benchvimrc-vim'
+NeoBundle 'ryutorion/vim-itunes'
 
 filetype plugin indent on
 if has('clientserver')
@@ -170,6 +171,8 @@ let g:neocomplcache_enable_camel_case_completion = 1
 let g:neocomplcache_enable_underbar_completion = 1
 " " Sets minimum char length of syntax keyword.
 let g:neocomplcache_min_syntax_length = 3
+
+let g:vimfiler_as_default_explorer = 1
 
 "tabで補完候補の選択を行う
 inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"

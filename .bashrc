@@ -37,12 +37,3 @@ elif [ $HOSTNAME = "ryo" ] || [ $HOSTNAME = "nakako" ]; then
   export LANG=ja_JP.UTF-8
   export PATH=$WIN_PATH
 fi
-
-_vim=`which vim`
-vim(){
-    if [ $1 ] ; then
-        $_vim $1
-    else
-        $_vim ~/.vimrc
-    fi
-}
