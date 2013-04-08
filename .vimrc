@@ -1,52 +1,28 @@
 " coding:utf-8
-
-" 検索時に大文字小文字を無視 (noignorecase:無視しない)
+" ζ*'ヮ')ζ ζ(*'ヮ'リ+
+"
 set ignorecase
-" 大文字小文字の両方が含まれている場合は大文字小文字を区別
 set smartcase
-
-" タブの画面上での幅
 set tabstop=2
-" タブをスペースに展開しない (expandtab:展開する)
 set expandtab
-" 自動的にインデントする (noautoindent:インデントしない)
 set autoindent
-" バックスペースでインデントや改行を削除できるようにする
 set backspace=2
-" 検索時にファイルの最後まで行ったら最初に戻る (nowrapscan:戻らない)
 set wrapscan
-" 括弧入力時に対応する括弧を表示 (noshowmatch:表示しない)
 set showmatch
-" コマンドライン補完するときに強化されたものを使う(参照 :help wildmenu)
 set wildmenu
-" テキスト挿入中の自動折り返しを日本語に対応させる
 set formatoptions+=mM
-
 set softtabstop=2
-
 set shiftwidth=4
-
 set fileencodings=utf-8,cp932,euc-jp,default,latin
-
-" 行番号を非表示 (number:表示)
 set number
-" ルーラーを表示 (noruler:非表示)
 set ruler
-" タブや改行を表示 (list:表示)
 set nolist
-" 長い行を折り返して表示 (nowrap:折り返さない)
 set wrap
-" 常にステータス行を表示 (詳細は:he laststatus)
 set laststatus=2
-" コマンドラインの高さ (Windows用gvim使用時はgvimrcを編集すること)
 set cmdheight=2
-" コマンドをステータス行に表示
 set showcmd
-" タイトルを表示
 set title
-"シンタックスハイライトを有効にする
 syntax on
-
 
 " ファイル名に大文字小文字の区別がないシステム用の設定:
 "   (例: DOS/Windows/MacOS)
@@ -83,16 +59,6 @@ if v:version >= 700
   nnoremap <C-S-Tab> gT
 endif
 
-try
-  let s:plugins = map(filter(neobundle#config#get_neobundles(), 'isdirectory(v:val.path) && neobundle#config#is_sourced(v:val.name)'), 'v:val.name')
-catch
-  let s:plugins = []
-endtry
-
-function! s:has_plugin(...)
-  return len(filter(copy(a:000), 'index(s:plugins, v:val) >= 0')) == len(a:000)
-endfunction
-
 set nocompatible
 filetype off
 
@@ -118,23 +84,23 @@ NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mru.vim'
-NeoBundleLazy 'thinca/vim-ft-clojure',{'autoload' : {'filetypes' : ['clj']}}
-NeoBundleLazy 'ujihisa/neco-ghc',{'autoload' : {'filetypes' : ['hs']}}
+NeoBundle 'thinca/vim-ft-clojure'
+NeoBundle 'ujihisa/neco-ghc'
 NeoBundle 'sudo.vim'
 NeoBundle 'ujihisa/vimshell-ssh'
 NeoBundle 'Shougo/unite-ssh'
-"NeoBundle 'tyru/skkdict.vim'
-"NeoBundle 'tyru/eskk.vim'
 NeoBundle 'ujihisa/neco-look'
 NeoBundle 'vim-jp/vital.vim'
-NeoBundleLazy 'dag/vim2hs',{'autoload' : {'filetypes' : ['hs']}}
-NeoBundleLazy 'eagletmt/ghcmod-vim', {'autoload' : {'filetypes' : ['hs']}}
-NeoBundleLazy 'git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex', {
-  \ 'autoload' : {'filetypes' : ['tex', 'sty']}}
+NeoBundle 'dag/vim2hs'
+NeoBundle 'eagletmt/ghcmod-vim'
+NeoBundle 'git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex'
 
 NeoBundle 'thinca/vim-singleton'
 NeoBundle 'mattn/benchvimrc-vim'
 NeoBundle 'ryutorion/vim-itunes'
+NeoBundle 'git@github.com:raa0121/vim-ulilith'
+NeoBundle 'mattn/libcallex-vim'
+NeoBundle 'thinca/vim-splash'
 
 filetype plugin indent on
 if has('clientserver')
@@ -156,7 +122,12 @@ nnoremap <silent> ,irb :VimShellInteractive irb<CR>
 vmap <silent> ,ss :VimShellSendString<CR>
 " 選択中に,ss: 非同期で開いたインタプリタに選択行を評価させる
 nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
-
+" ,vs: vimshell
+nnoremap <silent> ,vs :tabnew +VimShell<CR>
+" ,vr: .vimrc
+nnoremap <silent> ,vr :tabnew ~/.vimrc<CR>
+nnoremap <silent> ,so :so ~/.vimrc<CR>
+nnoremap <silent> ,nu :tabnew +Unite\ neobundle/update<CR>
 
 " Disable AutoComplPop. Comment out this line if AutoComplPop is not
 " installed.
@@ -182,7 +153,11 @@ let g:netrw_nogx = 1
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 
-
+let g:quickrun_config = {}
+let g:quickrun_config['markdown'] = {
+      \ 'outputter': 'browser'
+      \ }
+let g:lingr_vim_footer = ' [vim]'
 augroup plugin-lingr-vim
   autocmd!
   autocmd FileType lingr-messages nmap <silent> <buffer> t <Plug>(lingr-messages-show-say-buffer)
@@ -259,22 +234,12 @@ endfunction
 let g:github_user = 'raa0121'
 let g:github_token = 'e3ded9cf6669cc31dbca'
 
-if s:has_plugin('eskk.vim')
-  let g:eskk#directory = "~/.eskk"
-  let g:eskk#dictionary = { 'path': "~/.skk-jisyo", 'sorted': 0, 'encoding': 'utf-8', }
-  let g:eskk#large_dictionary = { 'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
-  let g:eskk#enable_completion = 1
-endif
-
-if s:has_plugin('vim-latex')
-  set shellslash
-  set grepprg=grep\ -nH\ $*
-  let g:tex_flavor='tex'
-  let g:Tex_CompileRule_div = 'platex --interaction=nonstopmode $*'
-  let g:Tex_BibtexFlavor = 'jbibtex'
-  let g:Tex_ViewRule_dvi = '/cygdrive/c/texlive/2012/bin/win32/dviout.exe'
-  let g:Tex_FormatDependency_pdf = 'dvi,pdf'
-  let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
-  let g:Tex_ViewRule_pdf = '/cygdrive/d/Program/SumatraPDF/SumatraPDF.exe'
-endif
-" set imdisable
+set shellslash
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor='tex'
+let g:Tex_CompileRule_div = 'platex --interaction=nonstopmode $*'
+let g:Tex_BibtexFlavor = 'jbibtex'
+let g:Tex_ViewRule_dvi = '/cygdrive/c/texlive/2012/bin/win32/dviout.exe'
+let g:Tex_FormatDependency_pdf = 'dvi,pdf'
+let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
+let g:Tex_ViewRule_pdf = '/cygdrive/d/Program/SumatraPDF/SumatraPDF.exe'
