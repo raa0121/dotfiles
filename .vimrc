@@ -70,6 +70,7 @@ endif
 
 NeoBundle 'Shougo/echodoc.git'
 NeoBundle 'Shougo/neocomplcache.git'
+NeoBundle 'Shougo/neocomplcache-rsense'
 NeoBundle 'Shougo/neobundle.vim.git'
 NeoBundle 'Shougo/unite.vim.git'
 NeoBundle 'Shougo/vimfiler.git'
@@ -101,6 +102,8 @@ NeoBundle 'ryutorion/vim-itunes'
 NeoBundle 'git@github.com:raa0121/vim-ulilith'
 NeoBundle 'mattn/libcallex-vim'
 NeoBundle 'thinca/vim-splash'
+NeoBundle 'mattn/sonictemplate-vim'
+NeoBundle 'raa0121/vim-eclim'
 
 filetype plugin indent on
 if has('clientserver')
@@ -110,7 +113,7 @@ end
 set ww+=h,l,>,<,[,]
 set mouse=a
 set ttymouse=xterm2
-set clipboard+=unnamed
+set clipboard=unnamedplus
 
 " ,is: シェルを起動
 nnoremap <silent> ,is :VimShell<CR>
@@ -145,6 +148,7 @@ let g:neocomplcache_min_syntax_length = 3
 
 let g:vimfiler_as_default_explorer = 1
 
+let g:neocomplcache#sources#rsense#home_directory = '/opt/rsense-0.3/'
 "tabで補完候補の選択を行う
 inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
