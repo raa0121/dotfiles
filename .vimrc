@@ -65,8 +65,8 @@ filetype off
 if has('vim_starting')
   set runtimepath+=~/.vim/neobundle.vim.git
 
-  call neobundle#rc(expand('~/.bundle'))
 endif
+call neobundle#rc(expand('~/.bundle'))
 
 NeoBundle 'Shougo/echodoc.git'
 NeoBundle 'Shougo/neocomplcache.git'
@@ -104,6 +104,7 @@ NeoBundle 'mattn/libcallex-vim'
 NeoBundle 'thinca/vim-splash'
 NeoBundle 'mattn/sonictemplate-vim'
 NeoBundle 'raa0121/vim-eclim'
+NeoBundle 'thinca/vim-github'
 
 filetype plugin indent on
 if has('clientserver')
@@ -131,6 +132,7 @@ nnoremap <silent> ,vs :tabnew +VimShell<CR>
 nnoremap <silent> ,vr :tabnew ~/.vimrc<CR>
 nnoremap <silent> ,so :so ~/.vimrc<CR>
 nnoremap <silent> ,nu :tabnew +Unite\ neobundle/update<CR>
+nnoremap <silent> ,ll :tabnew +LingrLaunch
 
 " Disable AutoComplPop. Comment out this line if AutoComplPop is not
 " installed.
