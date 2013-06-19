@@ -56,9 +56,7 @@ endif
 " CTRL+Tab SHIFT+Tabで行うように.
 if v:version >= 700
   nnoremap <C-Tab>   gt
-  inoremap <C-Tab>   gt
   nnoremap <C-S-Tab> gT
-  inoremap <C-S-Tab> gT
 endif
 
 if has('+regexpengine')
@@ -100,12 +98,12 @@ NeoBundle 'ujihisa/neco-look'
 NeoBundle 'vim-jp/vital.vim'
 NeoBundle 'dag/vim2hs'
 NeoBundle 'eagletmt/ghcmod-vim'
-NeoBundle 'git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex'
+NeoBundle 'thinca/vim-ref'
 
 NeoBundle 'thinca/vim-singleton'
 NeoBundle 'mattn/benchvimrc-vim'
 NeoBundle 'ryutorion/vim-itunes'
-NeoBundle 'git@github.com:raa0121/vim-ulilith'
+NeoBundle 'raa0121/vim-ulilith'
 NeoBundle 'mattn/libcallex-vim'
 NeoBundle 'thinca/vim-splash'
 NeoBundle 'mattn/sonictemplate-vim'
@@ -299,15 +297,3 @@ let g:github_user = 'raa0121'
 let g:github_token = 'e3ded9cf6669cc31dbca'
 
 let g:github#user = 'raa0121'
-
-if has('win32') || has('win64') || has('win32unix')
-  set shellslash
-  set grepprg=grep\ -nH\ $*
-  let g:tex_flavor='tex'
-  let g:Tex_CompileRule_div = 'platex --interaction=nonstopmode $*'
-  let g:Tex_BibtexFlavor = 'jbibtex'
-  let g:Tex_ViewRule_dvi = '/cygdrive/c/texlive/2012/bin/win32/dviout.exe'
-  let g:Tex_FormatDependency_pdf = 'dvi,pdf'
-  let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi'
-  let g:Tex_ViewRule_pdf = '/cygdrive/d/Program/SumatraPDF/SumatraPDF.exe'
-endif
