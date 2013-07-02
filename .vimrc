@@ -23,6 +23,7 @@ set cmdheight=2
 set showcmd
 set title
 set hlsearch
+colorscheme evening
 syntax on
 
 " ファイル名に大文字小文字の区別がないシステム用の設定:

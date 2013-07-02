@@ -12,7 +12,6 @@ if has('win32') || has('win64')
 elseif has('unix')
   set guifont=RictyforPowerline\ 12
 endif
-colorscheme evening
 if has('multi_byte_ime') || has('xim')
   highlight Cursor guifg=NONE guibg=Green
   highlight CursorIM guifg=NONE guibg=Purple

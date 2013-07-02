@@ -1,0 +1,151 @@
+" coding:utf-8
+" ζ*'ヮ')ζ ζ(*'ヮ'リ+
+"
+set ignorecase
+set smartcase
+set tabstop=2
+set expandtab
+set autoindent
+set backspace=2
+set wrapscan
+set showmatch
+set wildmenu
+set formatoptions+=mM
+set softtabstop=2
+set shiftwidth=4
+set fileencodings=utf-8,sjis,cp932,euc-jp,default,latin
+set number
+set ruler
+set nolist
+set wrap
+set laststatus=2
+set cmdheight=2
+set showcmd
+set title
+set hlsearch
+syntax on
+
+" ファイル名に大文字小文字の区別がないシステム用の設定:
+"   (例: DOS/Windows/MacOS)
+"
+if filereadable($VIM . '/vimrc') && filereadable($VIM . '/ViMrC')
+  " tagsファイルの重複防止
+  set tags=./tags,tags
+endif
+
+" コンソールでのカラー表示のための設定(暫定的にUNIX専用)
+if has('unix') && !has('gui_running')
+  let uname = system('uname')
+  if uname =~? "linux"
+    set term=builtin_linux
+  elseif uname =~? "freebsd"
+    set term=builtin_cons25
+  elseif uname =~? "Darwin"
+    set term=beos-ansi
+  else
+    set term=builtin_xterm
+  endif
+  unlet uname
+endif
+
+" コンソール版で環境変数$DISPLAYが設定されていると起動が遅くなる件へ対応
+if !has('gui_running') && has('xterm_clipboard')
+  set clipboard=exclude:cons\\\|linux\\\|cygwin\\\|rxvt\\\|screen
+endif
+
+" タブページの切り替えをWindowsのように
+" CTRL+Tab SHIFT+Tabで行うように.
+if v:version >= 700
+  nnoremap <C-Tab>   gt
+  nnoremap <C-S-Tab> gT
+endif
+
+if has('+regexpengine')
+  set re=0
+endif
+
+set nocompatible
+
+set ww+=h,l,>,<,[,]
+set mouse=a
+set ttymouse=xterm2
+set clipboard=unnamedplus
+
+" ,vr: .vimrc
+nnoremap <silent> ,vr :tabnew ~/.vimrc<CR>
+nnoremap <silent> ,so :so ~/.vimrc<CR>
+nnoremap <Esc><Esc> :nohlsearch<CR><ESC>
+
+"tabで補完候補の選択を行う
+inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
+
+
+let g:netrw_nogx = 1
+
+augroup vimrc
+    autocmd!
+augroup END
+
+function! s:SID_PREFIX()
+    return matchstr(expand('<sfile>'), '<SNR>\d\+_')
+endfunction
+
+set titlelen=100
+set guioptions-=e
+
+autocmd vimrc BufEnter * let &titlestring = '%{' . s:SID_PREFIX() . 'titlestring()}'
+autocmd vimrc User plugin-lingr-unread let &titlestring = '%{' . s:SID_PREFIX() . 'titlestring()}'
+
+if exists('$TMUX') || exists('$WINDOW')
+    set t_ts=k
+    set t_fs=\
+endif
+
+function! s:titlestring()
+    if &filetype =~ '^lingr'
+        let &titlestring = 'lingr: ' . lingr#unread_count()
+    else
+        let &titlestring = bufname('')
+    endif
+endfunction
+
+" tabline
+set showtabline=2 " always show tabline
+let &tabline = '%!' . s:SID_PREFIX() . 'tabline()'
+
+function! s:tabline()
+    " show each tab
+    let s = ''
+    for i in range(1, tabpagenr('$'))
+        let list = tabpagebuflist(i)
+        let nr = tabpagewinnr(i)
+        let current_tabnr = tabpagenr()
+
+        "let title = bufname('') 
+        if i == current_tabnr
+            let title = fnamemodify(getcwd(), ':t') . '/'
+            "let title = bufname('')
+        else
+            let title = fnamemodify(gettabvar(i, 'cwd'), ':t') . '/'
+        endif
+        let title = empty(title) ? '[No Name]' : title
+        let s .= i == current_tabnr ? '%#TabLineSel#' : '%#TabLine#'
+        let s .= '%' . i . 'T[' . i . '] ' . title
+        let s .= '  '
+    endfor
+
+    " show lingr unread count
+    let lingr_unread = ""
+    if exists('*lingr#unread_count')
+        let lingr_unread_count = lingr#unread_count()
+        if lingr_unread_count > 0
+            let lingr_unread = "%#ErrorMsg#(" . lingr_unread_count . ")"
+        elseif lingr_unread_count == 0
+            let lingr_unread = "()"
+        endif
+    endif
+    " build tabline
+    let s .= '%#TabLineFill#%T%=%<[' . getcwd() . ']' . lingr_unread
+    return s
+endfunction
