@@ -6,6 +6,9 @@ nnoremap <silent> <C-F2> :if &guioptions =~# 'T' <Bar>
             \set guioptions+=m <Bar>
             \endif<CR>
  
+source $VIMRUNTIME/delmenu.vim
+set langmenu=ja_jp.utf-8
+source $VIMRUNTIME/menu.vim
 
 if has('win32') || has('win64')
   set guifont=Aicty:h12
