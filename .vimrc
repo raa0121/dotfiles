@@ -144,15 +144,19 @@ call neobundle#config('vimshell', {
   \                     'VimShellTerminal', 'VimShellPop'],
   \     'mappings' : ['<Plug>(vimshell_switch)']
   \ }})
-NeoBundle 'Shougo/vimproc', '', 'default'
-call neobundle#config('vimproc', {
-  \ 'build' : {
-  \     'windows' : 'make -f make_mingw32.mak',
-  \     'cygwin' : 'make -f make_cygwin.mak',
-  \     'mac' : 'make -f make_mac.mak',
-  \     'unix' : 'make -f make_unix.mak',
-  \   },
-  \ })
+if has('win32')
+    NeoBundleLocal 'C:\vim\plugin'
+else
+  NeoBundle 'Shougo/vimproc', '', 'default'
+  call neobundle#config('vimproc', {
+    \ 'build' : {
+    \     'windows' : 'make -f make_mingw32.mak',
+    \     'cygwin' : 'make -f make_cygwin.mak',
+    \     'mac' : 'make -f make_mac.mak',
+    \     'unix' : 'make -f make_unix.mak',
+    \   },
+    \ })
+endif
 NeoBundle 'thinca/vim-quickrun' 
 call neobundle#config('vim-quickrun', {
   \ 'lazy' : 1,
