@@ -25,6 +25,7 @@ set title
 set hlsearch
 colorscheme evening
 syntax on
+set enc=utf8
 
 " ファイル名に大文字小文字の区別がないシステム用の設定:
 "   (例: DOS/Windows/MacOS)
