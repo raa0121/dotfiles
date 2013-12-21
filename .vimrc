@@ -74,24 +74,38 @@ if has('vim_starting')
 endif
 call neobundle#rc(expand('~/.bundle'))
 
+let g:neobundle_default_git_protocol='git'
+NeoBundle 'thinca/vim-openbuf'
+NeoBundle 'jnwhiteh/vim-golang'
+NeoBundle 'osyo-manga/vim-snowdrop'
+
 NeoBundle 'Shougo/echodoc', '', 'default'
 call neobundle#config('echodoc', {
   \ 'lazy' : 1,
   \ 'autoload' : {
   \ 'insert' : 1,
   \ }})
-NeoBundle 'Shougo/neocomplcache', '', 'default'
-call neobundle#config('neocomplcache', {
-  \ 'lazy' : 1,
-  \ 'autoload' : {
-  \ 'commands' : 'NeoComplCacheEnable',
-  \ }})
-NeoBundle 'Shougo/neocomplcache-rsense', '', 'default'
-call neobundle#config('neocomplcache-rsense', {
-  \ 'lazy' : 1,
-  \ 'depends' : 'Shougo/neocomplcache',
-  \ 'autoload' : { 'filetypes' : 'ruby' }
-  \ })
+if has('lua')
+  NeoBundle 'Shougo/neocomplete.vim', '', 'default'
+  call neobundle#config('neocomplete.vim', {
+    \ 'lazy' : 1,
+    \ 'autoload' : {
+    \ 'commands' : 'NeoComplateEnable'
+    \ }})
+else
+  NeoBundle 'Shougo/neocomplcache', '', 'default'
+  call neobundle#config('neocomplcache', {
+    \ 'lazy' : 1,
+    \ 'autoload' : {
+    \ 'commands' : 'NeoComplCacheEnable',
+    \ }})
+endif
+"NeoBundle 'Shougo/neocomplcache-rsense', '', 'default'
+"call neobundle#config('neocomplcache-rsense', {
+"  \ 'lazy' : 1,
+"  \ 'depends' : 'Shougo/neocomplcache',
+"  \ 'autoload' : { 'filetypes' : 'ruby' }
+"  \ })
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/unite.vim', '', 'default'
 call neobundle#config('unite.vim',{
@@ -139,10 +153,15 @@ call neobundle#config('vimproc', {
   \     'unix' : 'make -f make_unix.mak',
   \   },
   \ })
-NeoBundleLazy 'thinca/vim-quickrun', { 'autoload' : {
-  \ 'mappings' : [
-  \   ['nxo', '<Plug>(quickrun)']],
-  \ }}
+NeoBundle 'thinca/vim-quickrun' 
+call neobundle#config('vim-quickrun', {
+  \ 'lazy' : 1,
+  \ 'autoload' : {
+  \   'mappings' : [
+  \     ['nxo', '<Plug>(quickrun)']],
+  \   'commands' : 'QuickRun',
+  \ },
+  \ })
 NeoBundle 'tsukkee/lingr-vim'
 call neobundle#config('lingr-vim', {
   \ 'lazy' : 1,
@@ -177,11 +196,11 @@ NeoBundleLazy 'ujihisa/vimshell-ssh', { 'autoload' : {
 NeoBundle 'Shougo/unite-ssh'
 NeoBundle 'ujihisa/neco-look'
 NeoBundle 'vim-jp/vital.vim', '', 'default'
-call neobundle#config('vital.vim', {
-  \ 'lazy' : 1,
-  \ 'autoload' : {
-  \   'commands' : ['Vitalize'],
-  \ }})
+"call neobundle#config('vital.vim', {
+"  \ 'lazy' : 1,
+"  \ 'autoload' : {
+"  \   'commands' : ['Vitalize'],
+"  \ }})
 NeoBundleLazy 'dag/vim2hs', { 'autoload' : {
   \ 'filetypes' : 'haskell',
   \ }}
@@ -251,23 +270,27 @@ nnoremap <silent> ,so :so ~/.vimrc<CR>
 nnoremap <silent> ,nu :tabnew +Unite\ neobundle/update<CR>
 nnoremap <silent> ,ll :tabnew +LingrLaunch<CR>
 nnoremap <Esc><Esc> :nohlsearch<CR><ESC>
-" Disable AutoComplPop. Comment out this line if AutoComplPop is not
-" installed.
-let g:acp_enableAtStartup = 0
-" Launches neocomplcache automatically on vim startup.
-let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
-" Use underscore completion.
-let g:neocomplcache_enable_underbar_completion = 1
-" Sets minimum char length of syntax keyword.
-let g:neocomplcache_min_syntax_length = 3
+
+if neobundle#is_installed('neocomplcache')
+  let g:neocomplcache_enable_at_startup = 1
+  let g:neocomplcache_enable_smart_case = 1
+  let g:neocomplcache_enable_camel_case_completion = 1
+  let g:neocomplcache_enable_underbar_completion = 1
+  let g:neocomplcache_min_syntax_length = 3
+endif
+
+if neobundle#is_installed('neocomplete.vim')
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_smart_case = 1
+  let g:neocomplete#enable_camel_case_completion = 1
+  let g:neocomplete#enable_underbar_completion = 1
+  let g:neocomplete#min_syntax_length = 3
+endif
+
 
 let g:vimfiler_as_default_explorer = 1
 
-let g:neocomplcache#sources#rsense#home_directory = '/opt/rsense-0.3/'
+"let g:neocomplcache#sources#rsense#home_directory = '/opt/rsense-0.3/'
 
 let g:neocomplcache_text_mode_filetypes = {
 \  'tex': 1,
@@ -297,6 +320,13 @@ let g:quickrun_config.ruby = {
   \ 'exec': '/usr/bin/env ruby %s',
   \ 'tempfile': '{tempname()}.rb'
 \ }
+
+let g:quickrun_config = {
+  \ 'cpp': {
+  \ 'cmdopt': '-std=c++11 -Wall' 
+  \ }
+\ }
+
 let g:quickrun_config = {
   \ '_' : {
     \ 'hook/close_unite_quickfix/enable_hook_loaded' : 1,
@@ -395,6 +425,40 @@ function! s:tabline()
     let s .= '%#TabLineFill#%T%=%<[' . getcwd() . ']' . lingr_unread
     return s
 endfunction
+
+augroup vimrc-scratch-buffer
+  autocmd!
+  " Make a scratch buffer when unnamed buffer.
+  autocmd BufEnter * call s:scratch_buffer()
+  autocmd FileType qfreplace autocmd! vimrc-scratch * <buffer>
+
+  function! s:scratch_buffer()
+    if exists('b:scratch_buffer') || bufname('%') !=# '' || &l:buftype !=# ''
+      return
+    endif
+    let b:scratch_buffer = 1
+    call openbuf#add('scratch', bufnr('%'))
+    setlocal buftype=nofile nobuflisted noswapfile bufhidden=hide
+    augroup vimrc-scratch
+      autocmd! * <buffer>
+      autocmd BufWriteCmd <buffer> call s:scratch_on_BufWriteCmd()
+    augroup END
+  endfunction
+  function! s:scratch_on_BufWriteCmd()
+    silent! setl buftype< buflisted< swapfile< bufhidden< nomodified
+    autocmd! vimrc-scratch * <buffer>
+    if bufname('%') ==# '' && exists('b:scratch_buffer')
+      execute 'saveas' . (v:cmdbang ? '!' : '') ' <afile>'
+      filetype detect
+    endif
+    call openbuf#remove('scratch', bufnr('%'))
+    unlet! b:scratch_buffer
+  endfunction
+augroup END
+
+command! -nargs=? ExtractMatches let s:pat = empty(<q-args>) ? @/ : <q-args> | let s:result = filter(getline(1, '$'), 'v:val =~# s:pat') | new | put =s:result
+
+command! -nargs=? UniGrep let s:pat = empty(<q-args>) ? @/ : <q-args> | execute 'Unite grep:%::' . escape(s:pat, '\')
 
 let g:github_user = 'raa0121'
 let g:github_token = 'e3ded9cf6669cc31dbca'
