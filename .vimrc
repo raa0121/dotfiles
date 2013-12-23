@@ -270,7 +270,7 @@ nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
 " ,vs: vimshell
 nnoremap <silent> ,vs :tabnew +VimShell<CR>
 " ,vr: .vimrc
-nnoremap <silent> ,vr :tabnew ~/.vimrc<CR>
+nnoremap <silent> ,vr :tabnew ~/.vimrc<CR>:lcd<CR>
 nnoremap <silent> ,so :so ~/.vimrc<CR>
 nnoremap <silent> ,nu :tabnew +Unite\ neobundle/update<CR>
 nnoremap <silent> ,ll :tabnew +LingrLaunch<CR>
@@ -282,6 +282,11 @@ if neobundle#is_installed('neocomplcache')
   let g:neocomplcache_enable_camel_case_completion = 1
   let g:neocomplcache_enable_underbar_completion = 1
   let g:neocomplcache_min_syntax_length = 3
+  let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+  if !exists('g:neocomplcache_keyword_patterns')
+    let g:neocomplcache_keyword_patterns = {}
+  endif
+  let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 endif
 
 if neobundle#is_installed('neocomplete.vim')
@@ -290,6 +295,11 @@ if neobundle#is_installed('neocomplete.vim')
   let g:neocomplete#enable_camel_case_completion = 1
   let g:neocomplete#enable_underbar_completion = 1
   let g:neocomplete#min_syntax_length = 3
+  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+  if !exists('g:neocomplete#keyword_patterns')
+      let g:neocomplete#keyword_patterns = {}
+  endif
+  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 endif
 
 
@@ -308,9 +318,14 @@ inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
 
 let g:OmniSharp_host = 'http://localhost:2020'
 let g:OmniSharp_typeLookupInPreview = 1
-setlocal omnifunc=OmniSharp#Complete
 set noshowmatch
 
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
 
 let g:netrw_nogx = 1
 nmap gx <Plug>(openbrowser-smart-search)
