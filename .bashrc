@@ -15,7 +15,7 @@ set output-meta on
 umask 022
 
 export EDTOR=vim
-
+PS1="\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
 WIN_PATH=$PATH
 PATH=/usr/local/bin/:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 
