@@ -4,6 +4,7 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # set aliases
+alias ls='ls --color=auto'
 alias ll='ls -la'
 alias la='ls -a'
 alias eng='LANG=C LANGUAGE=C LC_ALL=C'
@@ -36,5 +37,5 @@ elif [ $_uname = "Msys" ]; then
   [[ -s $USERPROFILE/.pik/.pikrc ]] && source $USERPROFILE/.pik/.pikrc
 elif [ $HOSTNAME = "ryo" ] || [ $HOSTNAME = "nakako" ]; then
   export LANG=ja_JP.UTF-8
-  export PATH=$WIN_PATH
+  export PATH=$HOME/bin:$WIN_PATH
 fi
