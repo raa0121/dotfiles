@@ -388,9 +388,16 @@ let howm_dir             = '~/howm'
 let howm_filename        = '%Y/%m/%Y-%m-%d-%H%M%S.txt'
 let howm_fileencoding    = 'utf-8'
 let howm_fileformat      = 'unix'
+let g:qfixmemo_calendar = 0
+let g:calendar_howm_syntax = 0
 
 let mygrepprg = 'grep'
-let MyGrep_cygwin17 = 1
+if has('win32unix')
+  let MyGrep_cygwin17 = 1
+endif
+
+let g:calendar_google_calendar = 1
+let g:calendar_google_task = 1
 
 augroup plugin-lingr-vim
   autocmd!
