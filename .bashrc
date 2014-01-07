@@ -26,15 +26,15 @@ _uname=`uname -o`
 if [ $_uname = "Cygwin" ] ; then
   export LANG=ja_JP.UTF-8
   DISPLAY="localhost:0.0"
-  export ANDROID_SDK_PATH=$HOME/android-sdk-windows
-  export ANDROID_NDK_PATH=$HOME/android-ndk-r8b
+  [[ -s $HOME/android-sdk-windows ]] && export ANDROID_SDK_PATH=$HOME/android-sdk-windows
+  [[ -s $HOME/android-ndk-r8b ]] && export ANDROID_NDK_PATH=$HOME/android-ndk-r8b
   export PATH="$ANDROID_SDK_PATH/platform-sdk-windows:~/.rbenv/bin:$PATH:$WIN_PATH"
   eval "$(rbenv init -)"
 elif [ $_uname = "Msys" ]; then
-  LANG=ja_JP.sjis
-  JLESSCHARSET="japanese-sjis"
-  OUTPUT_CHARSET=sjis
-  export PATH="$PATH:$WIN_PATH"
+  export LANG=ja_JP.sjis
+  export JLESSCHARSET="japanese-sjis"
+  export OUTPUT_CHARSET=sjis
+  export PATH="$PATH:/c/MinGW/bin:/c/MinGW/mingw32/bin:$WIN_PATH"
   [[ -s $USERPROFILE/.pik/.pikrc ]] && source $USERPROFILE/.pik/.pikrc
 elif [ $HOSTNAME = "ryo" ] || [ $HOSTNAME = "nakako" ]; then
   export LANG=ja_JP.UTF-8
