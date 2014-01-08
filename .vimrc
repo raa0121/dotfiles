@@ -84,10 +84,22 @@ call neobundle#config('qfixhowm', {
   \ 'rev': '5bad8770a6d2ffd2e93182d937710ad6e3fe769f'
   \ })
 NeoBundle 'osyo-manga/unite-qfixhowm'
-
+call neobundle#config('unite-qfixhowm', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'unite_sources' : ['qfixhowm', 'qfixhowm/new']},
+  \ 'depends' : ['Shougo/unite.vim', 'fuenor/qfixhowm']
+  \ })
 NeoBundle 'thinca/vim-prettyprint'
+call neobundle#config('vim-prettyprint', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'commands' : ['PP', 'PrettyPrint']}
+  \ })
 NeoBundle 'thinca/vim-openbuf'
 NeoBundle 'jnwhiteh/vim-golang'
+call neobundle#config('vim-golang', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'go'}
+  \ })
 NeoBundle 'osyo-manga/vim-snowdrop'
 
 NeoBundle 'Shougo/echodoc', '', 'default'
@@ -194,68 +206,112 @@ call neobundle#config('neosnippet', {
   \ }})
 NeoBundle 'browser.vim'
 NeoBundle 'synmark.vim'
-NeoBundleLazy 'tyru/open-browser.vim', { 'autoload' : {
+NeoBundle 'tyru/open-browser.vim'
+call neobundle#config('open-browser.vim',{
+  \ 'lazy' : 1,
+  \ 'autoload' : {
   \ 'mappings' : '<Plug>(open-browser-wwwsearch)',
-  \ }}
+  \ }})
 NeoBundle 'mattn/gist-vim'
+call neobundle#config('gist-vim', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'commands' : 'Gist' }
+  \ })
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mru.vim'
 NeoBundle 'thinca/vim-ft-clojure'
-NeoBundleLazy 'ujihisa/neco-ghc', { 'autoload' : {
-  \ 'filetypes' : 'haskell',
-  \ }}
+call neobundle#config('vim-ft-clojure', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'clojure' }
+  \ })
+NeoBundle 'ujihisa/neco-ghc'
+call neobundle#config('neco-ghc', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'haskell' }
+  \ })
 NeoBundle 'sudo.vim'
-NeoBundleLazy 'ujihisa/vimshell-ssh', { 'autoload' : {
-  \ 'filetypes' : 'vimshell',
-  \ }}
+NeoBundle 'ujihisa/vimshell-ssh'
+call neobundle#config('vimshell-ssh',{
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'vimshell'}
+  \ })
 NeoBundle 'Shougo/unite-ssh'
 NeoBundle 'ujihisa/neco-look'
 NeoBundle 'vim-jp/vital.vim', '', 'default'
-"call neobundle#config('vital.vim', {
-"  \ 'lazy' : 1,
-"  \ 'autoload' : {
-"  \   'commands' : ['Vitalize'],
-"  \ }})
-NeoBundleLazy 'dag/vim2hs', { 'autoload' : {
-  \ 'filetypes' : 'haskell',
-  \ }}
-NeoBundleLazy 'eagletmt/ghcmod-vim', { 'autoload' : {
-  \ 'filetypes' : 'haskell',
-  \ }}
+call neobundle#config('vital.vim', {
+  \ 'lazy' : 1,
+  \ 'autoload' : {
+  \   'commands' : ['Vitalize'],
+  \   'functions' : ['vital#of', 'vital']
+  \ }})
+NeoBundle 'dag/vim2hs'
+call neobundle#config ('vim2hs', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'haskell' }
+  \})
+NeoBundle 'eagletmt/ghcmod-vim'
+call neobundle#config('ghcmod-vim', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'haskell' }
+  \ })
 NeoBundle 'thinca/vim-ref'
 
 NeoBundle 'thinca/vim-singleton'
 NeoBundle 'mattn/benchvimrc-vim'
+call neobundle#config('benchvimrc-vim', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'commands' : 'BenchVimrc' }
+  \ })
 NeoBundle 'ryutorion/vim-itunes'
 NeoBundle 'raa0121/vim-ulilith'
 NeoBundle 'mattn/libcallex-vim'
 NeoBundle 'thinca/vim-splash'
 NeoBundle 'mattn/sonictemplate-vim'
-NeoBundle 'raa0121/vim-eclim'
 NeoBundle 'thinca/vim-github'
+call neobundle#config('vim-github', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'commands' : 'Github' }
+  \ })
 NeoBundle 'nosami/Omnisharp'
 NeoBundle 'jceb/vim-orgmode'
+call neobundle#config('vim-orgmode', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'org' }
+  \ })
+
 
 "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
 "NeoBundle 'taichouchou2/alpaca_powertabline'
 "NeoBundle 'zhaocai/linepower.vim'
 
 NeoBundle 'osyo-manga/quickrun-hook-u-nya-'
+call neobundle#config('quickrun-hook-u-nya-', {
+  \ 'lazy' : 1,
+  \ 'depends' : 'thinca/quickrun'
+  \ })
 NeoBundle 'osyo-manga/unite-quickfix'
+call neobundle#config('unite-quickfix', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'unite_sources' : ['quickfix', 'location_list']},
+  \ 'depends' : 'Shougo/unite.vim'
+  \ })
 NeoBundle 'basyura/J6uil.vim', '', 'default'
 call neobundle#config('J6uil.vim', {
   \ 'lazy' : 1,
-  \ 'autoload' : {
-  \   'commands' : 'J6uil',
-  \ },
+  \ 'autoload' : { 'commands' : 'J6uil' },
   \ 'depends' : 'mattn/webapi-vim',
   \ })
 NeoBundle 'mattn/unite-rhythmbox'
-NeoBundleLazy 'rbtnn/vimconsole.vim', {
+call neobundle#config('unite-rhythmbox', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'unite_sources' : 'rhythmbox' },
+  \ 'depends' : 'Shougo/unite.vim'
+  \ })
+NeoBundle 'rbtnn/vimconsole.vim'
+call neobundle#config('vimconsole.vim', {
   \ 'depends' : 'thinca/vim-prettyprint',
-  \ 'autoload' : {
-  \   'commands' : 'VimConsoleOpen'
-  \ }}
+  \ 'autoload' : { 'commands' : 'VimConsoleOpen' }
+  \ })
 
 filetype plugin indent on
 if has('clientserver')
