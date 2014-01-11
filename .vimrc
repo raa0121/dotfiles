@@ -592,6 +592,5 @@ command! -nargs=? ExtractMatches let s:pat = empty(<q-args>) ? @/ : <q-args> | l
 command! -nargs=? UniGrep let s:pat = empty(<q-args>) ? @/ : <q-args> | execute 'Unite grep:%::' . escape(s:pat, '\')
 
 let g:github_user = 'raa0121'
-let g:github_token = 'e3ded9cf6669cc31dbca'
 
 let g:github#user = 'raa0121'
