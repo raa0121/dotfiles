@@ -26,6 +26,7 @@ set hlsearch
 colorscheme evening
 syntax on
 set enc=utf8
+set updatetime=200
 
 " ファイル名に大文字小文字の区別がないシステム用の設定:
 "   (例: DOS/Windows/MacOS)
@@ -104,6 +105,11 @@ NeoBundle 'osyo-manga/vim-snowdrop'
 call neobundle#config('vim-snowdrop', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'cpp' }
+  \ })
+NeoBundle 'osyo-manga/vim-reunions'
+NeoBundle 'osyo-manga/vim-marching'
+call neobundle#config('vim-marching', {
+  \ 'depends' : ['Shougo/vimproc', 'osyo-manga/vim-reunions']
   \ })
 NeoBundle 'Shougo/echodoc', '', 'default'
 call neobundle#config('echodoc', {
@@ -374,6 +380,9 @@ if neobundle#is_installed('neocomplete.vim')
       let g:neocomplete#keyword_patterns = {}
   endif
   let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+  if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+  endif
 endif
 
 
@@ -385,6 +394,12 @@ let g:neocomplcache_text_mode_filetypes = {
 \  'tex': 1,
 \  'plaintex': 1,
 \} 
+let g:neocomplete#text_mode_filetypes = {
+\  'tex': 1,
+\  'plaintex': 1,
+\} 
+let g:neocomplete#force_omni_input_patterns.cpp =
+\ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 
 "tabで補完候補の選択を行う
 inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
@@ -463,6 +478,10 @@ endif
 let g:calendar_google_calendar = 1
 let g:calendar_google_task = 1
 
+let g:marching_clang_command = '/usr/bin/clang'
+let g:marching_clang_command_option="-std=c++1y"
+let g:marching_enable_neocomplete = 1
+let g:marching_include_paths = ['/usr/include/c++/4.8.2/']
 let g:snowdrop#libclang_path='/usr/lib'
 
 augroup plugin-lingr-vim
