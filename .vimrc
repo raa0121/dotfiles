@@ -101,7 +101,10 @@ call neobundle#config('vim-golang', {
   \ 'autoload' : { 'filetypes' : 'go'}
   \ })
 NeoBundle 'osyo-manga/vim-snowdrop'
-
+call neobundle#config('vim-snowdrop', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'cpp' }
+  \ })
 NeoBundle 'Shougo/echodoc', '', 'default'
 call neobundle#config('echodoc', {
   \ 'lazy' : 1,
@@ -204,8 +207,6 @@ call neobundle#config('neosnippet', {
   \ 'filetypes' : 'snippet',
   \ 'unite_sources' : ['snippet', 'neosnippet/user', 'neosnippet/runtime'],
   \ }})
-NeoBundle 'browser.vim'
-NeoBundle 'synmark.vim'
 NeoBundle 'tyru/open-browser.vim'
 call neobundle#config('open-browser.vim',{
   \ 'lazy' : 1,
@@ -218,7 +219,6 @@ call neobundle#config('gist-vim', {
   \ 'autoload' : { 'commands' : 'Gist' }
   \ })
 NeoBundle 'mattn/webapi-vim'
-NeoBundle 'mru.vim'
 NeoBundle 'thinca/vim-ft-clojure'
 call neobundle#config('vim-ft-clojure', {
   \ 'lazy' : 1,
@@ -236,6 +236,10 @@ call neobundle#config('vimshell-ssh',{
   \ 'autoload' : { 'filetypes' : 'vimshell'}
   \ })
 NeoBundle 'Shougo/unite-ssh'
+call neobundle#config('unite-ssh', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'unite_sources' : 'ssh' }
+  \ })
 NeoBundle 'ujihisa/neco-look'
 NeoBundle 'vim-jp/vital.vim', '', 'default'
 call neobundle#config('vital.vim', {
@@ -273,6 +277,10 @@ call neobundle#config('vim-github', {
   \ 'autoload' : { 'commands' : 'Github' }
   \ })
 NeoBundle 'nosami/Omnisharp'
+call neobundle#config('Omnisharp', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'cs' }
+  \ })
 NeoBundle 'jceb/vim-orgmode'
 call neobundle#config('vim-orgmode', {
   \ 'lazy' : 1,
@@ -285,10 +293,10 @@ call neobundle#config('vim-orgmode', {
 "NeoBundle 'zhaocai/linepower.vim'
 
 NeoBundle 'osyo-manga/quickrun-hook-u-nya-'
-call neobundle#config('quickrun-hook-u-nya-', {
-  \ 'lazy' : 1,
-  \ 'depends' : 'thinca/quickrun'
-  \ })
+" call neobundle#config('quickrun-hook-u-nya-', {
+"  \ 'lazy' : 1,
+"  \ 'depends' : 'thinca/quickrun'
+"  \ })
 NeoBundle 'osyo-manga/unite-quickfix'
 call neobundle#config('unite-quickfix', {
   \ 'lazy' : 1,
@@ -454,6 +462,8 @@ endif
 
 let g:calendar_google_calendar = 1
 let g:calendar_google_task = 1
+
+let g:snowdrop#libclang_path='/usr/lib'
 
 augroup plugin-lingr-vim
   autocmd!
