@@ -23,7 +23,8 @@ set cmdheight=2
 set showcmd
 set title
 set hlsearch
-colorscheme evening
+set nrformats+=alpha
+colorscheme elflord
 syntax on
 set enc=utf8
 set updatetime=200
@@ -76,8 +77,9 @@ if has('vim_starting')
 endif
 call neobundle#rc(expand('~/.bundle'))
 
-let g:neobundle_default_git_protocol='ssh'
+let g:neobundle_default_git_protocol='https'
 
+NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'itchyny/calendar.vim'
 
 NeoBundle 'fuenor/qfixhowm', '', 'default'
@@ -119,18 +121,8 @@ call neobundle#config('echodoc', {
   \ }})
 if has('lua')
   NeoBundle 'Shougo/neocomplete.vim', '', 'default'
-  call neobundle#config('neocomplete.vim', {
-    \ 'lazy' : 1,
-    \ 'autoload' : {
-    \ 'commands' : 'NeoComplateEnable'
-    \ }})
 else
   NeoBundle 'Shougo/neocomplcache', '', 'default'
-  call neobundle#config('neocomplcache', {
-    \ 'lazy' : 1,
-    \ 'autoload' : {
-    \ 'commands' : 'NeoComplCacheEnable',
-    \ }})
 endif
 "NeoBundle 'Shougo/neocomplcache-rsense', '', 'default'
 "call neobundle#config('neocomplcache-rsense', {
@@ -213,6 +205,10 @@ call neobundle#config('neosnippet', {
   \ 'filetypes' : 'snippet',
   \ 'unite_sources' : ['snippet', 'neosnippet/user', 'neosnippet/runtime'],
   \ }})
+NeoBundle 'Shougo/neosnippet-snippets', '', 'default'
+call neobundle#config('neosnippet-snippets', {
+  \ 'depends' : 'Shougo/neosnippet'
+  \ })
 NeoBundle 'tyru/open-browser.vim'
 call neobundle#config('open-browser.vim',{
   \ 'lazy' : 1,
@@ -409,12 +405,17 @@ let g:OmniSharp_host = 'http://localhost:2020'
 let g:OmniSharp_typeLookupInPreview = 1
 set noshowmatch
 
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+augroup vimrc
+    autocmd!
+augroup END
+
+autocmd vimrc FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd vimrc FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd vimrc FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd vimrc FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd vimrc FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd vimrc FileType cs setlocal omnifunc=OmniSharp#Complete
+autocmd vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 
 let g:netrw_nogx = 1
 nmap gx <Plug>(openbrowser-smart-search)
@@ -488,10 +489,6 @@ augroup plugin-lingr-vim
   autocmd!
   autocmd FileType lingr-messages nmap <silent> <buffer> t <Plug>(lingr-messages-show-say-buffer)
   autocmd FileType lingr-say let &syntax='clojure'
-augroup END
-
-augroup vimrc
-    autocmd!
 augroup END
 
 function! s:SID_PREFIX()
