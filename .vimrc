@@ -401,10 +401,6 @@ let g:neocomplete#force_omni_input_patterns.cpp =
 inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
 
-let g:OmniSharp_host = 'http://localhost:2020'
-let g:OmniSharp_typeLookupInPreview = 1
-set noshowmatch
-
 augroup vimrc
     autocmd!
 augroup END
@@ -414,8 +410,7 @@ autocmd vimrc FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd vimrc FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd vimrc FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd vimrc FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd vimrc FileType cs setlocal omnifunc=OmniSharp#Complete
-autocmd vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+autocmd vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
 
 let g:netrw_nogx = 1
 nmap gx <Plug>(openbrowser-smart-search)
