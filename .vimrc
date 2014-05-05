@@ -79,6 +79,7 @@ call neobundle#rc(expand('~/.bundle'))
 
 let g:neobundle_default_git_protocol='https'
 
+NeoBundle 'thinca/vim-threes'
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'itchyny/calendar.vim'
 

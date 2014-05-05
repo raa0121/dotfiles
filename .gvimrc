@@ -12,9 +12,9 @@ set langmenu=ja_jp.utf-8
 source $VIMRUNTIME/menu.vim
 
 if has('win32') || has('win64')
-  set guifont=Aicty:h12
+"  set guifont=Aicty:h12
 elseif has('unix')
-  set guifont=RictyforPowerline\ 12
+"  set guifont=RictyforPowerline\ 12
 endif
 if has('multi_byte_ime') || has('xim')
   highlight Cursor guifg=NONE guibg=Green
