@@ -79,6 +79,7 @@ call neobundle#rc(expand('~/.bundle'))
 
 let g:neobundle_default_git_protocol='https'
 
+NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'thinca/vim-threes'
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'itchyny/calendar.vim'
@@ -131,7 +132,6 @@ endif
 "  \ 'depends' : 'Shougo/neocomplcache',
 "  \ 'autoload' : { 'filetypes' : 'ruby' }
 "  \ })
-NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/unite.vim', '', 'default'
 call neobundle#config('unite.vim',{
   \ 'lazy' : 1,
@@ -294,6 +294,8 @@ call neobundle#config('vim-orgmode', {
 "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
 "NeoBundle 'taichouchou2/alpaca_powertabline'
 "NeoBundle 'zhaocai/linepower.vim'
+NeoBundle 'itchyny/lightline.vim'
+
 
 NeoBundle 'osyo-manga/quickrun-hook-u-nya-'
 " call neobundle#config('quickrun-hook-u-nya-', {
@@ -502,6 +504,11 @@ set guioptions-=e
 autocmd vimrc BufEnter * let &titlestring = '%{' . s:SID_PREFIX() . 'titlestring()}'
 autocmd vimrc User plugin-lingr-unread let &titlestring = '%{' . s:SID_PREFIX() . 'titlestring()}'
 
+if !has('gui_running')
+  set t_Co=256
+endif
+
+
 if exists('$TMUX') || exists('$WINDOW')
     set t_ts=k
     set t_fs=\
@@ -517,6 +524,16 @@ endfunction
 
 " tabline
 set showtabline=2 " always show tabline
+
+let g:lightline = {
+\ 'colorscheme': 'wombat',
+\ 'component': {
+\   'readonly': '%{&readonly?"":""}',
+\ },
+\ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
+\ 'subseparator': { 'left': "\ue0b1", 'right': "\ue0b3" }
+\ }
+
 let &tabline = '%!' . s:SID_PREFIX() . 'tabline()'
 
 function! s:tabline()
