@@ -99,7 +99,6 @@ call neobundle#config('vim-prettyprint', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'commands' : ['PP', 'PrettyPrint']}
   \ })
-NeoBundle 'thinca/vim-openbuf'
 NeoBundle 'jnwhiteh/vim-golang'
 call neobundle#config('vim-golang', {
   \ 'lazy' : 1,
@@ -274,15 +273,14 @@ NeoBundle 'raa0121/vim-ulilith'
 NeoBundle 'mattn/libcallex-vim'
 NeoBundle 'thinca/vim-splash'
 NeoBundle 'mattn/sonictemplate-vim'
+call neobundle#config('sonictemplate-vim', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'commands' : 'Template' }
+  \ })
 NeoBundle 'thinca/vim-github'
 call neobundle#config('vim-github', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'commands' : 'Github' }
-  \ })
-NeoBundle 'nosami/Omnisharp'
-call neobundle#config('Omnisharp', {
-  \ 'lazy' : 1,
-  \ 'autoload' : { 'filetypes' : 'cs' }
   \ })
 NeoBundle 'jceb/vim-orgmode'
 call neobundle#config('vim-orgmode', {
@@ -291,9 +289,6 @@ call neobundle#config('vim-orgmode', {
   \ })
 
 
-"NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
-"NeoBundle 'taichouchou2/alpaca_powertabline'
-"NeoBundle 'zhaocai/linepower.vim'
 NeoBundle 'itchyny/lightline.vim'
 
 
@@ -583,7 +578,6 @@ augroup vimrc-scratch-buffer
       return
     endif
     let b:scratch_buffer = 1
-    call openbuf#add('scratch', bufnr('%'))
     setlocal buftype=nofile nobuflisted noswapfile bufhidden=hide
     augroup vimrc-scratch
       autocmd! * <buffer>
@@ -597,7 +591,6 @@ augroup vimrc-scratch-buffer
       execute 'saveas' . (v:cmdbang ? '!' : '') ' <afile>'
       filetype detect
     endif
-    call openbuf#remove('scratch', bufnr('%'))
     unlet! b:scratch_buffer
   endfunction
 augroup END
