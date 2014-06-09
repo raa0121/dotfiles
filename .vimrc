@@ -80,6 +80,8 @@ call neobundle#rc(expand('~/.bundle'))
 let g:neobundle_default_git_protocol='https'
 
 NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundle 'tyru/kirikiri.vim'
+NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'thinca/vim-threes'
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'itchyny/calendar.vim'
@@ -482,6 +484,15 @@ let g:marching_clang_command_option="-std=c++1y"
 let g:marching_enable_neocomplete = 1
 let g:marching_include_paths = ['/usr/include/c++/4.8.2/']
 let g:snowdrop#libclang_path='/usr/lib'
+
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+let g:unite_enable_start_insert = 1
+let g:unite_source_directory_mru_long_limit = 3000
+let g:unite_source_file_mru_filename_format = ''
+let g:unite_source_file_mru_long_limit = 3000
+let g:unite_source_history_yank_enable = 1
+let g:unite_split_rule = 'botright'
+let g:unite_winheight = 15
 
 augroup plugin-lingr-vim
   autocmd!
