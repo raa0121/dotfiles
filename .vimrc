@@ -80,9 +80,28 @@ call neobundle#rc(expand('~/.bundle'))
 let g:neobundle_default_git_protocol='https'
 
 NeoBundleFetch 'Shougo/neobundle.vim'
+
+NeoBundle 'mattn/flappyvird-vim'
+
+NeoBundle 'kamichidu/vim-vdbc', '', 'default'
+call neobundle#config('vim-vdbc', {
+\   'depends' : ['Shougo/vimproc'] ,
+\   'build': {
+\       'unix' :    'make -f Makefile',
+\       'windows' : 'make -f Makefile.w64'
+\   }
+\})
 NeoBundle 'tyru/kirikiri.vim'
+NeoBundle 'yoppi/fluentd.vim'
 NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'thinca/vim-threes'
+
+NeoBundle 'jdonaldson/vaxe', '', 'default'
+call neobundle#config('vaxe', {
+\ 'lazy': 1,
+\ 'autoload' : {'filetypes': 'haxe'}
+\})
+
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'itchyny/calendar.vim'
 
@@ -379,6 +398,9 @@ if neobundle#is_installed('neocomplete.vim')
   if !exists('g:neocomplete#force_omni_input_patterns')
     let g:neocomplete#force_omni_input_patterns = {}
   endif
+  if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+  endif
 endif
 
 
@@ -396,6 +418,9 @@ let g:neocomplete#text_mode_filetypes = {
 \} 
 let g:neocomplete#force_omni_input_patterns.cpp =
 \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+
+let g:neocomplete#sources#omni#input_patterns.haxe =
+\ '\v([\]''"\)]|\w|(^\s*))(\.|\()'
 
 let g:neosnippet#snippets_directory = '~/.vim/snippet'
 
@@ -416,6 +441,24 @@ autocmd vimrc FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJ
 autocmd vimrc FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd vimrc FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
+autocmd vimrc FileType haxe setl autowrite
+autocmd vimrc FileType hxml setl autowrite
+autocmd vimrc FileType nmml.xml setl autowrite
+
+let g:vaxe_haxe_version = 3
+
+function! s:init_vaxe_keymap()
+  " .hxmlファイルを開いてくれるやつ
+  nnoremap <buffer> ,vo :<C-u>call vaxe#OpenHxml()<CR>
+  " タグファイル作ってくれるやつ(別途、.ctagsの定義をしませう)
+  nnoremap <buffer> ,vc :<C-u>call vaxe#Ctags()<CR>
+  " 自動インポートな
+  nnoremap <buffer> ,vi :<C-u>call vaxe#ImportClass()<CR>
+endfunction
+
+autocmd vimrc FileType haxe call s:init_vaxe_keymap()
+autocmd vimrc FileType hxml call s:init_vaxe_keymap()
+autocmd vimrc FileType nmml.xml call s:init_vaxe_keymap()
 
 let g:netrw_nogx = 1
 nmap gx <Plug>(openbrowser-smart-search)
