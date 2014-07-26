@@ -68,7 +68,6 @@ if has('+regexpengine')
   set re=0
 endif
 
-set nocompatible
 filetype off
 
 if has('vim_starting')
@@ -444,6 +443,7 @@ autocmd vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=ma
 autocmd vimrc FileType haxe setl autowrite
 autocmd vimrc FileType hxml setl autowrite
 autocmd vimrc FileType nmml.xml setl autowrite
+autocmd vimrc BufNewFile,BufRead *.rb set tags+=$HOME/ctags/ruby.tags
 
 let g:vaxe_haxe_version = 3
 
@@ -650,8 +650,6 @@ augroup vimrc-scratch-buffer
 augroup END
 
 command! -nargs=? ExtractMatches let s:pat = empty(<q-args>) ? @/ : <q-args> | let s:result = filter(getline(1, '$'), 'v:val =~# s:pat') | new | put =s:result
-
-command! -nargs=? UniGrep let s:pat = empty(<q-args>) ? @/ : <q-args> | execute 'Unite grep:%::' . escape(s:pat, '\')
 
 let g:github_user = 'raa0121'
 
