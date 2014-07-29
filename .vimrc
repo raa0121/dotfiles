@@ -337,9 +337,18 @@ call neobundle#config('unite-rhythmbox', {
   \ })
 NeoBundle 'rbtnn/vimconsole.vim'
 call neobundle#config('vimconsole.vim', {
+  \ 'lazy' : 1,
   \ 'depends' : 'thinca/vim-prettyprint',
   \ 'autoload' : { 'commands' : 'VimConsoleOpen' }
   \ })
+
+NeoBundle 'kamichidu/unite-javaimport', {
+  \ 'lazy' : 1,
+  \ 'depends' : [
+  \ 'kamichidu/vim-javalang', 'kamichidu/vim-javaclasspath',
+  \ 'Shougo/unite.vim', 'yuratomo/w3m.vim'],
+  \ 'autoload' : { 'filetypes' : ['java', 'scala', 'clojure']}
+  \}
 
 filetype plugin indent on
 if has('clientserver')
@@ -369,6 +378,7 @@ nnoremap <silent> ,so :so ~/.vimrc<CR>
 nnoremap <silent> ,nu :tabnew +Unite\ neobundle/update<CR>
 nnoremap <silent> ,ll :tabnew +LingrLaunch<CR>
 nnoremap <Esc><Esc> :nohlsearch<CR><ESC>
+nnoremap <silent> ,ts :<C-u>tab stj <C-R>=expand('<cword>')<CR><CR>
 
 if neobundle#is_installed('neocomplcache')
   let g:neocomplcache_enable_at_startup = 1
