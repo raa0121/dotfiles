@@ -140,8 +140,8 @@ call neobundle#config('vimfiler', {
 if has('win32')
     NeoBundleLocal 'C:\vim\plugin'
 else
-  NeoBundle 'Shougo/vimproc'
-  call neobundle#config('vimproc', {
+  NeoBundle 'Shougo/vimproc.vim'
+  call neobundle#config('vimproc.vim', {
     \ 'build' : {
     \     'windows' : 'make -f make_mingw32.mak',
     \     'cygwin' : 'make -f make_cygwin.mak',
@@ -204,7 +204,7 @@ call neobundle#config('unite-javaimport', {
   \})
 NeoBundle 'kamichidu/vim-vdbc'
 call neobundle#config('vim-vdbc', {
-  \ 'depends' : ['Shougo/vimproc'] ,
+  \ 'depends' : ['Shougo/vimproc.vim'] ,
   \ 'build': {
   \     'unix' :    'make -f Makefile',
   \     'windows' : 'make -f Makefile.w64'
@@ -256,7 +256,7 @@ call neobundle#config('unite-quickfix', {
   \ })
 NeoBundle 'osyo-manga/vim-marching'
 call neobundle#config('vim-marching', {
-  \ 'depends' : ['Shougo/vimproc', 'osyo-manga/vim-reunions']
+  \ 'depends' : ['Shougo/vimproc.vim', 'osyo-manga/vim-reunions']
   \ })
 NeoBundle 'osyo-manga/vim-reunions'
 NeoBundle 'osyo-manga/vim-snowdrop'
@@ -335,6 +335,11 @@ call neobundle#config('neco-ghc', {
   \ 'autoload' : { 'filetypes' : 'haskell' }
   \ })
 NeoBundle 'ujihisa/neco-look'
+NeoBundle 'ujihisa/neoclojure.vim'
+call neobundle#config('neco-ghc', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'clojure' }
+  \ })
 NeoBundle 'ujihisa/vimshell-ssh'
 call neobundle#config('vimshell-ssh',{
   \ 'lazy' : 1,
@@ -455,6 +460,7 @@ autocmd vimrc FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd vimrc FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd vimrc FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd vimrc FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd vimrc FileType clojure setlocal omnifunc=neoclojure#complete
 autocmd vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
 autocmd vimrc FileType haxe setl autowrite
 autocmd vimrc FileType hxml setl autowrite
