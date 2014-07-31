@@ -138,11 +138,11 @@ call neobundle#config('vimfiler', {
   \ }
   \ })
 if has('win32') || has('win64')
-  NeoBundle 'Shougo/vimproc.vim'
+  NeoBundleFetch 'Shougo/vimproc.vim'
   call neobundle#config('vimproc.vim', {
     \ 'type' : 'nosync'
     \ })
-  NeoBundle 'jnwhiteh/vim-golang'
+  NeoBundleFetch 'jnwhiteh/vim-golang'
   call neobundle#config('vim-golang', {
     \ 'type' : 'nosync',
     \ 'lazy' : 1,
