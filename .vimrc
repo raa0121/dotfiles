@@ -138,10 +138,6 @@ call neobundle#config('vimfiler', {
   \ }
   \ })
 if has('win32') || has('win64')
-  NeoBundleFetch 'Shougo/vimproc.vim'
-  call neobundle#config('vimproc.vim', {
-    \ 'type' : 'nosync'
-    \ })
   NeoBundleFetch 'jnwhiteh/vim-golang'
   call neobundle#config('vim-golang', {
     \ 'type' : 'nosync',
@@ -152,7 +148,7 @@ else
   NeoBundle 'Shougo/vimproc.vim'
   call neobundle#config('vimproc.vim', {
     \ 'build' : {
-    \     'windows' : 'make -f make_mingw32.mak',
+    \     'windows' : 'make -f make_mingw64.mak',
     \     'cygwin' : 'make -f make_cygwin.mak',
     \     'mac' : 'make -f make_mac.mak',
     \     'unix' : 'make -f make_unix.mak',
