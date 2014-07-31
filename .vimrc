@@ -137,8 +137,8 @@ call neobundle#config('vimfiler', {
   \     'explorer' : 1,
   \ }
   \ })
-if has('win32')
-    NeoBundleLocal 'C:\vim\plugin'
+if has('win32') || has('win64')
+  NeoBundleLocal 'C:\vim\plugins\'
 else
   NeoBundle 'Shougo/vimproc.vim'
   call neobundle#config('vimproc.vim', {
@@ -149,6 +149,12 @@ else
     \     'unix' : 'make -f make_unix.mak',
     \   },
     \ })
+  NeoBundle 'jnwhiteh/vim-golang'
+  call neobundle#config('vim-golang', {
+    \ 'lazy' : 1,
+    \ 'autoload' : { 'filetypes' : 'go'}
+    \ })
+  NeoBundle 'vim-jp/vimdoc-ja'
 endif
 NeoBundle 'Shougo/vimshell'
 call neobundle#config('vimshell', {
@@ -189,11 +195,6 @@ call neobundle#config('vaxe', {
   \ 'lazy': 1,
   \ 'autoload' : {'filetypes': 'haxe'}
   \})
-NeoBundle 'jnwhiteh/vim-golang'
-call neobundle#config('vim-golang', {
-  \ 'lazy' : 1,
-  \ 'autoload' : { 'filetypes' : 'go'}
-  \ })
 NeoBundle 'kamichidu/unite-javaimport'
 call neobundle#config('unite-javaimport', {
   \ 'lazy' : 1,
@@ -346,7 +347,6 @@ call neobundle#config('vimshell-ssh',{
   \ 'depends' : 'Shougo/vimshell',
   \ 'autoload' : { 'filetypes' : 'vimshell'}
   \ })
-NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-jp/vital.vim'
 call neobundle#config('vital.vim', {
   \ 'lazy' : 1,
