@@ -264,6 +264,11 @@ NeoBundle 'osyo-manga/vim-marching'
 call neobundle#config('vim-marching', {
   \ 'depends' : ['Shougo/vimproc.vim', 'osyo-manga/vim-reunions']
   \ })
+NeoBundle 'osyo-manga/vim-monster'
+call neobundle#config('vim-monster', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'ruby' }
+  \ })
 NeoBundle 'osyo-manga/vim-reunions'
 NeoBundle 'osyo-manga/vim-snowdrop'
 call neobundle#config('vim-snowdrop', {
@@ -345,6 +350,11 @@ NeoBundle 'ujihisa/neoclojure.vim'
 call neobundle#config('neco-ghc', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'clojure' }
+  \ })
+NeoBundle 'ujihisa/unite-colorscheme'
+call neobundle#config('unite-colorscheme', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'unite_sources' : ['colorscheme'] }
   \ })
 NeoBundle 'ujihisa/vimshell-ssh'
 call neobundle#config('vimshell-ssh',{
@@ -450,8 +460,9 @@ let g:neocomplete#sources#omni#input_patterns.haxe =
 let g:neosnippet#snippets_directory = '~/.vim/snippet'
 
 "tabで補完候補の選択を行う
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-imap <expr><S-TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-u>" : "\<S-TAB>"
+imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <expr><S-TAB> pumvisible() ? "\<C-u>" : "\<S-TAB>"
+imap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)"
 \: "\<TAB>"
@@ -466,6 +477,7 @@ autocmd vimrc FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJ
 autocmd vimrc FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd vimrc FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd vimrc FileType clojure setlocal omnifunc=neoclojure#complete
+autocmd vimrc FileType ruby setlocal omnifunc=monster#complete
 autocmd vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
 autocmd vimrc FileType haxe setl autowrite
 autocmd vimrc FileType hxml setl autowrite
