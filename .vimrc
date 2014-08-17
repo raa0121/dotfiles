@@ -476,7 +476,7 @@ autocmd vimrc FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd vimrc FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd vimrc FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd vimrc FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd vimrc FileType clojure setlocal omnifunc=neoclojure#complete
+autocmd vimrc FileType clojure setlocal omnifunc=neoclojure#complete#omni
 autocmd vimrc FileType ruby setlocal omnifunc=monster#complete
 autocmd vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
 autocmd vimrc FileType haxe setl autowrite
@@ -504,20 +504,6 @@ nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 
 let g:quickrun_config = {}
-let g:quickrun_config['markdown'] = {
-  \ 'outputter': 'browser'
-\ }
-let g:quickrun_config.ruby = {
-  \ 'command': 'ruby',
-  \ 'exec': '/usr/bin/env ruby %s',
-  \ 'tempfile': '{tempname()}.rb'
-\ }
-
-let g:quickrun_config = {
-  \ 'cpp': {
-  \ 'cmdopt': '-std=c++11 -Wall' 
-  \ }
-\ }
 
 let g:quickrun_config = {
   \ '_' : {
@@ -537,6 +523,23 @@ let g:quickrun_config = {
   \ }
 \ }
 
+let g:quickrun_config['markdown'] = {
+  \ 'outputter': 'browser'
+  \}
+let g:quickrun_config.ruby = {
+  \ 'command': 'ruby',
+  \ 'exec': '/usr/bin/env ruby %s',
+  \ 'tempfile': '{tempname()}.rb'
+  \}
+let g:quickrun_config['clojure'] = {
+  \ 'type' : 'clojure/neoclojure',
+  \ 'runner' : 'neoclojure',
+  \ 'command' : 'dummy',
+  \ 'tempfile' : '%{tempname()}.clj'
+  \}
+let g:quickrun_config.cpp = {
+  \ 'cmdopt': '-std=c++1y -Wall' 
+  \ }
 let g:lingr_vim_user = 'raa0121'
 let g:J6uil_display_offline  = 0
 let g:J6uil_display_online   = 0
