@@ -177,6 +177,7 @@ call neobundle#config('J6uil.vim', {
   \ 'autoload' : { 'commands' : 'J6uil' },
   \ 'depends' : 'mattn/webapi-vim',
   \ })
+NeoBundle 'cohama/agit.vim'
 NeoBundle 'dag/vim2hs'
 call neobundle#config ('vim2hs', {
   \ 'lazy' : 1,
@@ -187,6 +188,7 @@ call neobundle#config('ghcmod-vim', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'haskell' }
   \ })
+NeoBundle 'editorconfig/editorconfig-vim'
 NeoBundle 'fuenor/qfixhowm'
 NeoBundle 'itchyny/calendar.vim'
 NeoBundle 'itchyny/lightline.vim'
@@ -232,6 +234,11 @@ call neobundle#config('gist-vim', {
   \ 'autoload' : { 'commands' : 'Gist' }
   \ })
 NeoBundle 'mattn/libcallex-vim'
+NeoBundle 'mattn/mahjong-vim'
+call neobundle#config('mahjong-vim', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'commands' : 'Mahjong' }
+  \ })
 NeoBundle 'mattn/sonictemplate-vim'
 call neobundle#config('sonictemplate-vim', {
   \ 'lazy' : 1,
@@ -284,6 +291,10 @@ call neobundle#config('vimconsole.vim', {
   \ })
 NeoBundle 'ryutorion/vim-itunes'
 NeoBundle 'sudo.vim'
+NeoBundle 'supermomonga/thingspast.vim'
+"call neobundle#config('thingspast.vim', {
+"  \ 'build' : { 'unix' : 'bundle install' }
+"  \ })
 NeoBundle 'thinca/vim-ft-clojure'
 call neobundle#config('vim-ft-clojure', {
   \ 'lazy' : 1,
@@ -413,9 +424,7 @@ if neobundle#is_installed('neocomplcache')
   let g:neocomplcache_enable_underbar_completion = 1
   let g:neocomplcache_min_syntax_length = 3
   let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-  if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-  endif
+  let g:neocomplcache_keyword_patterns = get(g:, 'neocomplecache_keyword_patterns', {})
   let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 endif
 
@@ -426,16 +435,10 @@ if neobundle#is_installed('neocomplete.vim')
   let g:neocomplete#enable_underbar_completion = 1
   let g:neocomplete#min_syntax_length = 3
   let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-  if !exists('g:neocomplete#keyword_patterns')
-      let g:neocomplete#keyword_patterns = {}
-  endif
+  let g:neocomplete#keyword_patterns = get(g:, 'neocomplete#keyword_patterns', {})
   let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-  if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-  endif
-  if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-  endif
+  let g:neocomplete#force_omni_input_patterns = get(g:, 'neocomplete#force_omni_input_patterns', {})
+  let g:neocomplete#sources#omni#input_patterns = get(g:, 'neocomplete#sources#omni#input_patterns', {})
 endif
 
 
@@ -456,6 +459,8 @@ let g:neocomplete#force_omni_input_patterns.cpp =
 
 let g:neocomplete#sources#omni#input_patterns.haxe =
 \ '\v([\]''"\)]|\w|(^\s*))(\.|\()'
+let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\|\h\w*::'
+let g:monster#completion#rcodetools#backend = "async_rct_complete"
 
 let g:neosnippet#snippets_directory = '~/.vim/snippet'
 
@@ -477,7 +482,6 @@ autocmd vimrc FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJ
 autocmd vimrc FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd vimrc FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd vimrc FileType clojure setlocal omnifunc=neoclojure#complete#omni
-autocmd vimrc FileType ruby setlocal omnifunc=monster#complete
 autocmd vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
 autocmd vimrc FileType haxe setl autowrite
 autocmd vimrc FileType hxml setl autowrite
@@ -531,7 +535,7 @@ let g:quickrun_config.ruby = {
   \ 'exec': '/usr/bin/env ruby %s',
   \ 'tempfile': '{tempname()}.rb'
   \}
-let g:quickrun_config['clojure'] = {
+let g:quickrun_config['clojure/neoclojure'] = {
   \ 'type' : 'clojure/neoclojure',
   \ 'runner' : 'neoclojure',
   \ 'command' : 'dummy',
