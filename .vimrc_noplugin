@@ -11,7 +11,7 @@ set wrapscan
 set showmatch
 set wildmenu
 set formatoptions+=mM
-set softtabstop=2
+"set softtabstop=2
 set shiftwidth=4
 set fileencodings=utf-8,sjis,cp932,euc-jp,default,latin
 set number
@@ -23,6 +23,7 @@ set cmdheight=2
 set showcmd
 set title
 set hlsearch
+colorscheme elflord 
 syntax on
 
 " ファイル名に大文字小文字の区別がないシステム用の設定:
@@ -75,6 +76,7 @@ set clipboard=unnamedplus
 nnoremap <silent> ,vr :tabnew ~/.vimrc<CR>
 nnoremap <silent> ,so :so ~/.vimrc<CR>
 nnoremap <Esc><Esc> :nohlsearch<CR><ESC>
+nnoremap <silent> ,ts :<C-u>tab stj <C-R>=expand('<cword>')<CR><CR>
 
 "tabで補完候補の選択を行う
 inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
@@ -149,3 +151,35 @@ function! s:tabline()
     let s .= '%#TabLineFill#%T%=%<[' . getcwd() . ']' . lingr_unread
     return s
 endfunction
+
+autocmd vimrc  BufNewFile,BufRead *.tsv    set noexpandtab wrap tabstop=4 shiftwidth=4
+autocmd vimrc  BufNewFile,BufRead *.php    set noexpandtab wrap tabstop=4 shiftwidth=4
+autocmd vimrc  BufNewFile,BufRead *.php    set tags+=$HOME/ctags/php.tags
+
+augroup vimrc-scratch-buffer
+  autocmd!
+  " Make a scratch buffer when unnamed buffer.
+  autocmd BufEnter * call s:scratch_buffer()
+  autocmd FileType qfreplace autocmd! vimrc-scratch * <buffer>
+
+  function! s:scratch_buffer()
+    if exists('b:scratch_buffer') || bufname('%') !=# '' || &l:buftype !=# ''
+      return
+    endif
+    let b:scratch_buffer = 1
+    setlocal buftype=nofile nobuflisted noswapfile bufhidden=hide
+    augroup vimrc-scratch
+      autocmd! * <buffer>
+      autocmd BufWriteCmd <buffer> call s:scratch_on_BufWriteCmd()
+    augroup END
+  endfunction
+  function! s:scratch_on_BufWriteCmd()
+    silent! setl buftype< buflisted< swapfile< bufhidden< nomodified
+    autocmd! vimrc-scratch * <buffer>
+    if bufname('%') ==# '' && exists('b:scratch_buffer')
+      execute 'saveas' . (v:cmdbang ? '!' : '') ' <afile>'
+      filetype detect
+    endif
+    unlet! b:scratch_buffer
+  endfunction
+augroup END
