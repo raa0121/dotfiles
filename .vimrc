@@ -23,6 +23,8 @@ set cmdheight=2
 set showcmd
 set title
 set hlsearch
+set list
+set listchars=tab:>-
 set nrformats+=alpha
 colorscheme elflord
 syntax on
@@ -118,6 +120,7 @@ call neobundle#config('unite.vim',{
   \                 'complete' : 'customlist,unite#complete_source'},
   \                 'UniteWithCursorWord', 'UniteWithInput']
   \ }})
+NeoBundle 'Shougo/unite-outline'
 NeoBundle 'Shougo/vimfiler'
 call neobundle#config('vimfiler', {
   \ 'lazy' : 1,
@@ -127,6 +130,8 @@ call neobundle#config('vimfiler', {
   \                   { 'name' : 'VimFiler',
   \                     'complete' : 'customlist,vimfiler#complete' },
   \                   { 'name' : 'VimFilerExplorer',
+  \                     'complete' : 'customlist,vimfiler#complete' },
+  \                   { 'name' : 'VimFilerBufferDir',
   \                     'complete' : 'customlist,vimfiler#complete' },
   \                   { 'name' : 'Edit',
   \                     'complete' : 'customlist,vimfiler#complete' },
@@ -174,7 +179,8 @@ call neobundle#config('vimshell', {
 NeoBundle 'basyura/J6uil.vim'
 call neobundle#config('J6uil.vim', {
   \ 'lazy' : 1,
-  \ 'autoload' : { 'commands' : 'J6uil' },
+  \ 'autoload' : { 'commands' : 'J6uil',
+  \                'unice_source' : ['J6uil/rooms', 'J6uil/members']},
   \ 'depends' : 'mattn/webapi-vim',
   \ })
 NeoBundle 'cohama/agit.vim'
@@ -255,6 +261,12 @@ NeoBundle 'osyo-manga/quickrun-hook-u-nya-'
 call neobundle#config('quickrun-hook-u-nya-', {
   \ 'depends' : 'thinca/vim-quickrun'
   \ })
+NeoBundle 'osyo-manga/unite-highlight'
+call neobundle#config('unite-highlight', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'unite_sources' : ['highlight']},
+  \ 'depends' : ['Shougo/unite.vim']
+  \ })
 NeoBundle 'osyo-manga/unite-qfixhowm'
 call neobundle#config('unite-qfixhowm', {
   \ 'lazy' : 1,
@@ -290,6 +302,7 @@ call neobundle#config('vimconsole.vim', {
   \ 'autoload' : { 'commands' : 'VimConsoleOpen' }
   \ })
 NeoBundle 'ryutorion/vim-itunes'
+NeoBundle 'slim-template/vim-slim'
 NeoBundle 'sudo.vim'
 NeoBundle 'supermomonga/thingspast.vim'
 "call neobundle#config('thingspast.vim', {
@@ -373,7 +386,7 @@ call neobundle#config('vimshell-ssh',{
   \ 'depends' : 'Shougo/vimshell',
   \ 'autoload' : { 'filetypes' : 'vimshell'}
   \ })
-NeoBundle 'vim-jp/vital.vim'
+NeoBundle 'vim-jp/vital.vim', 'PM2'
 call neobundle#config('vital.vim', {
   \ 'lazy' : 1,
   \ 'autoload' : {
@@ -443,6 +456,7 @@ endif
 
 
 let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_safe_mode_by_default = 0
 
 "let g:neocomplcache#sources#rsense#home_directory = '/opt/rsense-0.3/'
 
@@ -487,6 +501,7 @@ autocmd vimrc FileType haxe setl autowrite
 autocmd vimrc FileType hxml setl autowrite
 autocmd vimrc FileType nmml.xml setl autowrite
 autocmd vimrc BufNewFile,BufRead *.rb set tags+=$HOME/ctags/ruby.tags
+autocmd vimrc BufNewFile,BufRead *.c set tags+=$HOME/ctags/c.tags
 
 let g:vaxe_haxe_version = 3
 
