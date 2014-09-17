@@ -196,6 +196,11 @@ call neobundle#config('ghcmod-vim', {
   \ })
 NeoBundle 'editorconfig/editorconfig-vim'
 NeoBundle 'fuenor/qfixhowm'
+NeoBundle 'groenewege/vim-less'
+call neobundle#config('vim-less', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'less' }
+  \ })
 NeoBundle 'itchyny/calendar.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'jceb/vim-orgmode'
