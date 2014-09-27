@@ -221,6 +221,7 @@ call neobundle#config('unite-javaimport', {
   \ 'Shougo/unite.vim', 'yuratomo/w3m.vim'],
   \ 'autoload' : { 'filetypes' : ['java', 'scala', 'clojure']}
   \})
+NeoBundle 'kana/vim-smartinput'
 NeoBundle 'kamichidu/vim-vdbc'
 call neobundle#config('vim-vdbc', {
   \ 'depends' : ['Shougo/vimproc.vim'] ,
@@ -265,6 +266,12 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'osyo-manga/quickrun-hook-u-nya-'
 call neobundle#config('quickrun-hook-u-nya-', {
   \ 'depends' : 'thinca/vim-quickrun'
+  \ })
+NeoBundle 'osyo-manga/unite-filetype'
+call neobundle#config('unite-filetype', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'unite_sources' : ['filetype']},
+  \ 'depends' : ['Shougo/unite.vim']
   \ })
 NeoBundle 'osyo-manga/unite-highlight'
 call neobundle#config('unite-highlight', {
