@@ -270,7 +270,7 @@ call neobundle#config('quickrun-hook-u-nya-', {
 NeoBundle 'osyo-manga/unite-filetype'
 call neobundle#config('unite-filetype', {
   \ 'lazy' : 1,
-  \ 'autoload' : { 'unite_sources' : ['filetype']},
+  \ 'autoload' : { 'unite_sources' : ['filetype', 'filetype/new']},
   \ 'depends' : ['Shougo/unite.vim']
   \ })
 NeoBundle 'osyo-manga/unite-highlight'
