@@ -164,7 +164,6 @@ else
     \ 'lazy' : 1,
     \ 'autoload' : { 'filetypes' : 'go'}
     \ })
-  NeoBundle 'vim-jp/vimdoc-ja'
 endif
 NeoBundle 'Shougo/vimshell'
 call neobundle#config('vimshell', {
@@ -213,7 +212,7 @@ call neobundle#config('vaxe', {
   \ 'lazy': 1,
   \ 'autoload' : {'filetypes': 'haxe'}
   \})
-NeoBundle 'kamichidu/unite-javaimport'
+NeoBundle 'kamichidu/unite-javaimport', 'dev'
 call neobundle#config('unite-javaimport', {
   \ 'lazy' : 1,
   \ 'depends' : [
@@ -222,6 +221,10 @@ call neobundle#config('unite-javaimport', {
   \ 'autoload' : { 'filetypes' : ['java', 'scala', 'clojure']}
   \})
 NeoBundle 'kana/vim-smartinput'
+NeoBundle 'kamichidu/vim-ref-java'
+call neobundle#config('vim-ref-java', {
+  \ 'depends' : [ 'mattn/wwwrenderer-vim' ],
+  \})
 NeoBundle 'kamichidu/vim-vdbc'
 call neobundle#config('vim-vdbc', {
   \ 'depends' : ['Shougo/vimproc.vim'] ,
@@ -398,6 +401,7 @@ call neobundle#config('vimshell-ssh',{
   \ 'depends' : 'Shougo/vimshell',
   \ 'autoload' : { 'filetypes' : 'vimshell'}
   \ })
+NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-jp/vital.vim', 'PM2'
 call neobundle#config('vital.vim', {
   \ 'lazy' : 1,
@@ -411,7 +415,11 @@ call neobundle#config('fluentd.vim',{
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'fluentd'}
   \ })
-
+NeoBundle 'yuratomo/w3m.vim'
+call neobundle#config('w3m.vim',{
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'commands' : ['W3m', 'W3mTab']}
+  \ })
 filetype plugin indent on
 if has('clientserver')
   call singleton#enable()
