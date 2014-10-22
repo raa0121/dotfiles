@@ -200,6 +200,8 @@ call neobundle#config('vim-less', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'less' }
   \ })
+NeoBundle 'haya14busa/incsearch.vim'
+NeoBundle 'honza/vim-snippets'
 NeoBundle 'itchyny/calendar.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'jceb/vim-orgmode'
@@ -207,11 +209,6 @@ call neobundle#config('vim-orgmode', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'org' }
   \ })
-NeoBundle 'jdonaldson/vaxe'
-call neobundle#config('vaxe', {
-  \ 'lazy': 1,
-  \ 'autoload' : {'filetypes': 'haxe'}
-  \})
 NeoBundle 'kamichidu/unite-javaimport', 'dev'
 call neobundle#config('unite-javaimport', {
   \ 'lazy' : 1,
@@ -270,6 +267,7 @@ NeoBundle 'osyo-manga/quickrun-hook-u-nya-'
 call neobundle#config('quickrun-hook-u-nya-', {
   \ 'depends' : 'thinca/vim-quickrun'
   \ })
+NeoBundle "osyo-manga/shabadou.vim"
 NeoBundle 'osyo-manga/unite-filetype'
 call neobundle#config('unite-filetype', {
   \ 'lazy' : 1,
@@ -309,6 +307,7 @@ call neobundle#config('vim-snowdrop', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'cpp' }
   \ })
+NeoBundle "osyo-manga/vim-watchdogs"
 NeoBundle 'raa0121/vim-ulilith'
 NeoBundle 'rbtnn/vimconsole.vim'
 call neobundle#config('vimconsole.vim', {
@@ -449,6 +448,9 @@ nnoremap <silent> ,nu :tabnew +Unite\ neobundle/update<CR>
 nnoremap <silent> ,ll :tabnew +LingrLaunch<CR>
 nnoremap <Esc><Esc> :nohlsearch<CR><ESC>
 nnoremap <silent> ,ts :<C-u>tab stj <C-R>=expand('<cword>')<CR><CR>
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 
 if neobundle#is_installed('neocomplcache')
   let g:neocomplcache_enable_at_startup = 1
@@ -491,12 +493,10 @@ let g:neocomplete#text_mode_filetypes = {
 let g:neocomplete#force_omni_input_patterns.cpp =
 \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 
-let g:neocomplete#sources#omni#input_patterns.haxe =
-\ '\v([\]''"\)]|\w|(^\s*))(\.|\()'
 let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\|\h\w*::'
 let g:monster#completion#rcodetools#backend = "async_rct_complete"
 
-let g:neosnippet#snippets_directory = '~/.vim/snippet'
+let g:neosnippet#snippets_directory = '~/.vim/snippet,~/.bundle/vim-snippets/snippets'
 
 "tabで補完候補の選択を行う
 imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -517,26 +517,8 @@ autocmd vimrc FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd vimrc FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd vimrc FileType clojure setlocal omnifunc=neoclojure#complete#omni
 autocmd vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
-autocmd vimrc FileType haxe setl autowrite
-autocmd vimrc FileType hxml setl autowrite
-autocmd vimrc FileType nmml.xml setl autowrite
 autocmd vimrc BufNewFile,BufRead *.rb set tags+=$HOME/ctags/ruby.tags
 autocmd vimrc BufNewFile,BufRead *.c set tags+=$HOME/ctags/c.tags
-
-let g:vaxe_haxe_version = 3
-
-function! s:init_vaxe_keymap()
-  " .hxmlファイルを開いてくれるやつ
-  nnoremap <buffer> ,vo :<C-u>call vaxe#OpenHxml()<CR>
-  " タグファイル作ってくれるやつ(別途、.ctagsの定義をしませう)
-  nnoremap <buffer> ,vc :<C-u>call vaxe#Ctags()<CR>
-  " 自動インポートな
-  nnoremap <buffer> ,vi :<C-u>call vaxe#ImportClass()<CR>
-endfunction
-
-autocmd vimrc FileType haxe call s:init_vaxe_keymap()
-autocmd vimrc FileType hxml call s:init_vaxe_keymap()
-autocmd vimrc FileType nmml.xml call s:init_vaxe_keymap()
 
 let g:netrw_nogx = 1
 nmap gx <Plug>(openbrowser-smart-search)
@@ -579,6 +561,9 @@ let g:quickrun_config['clojure/neoclojure'] = {
 let g:quickrun_config.cpp = {
   \ 'cmdopt': '-std=c++1y -Wall' 
   \ }
+
+call watchdogs#setup(g:quickrun_config)
+
 let g:lingr_vim_user = 'raa0121'
 let g:J6uil_display_offline  = 0
 let g:J6uil_display_online   = 0

@@ -24,13 +24,12 @@ case $host in
 esac
 
 PS1="\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[${color}m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
-WIN_PATH=$PATH
-PATH=/usr/local/bin/:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 [[ -z $USER ]] && export USER=$USERNAME
-PROMPT_COMMAND='echo -ne "\033]0;[${LANG}] ${USER}@${HOSTNAME%%.*} :${PWD/#$HOME/~}\007"'
 
 _uname=`uname -o`
 if [ $_uname = "Cygwin" ] ; then
+  WIN_PATH=$PATH
+  PATH=/usr/local/bin/:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
   export LANG=ja_JP.UTF-8
   DISPLAY="localhost:0.0"
   [[ -s $HOME/android-sdk-windows ]] && export ANDROID_SDK_PATH=$HOME/android-sdk-windows
@@ -41,9 +40,11 @@ elif [ $_uname = "Msys" ]; then
   export LANG=ja_JP.sjis
   export JLESSCHARSET="japanese-sjis"
   export OUTPUT_CHARSET=sjis
+  WIN_PATH=$PATH
+  PATH=/usr/local/bin/:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
   export PATH="$PATH:/c/MinGW/bin:/c/MinGW/mingw32/bin:$WIN_PATH"
   [[ -s $USERPROFILE/.pik/.pikrc ]] && source $USERPROFILE/.pik/.pikrc
 elif [ $HOSTNAME = "ryo" ] || [ $HOSTNAME = "nakako" ]; then
   export LANG=ja_JP.UTF-8
-  export PATH=$HOME/bin:$WIN_PATH
+  export PATH=$HOME/bin:$PATH
 fi
