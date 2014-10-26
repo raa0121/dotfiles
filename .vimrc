@@ -209,7 +209,7 @@ call neobundle#config('vim-orgmode', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'org' }
   \ })
-NeoBundle 'kamichidu/unite-javaimport', 'dev'
+NeoBundle 'kamichidu/unite-javaimport', ''
 call neobundle#config('unite-javaimport', {
   \ 'lazy' : 1,
   \ 'depends' : [
@@ -217,7 +217,7 @@ call neobundle#config('unite-javaimport', {
   \ 'Shougo/unite.vim', 'yuratomo/w3m.vim'],
   \ 'autoload' : { 'filetypes' : ['java', 'scala', 'clojure']}
   \})
-NeoBundle 'kana/vim-smartinput'
+NeoBundle 'kamichidu/vim-milqi', 'dev'
 NeoBundle 'kamichidu/vim-ref-java'
 call neobundle#config('vim-ref-java', {
   \ 'depends' : [ 'mattn/wwwrenderer-vim' ],
@@ -230,6 +230,7 @@ call neobundle#config('vim-vdbc', {
   \     'windows' : 'make -f Makefile.w64'
   \ }
   \})
+NeoBundle 'kana/vim-smartinput'
 NeoBundle 'mattn/benchvimrc-vim'
 call neobundle#config('benchvimrc-vim', {
   \ 'lazy' : 1,
