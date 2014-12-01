@@ -1,4 +1,5 @@
 " coding:utf-8
+scriptencoding utf-8
 " ζ*'ヮ')ζ ζ(*'ヮ'リ+
 "
 set ignorecase
@@ -70,13 +71,15 @@ if has('+regexpengine')
   set re=0
 endif
 
+let g:vim_indent_cont = 2
+
 filetype off
 
 if has('vim_starting')
   set runtimepath+=~/.vim/neobundle.vim.git
 
 endif
-call neobundle#rc(expand('~/.bundle'))
+call neobundle#begin(expand('~/.bundle'))
 
 let g:neobundle_default_git_protocol='https'
 
@@ -231,6 +234,8 @@ call neobundle#config('vim-vdbc', {
   \ }
   \})
 NeoBundle 'kana/vim-smartinput'
+NeoBundle 'kana/vim-textobj-function'
+NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'mattn/benchvimrc-vim'
 call neobundle#config('benchvimrc-vim', {
   \ 'lazy' : 1,
@@ -247,11 +252,6 @@ call neobundle#config('gist-vim', {
   \ 'autoload' : { 'commands' : 'Gist' }
   \ })
 NeoBundle 'mattn/libcallex-vim'
-NeoBundle 'mattn/mahjong-vim'
-call neobundle#config('mahjong-vim', {
-  \ 'lazy' : 1,
-  \ 'autoload' : { 'commands' : 'Mahjong' }
-  \ })
 NeoBundle 'mattn/sonictemplate-vim'
 call neobundle#config('sonictemplate-vim', {
   \ 'lazy' : 1,
@@ -268,7 +268,7 @@ NeoBundle 'osyo-manga/quickrun-hook-u-nya-'
 call neobundle#config('quickrun-hook-u-nya-', {
   \ 'depends' : 'thinca/vim-quickrun'
   \ })
-NeoBundle "osyo-manga/shabadou.vim"
+NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'osyo-manga/unite-filetype'
 call neobundle#config('unite-filetype', {
   \ 'lazy' : 1,
@@ -308,7 +308,7 @@ call neobundle#config('vim-snowdrop', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'cpp' }
   \ })
-NeoBundle "osyo-manga/vim-watchdogs"
+NeoBundle 'osyo-manga/vim-watchdogs'
 NeoBundle 'raa0121/vim-ulilith'
 NeoBundle 'rbtnn/vimconsole.vim'
 call neobundle#config('vimconsole.vim', {
@@ -357,6 +357,12 @@ call neobundle#config('vim-ref', {
   \ })
 NeoBundle 'thinca/vim-singleton'
 NeoBundle 'thinca/vim-splash'
+NeoBundle 'thinca/vim-textobj-function-javascript'
+call neobundle#config('vim-textobj-function-javascript', {
+  \ 'depends' : ['kana/vim-textobj-function'],
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'javascript' }
+  \ })
 NeoBundle 'thinca/vim-threes'
 call neobundle#config('vim-threes', {
   \ 'lazy' : 1,
@@ -420,7 +426,10 @@ call neobundle#config('w3m.vim',{
   \ 'lazy' : 1,
   \ 'autoload' : { 'commands' : ['W3m', 'W3mTab']}
   \ })
+
+call neobundle#end()
 filetype plugin indent on
+
 if has('clientserver')
   call singleton#enable()
 end
@@ -603,6 +612,18 @@ let g:unite_source_file_mru_long_limit = 3000
 let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = 'botright'
 let g:unite_winheight = 15
+
+
+call textobj#user#plugin('datetime', {
+\   'date': {
+\     'pattern': '\<\d\d\d\d-\d\d-\d\d\>',
+\     'select': ['ad', 'id'],
+\   },
+\   'time': {
+\     'pattern': '\<\d\d:\d\d:\d\d\>',
+\     'select': ['at', 'it'],
+\   },
+\ })
 
 augroup plugin-lingr-vim
   autocmd!
