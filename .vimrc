@@ -264,6 +264,7 @@ call neobundle#config('unite-rhythmbox', {
   \ 'depends' : 'Shougo/unite.vim'
   \ })
 NeoBundle 'mattn/webapi-vim'
+NeoBundle 'miyakogi/conoline.vim'
 NeoBundle 'osyo-manga/quickrun-hook-u-nya-'
 call neobundle#config('quickrun-hook-u-nya-', {
   \ 'depends' : 'thinca/vim-quickrun'
@@ -603,6 +604,8 @@ let g:marching_clang_command_option="-std=c++1y"
 let g:marching_enable_neocomplete = 1
 let g:marching_include_paths = ['/usr/include/c++/4.8.2/']
 let g:snowdrop#libclang_path='/usr/lib'
+
+let g:conoline_auto_enable = 1
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 let g:unite_enable_start_insert = 1
