@@ -217,7 +217,7 @@ call neobundle#config('unite-javaimport', {
   \ 'lazy' : 1,
   \ 'depends' : [
   \ 'kamichidu/vim-javalang', 'kamichidu/vim-javaclasspath',
-  \ 'Shougo/unite.vim', 'yuratomo/w3m.vim'],
+  \ 'Shougo/unite.vim'],
   \ 'autoload' : { 'filetypes' : ['java', 'scala', 'clojure']}
   \})
 NeoBundle 'kamichidu/vim-milqi', 'dev'
@@ -320,6 +320,11 @@ call neobundle#config('vimconsole.vim', {
 NeoBundle 'ryutorion/vim-itunes'
 NeoBundle 'slim-template/vim-slim'
 NeoBundle 'sudo.vim'
+NeoBundle 'stephpy/vim-php-cs-fixer'
+call neobundle#config('vim-php-cs-fixer', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'php' }
+  \ })
 NeoBundle 'supermomonga/thingspast.vim'
 "call neobundle#config('thingspast.vim', {
 "  \ 'build' : { 'unix' : 'bundle install' }
@@ -409,7 +414,7 @@ call neobundle#config('vimshell-ssh',{
   \ 'autoload' : { 'filetypes' : 'vimshell'}
   \ })
 NeoBundle 'vim-jp/vimdoc-ja'
-NeoBundle 'vim-jp/vital.vim', 'PM2'
+NeoBundle 'vim-jp/vital.vim'
 call neobundle#config('vital.vim', {
   \ 'lazy' : 1,
   \ 'autoload' : {
@@ -422,11 +427,13 @@ call neobundle#config('fluentd.vim',{
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'fluentd'}
   \ })
-NeoBundle 'yuratomo/w3m.vim'
-call neobundle#config('w3m.vim',{
-  \ 'lazy' : 1,
-  \ 'autoload' : { 'commands' : ['W3m', 'W3mTab']}
-  \ })
+if executable('w3m')
+  NeoBundle 'yuratomo/w3m.vim'
+  call neobundle#config('w3m.vim',{
+    \ 'lazy' : 1,
+    \ 'autoload' : { 'commands' : ['W3m', 'W3mTab']}
+    \ })
+endif
 
 call neobundle#end()
 filetype plugin indent on
@@ -528,8 +535,11 @@ autocmd vimrc FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd vimrc FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd vimrc FileType clojure setlocal omnifunc=neoclojure#complete#omni
 autocmd vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
-autocmd vimrc BufNewFile,BufRead *.rb set tags+=$HOME/ctags/ruby.tags
-autocmd vimrc BufNewFile,BufRead *.c set tags+=$HOME/ctags/c.tags
+autocmd vimrc BufNewFile,BufRead *.gradle setlocal filetype=groovy
+autocmd vimrc BufNewFile,BufRead *.java setlocal noexpandtab wrap tabstop=4 shiftwidth=4
+autocmd vimrc BufNewFile,BufRead *.rb setlocal tags+=$HOME/ctags/ruby.tags
+autocmd vimrc BufNewFile,BufRead *.c setlocal tags+=$HOME/ctags/c.tags
+autocmd vimrc BufNewFile Gemfile Template Gemfile
 
 let g:netrw_nogx = 1
 nmap gx <Plug>(openbrowser-smart-search)
@@ -627,6 +637,13 @@ call textobj#user#plugin('datetime', {
 \     'select': ['at', 'it'],
 \   },
 \ })
+
+let g:php_cs_fixer_level = "all"
+let g:php_cs_fixer_config = "default"
+let g:php_cs_fixer_php_path = "php"
+let g:php_cs_fixer_enable_default_mapping = 1
+let g:php_cs_fixer_dry_run = 0
+let g:php_cs_fixer_verbose = 0
 
 augroup plugin-lingr-vim
   autocmd!
