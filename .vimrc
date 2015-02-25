@@ -83,11 +83,13 @@ call neobundle#begin(expand('~/.bundle'))
 
 let g:neobundle_default_git_protocol='https'
 
-NeoBundle 'OmniSharp/omnisharp-vim'
-call neobundle#config('omnisharp-vim', {
-  \ 'lazy' : 1,
-  \ 'autoload' : {'filetypes': ['cs'] }
-  \ })
+if has('python')
+  NeoBundle 'OmniSharp/omnisharp-vim'
+  call neobundle#config('omnisharp-vim', {
+    \ 'lazy' : 1,
+    \ 'autoload' : {'filetypes': ['cs'] }
+    \ })
+endif
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
@@ -218,7 +220,9 @@ call neobundle#config('vim-orgmode', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'org' }
   \ })
-NeoBundle 'kakkyz81/evervim'
+if has('python')
+  NeoBundle 'kakkyz81/evervim'
+endif
 NeoBundle 'kamichidu/unite-javaimport', ''
 call neobundle#config('unite-javaimport', {
   \ 'lazy' : 1,
