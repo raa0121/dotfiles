@@ -354,7 +354,7 @@ call neobundle#config('vim-prettyprint', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'commands' : ['PP', 'PrettyPrint']}
   \ })
-NeoBundle 'thinca/vim-quickrun' 
+NeoBundle 'thinca/vim-quickrun'
 call neobundle#config('vim-quickrun', {
   \ 'lazy' : 1,
   \ 'autoload' : {
@@ -511,8 +511,12 @@ if neobundle#is_installed('neocomplete.vim')
   let g:neocomplete#keyword_patterns['default'] = '\h\w*'
   let g:neocomplete#force_omni_input_patterns = get(g:, 'neocomplete#force_omni_input_patterns', {})
   let g:neocomplete#sources#omni#input_patterns = get(g:, 'neocomplete#sources#omni#input_patterns', {})
+  let g:neocomplete#text_mode_filetypes = {'tex': 1, 'plaintex': 1}
+  let g:neocomplete#force_omni_input_patterns.cpp =
+  \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+  let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\|\h\w*::'
+  let g:neocomplete#sources#omni#input_patterns.cs = '[^.]\.\%(\u\{2,}\)\?'
 endif
-
 
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
@@ -523,15 +527,6 @@ let g:neocomplcache_text_mode_filetypes = {
 \  'tex': 1,
 \  'plaintex': 1,
 \} 
-let g:neocomplete#text_mode_filetypes = {
-\  'tex': 1,
-\  'plaintex': 1,
-\} 
-let g:neocomplete#force_omni_input_patterns.cpp =
-\ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-
-let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.cs = '[^.]\.\%(\u\{2,}\)\?'
 let g:monster#completion#rcodetools#backend = "async_rct_complete"
 
 let g:neosnippet#snippets_directory = '~/.vim/snippet,~/.bundle/vim-snippets/snippets'
