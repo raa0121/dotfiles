@@ -15,7 +15,7 @@ set output-meta on
 # user file-creation mask
 umask 022
 
-export EDTOR=vim
+export EDITOR=vim
 
 host=`hostname -s`
 case $host in
@@ -23,7 +23,7 @@ case $host in
   "yumeko")   color="32";;
 esac
 
-PS1="\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[${color}m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
+PS1='\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[${color}m\]\h:\[\033[33;1m\]\w\[\033[m\]\[\033[31m\]$(__git_ps1)\[\033[00m\]\$ '
 [[ -z $USER ]] && export USER=$USERNAME
 
 _uname=`uname -o`

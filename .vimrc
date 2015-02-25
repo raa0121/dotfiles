@@ -13,7 +13,7 @@ set showmatch
 set wildmenu
 set formatoptions+=mM
 set softtabstop=2
-set shiftwidth=4
+set shiftwidth=2
 set fileencodings=utf-8,sjis,cp932,euc-jp,default,latin
 set number
 set ruler
@@ -82,6 +82,13 @@ endif
 call neobundle#begin(expand('~/.bundle'))
 
 let g:neobundle_default_git_protocol='https'
+
+NeoBundle 'vim-scripts/AnsiEsc.vim'
+NeoBundle 'OmniSharp/omnisharp-vim'
+call neobundle#config('omnisharp-vim', {
+  \ 'lazy' : 1,
+  \ 'autoload' : {'filetypes': ['cs'] }
+  \ })
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
@@ -212,6 +219,7 @@ call neobundle#config('vim-orgmode', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'org' }
   \ })
+NeoBundle 'kakkyz81/evervim'
 NeoBundle 'kamichidu/unite-javaimport', ''
 call neobundle#config('unite-javaimport', {
   \ 'lazy' : 1,
@@ -359,6 +367,7 @@ call neobundle#config('vim-ref', {
   \ 'autoload' : { 'commands' : ['Ref', 'RefHistory'],
   \                'unite_sources' : ['ref/erlang', 'ref/man',
   \                                   'ref/pydoc', 'ref/redis',
+  \                                   'ref/clojure',
   \                                   'ref/refe', 'ref/webdict']}
   \ })
 NeoBundle 'thinca/vim-singleton'
@@ -400,7 +409,8 @@ NeoBundle 'ujihisa/neco-look'
 NeoBundle 'ujihisa/neoclojure.vim'
 call neobundle#config('neco-ghc', {
   \ 'lazy' : 1,
-  \ 'autoload' : { 'filetypes' : 'clojure' }
+  \ 'autoload' : { 'filetypes' : 'clojure',
+  \                'unite_sources' : ['ref/neoclojure'] }
   \ })
 NeoBundle 'ujihisa/unite-colorscheme'
 call neobundle#config('unite-colorscheme', {
@@ -512,6 +522,7 @@ let g:neocomplete#force_omni_input_patterns.cpp =
 \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 
 let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.cs = '[^.]\.\%(\u\{2,}\)\?'
 let g:monster#completion#rcodetools#backend = "async_rct_complete"
 
 let g:neosnippet#snippets_directory = '~/.vim/snippet,~/.bundle/vim-snippets/snippets'
@@ -533,12 +544,15 @@ autocmd vimrc FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd vimrc FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd vimrc FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd vimrc FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd vimrc FileType cs setlocal omnifunc=OmniSharp#Complete
 autocmd vimrc FileType clojure setlocal omnifunc=neoclojure#complete#omni
+autocmd vimrc FileType quickrun AnsiEsc
 autocmd vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
 autocmd vimrc BufNewFile,BufRead *.gradle setlocal filetype=groovy
-autocmd vimrc BufNewFile,BufRead *.java setlocal noexpandtab wrap tabstop=4 shiftwidth=4
-autocmd vimrc BufNewFile,BufRead *.rb setlocal tags+=$HOME/ctags/ruby.tags
-autocmd vimrc BufNewFile,BufRead *.c setlocal tags+=$HOME/ctags/c.tags
+autocmd vimrc FileType php setlocal noexpandtab wrap tabstop=4 shiftwidth=4
+autocmd vimrc FileType java setlocal noexpandtab wrap tabstop=4 shiftwidth=4
+autocmd vimrc FileType ruby setlocal tags+=$HOME/ctags/ruby.tags
+autocmd vimrc FileType c setlocal tags+=$HOME/ctags/c.tags
 autocmd vimrc BufNewFile Gemfile Template Gemfile
 
 let g:netrw_nogx = 1
