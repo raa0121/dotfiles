@@ -83,7 +83,6 @@ call neobundle#begin(expand('~/.bundle'))
 
 let g:neobundle_default_git_protocol='https'
 
-NeoBundle 'vim-scripts/AnsiEsc.vim'
 NeoBundle 'OmniSharp/omnisharp-vim'
 call neobundle#config('omnisharp-vim', {
   \ 'lazy' : 1,
@@ -327,7 +326,6 @@ call neobundle#config('vimconsole.vim', {
   \ })
 NeoBundle 'ryutorion/vim-itunes'
 NeoBundle 'slim-template/vim-slim'
-NeoBundle 'sudo.vim'
 NeoBundle 'stephpy/vim-php-cs-fixer'
 call neobundle#config('vim-php-cs-fixer', {
   \ 'lazy' : 1,
@@ -383,6 +381,11 @@ call neobundle#config('vim-threes', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'commands' : 'ThreesStart' }
   \ })
+NeoBundle 'tpope/vim-cucumber'
+call neobundle#config('vim-cucumber', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'cucumber' }
+  \ })
 NeoBundle 'tsukkee/lingr-vim'
 call neobundle#config('lingr-vim', {
   \ 'lazy' : 1,
@@ -432,6 +435,8 @@ call neobundle#config('vital.vim', {
   \   'functions' : ['vital#of', 'vital']
   \ }
   \ })
+NeoBundle 'vim-scripts/AnsiEsc.vim'
+NeoBundle 'vim-scripts/sudo.vim'
 NeoBundle 'yoppi/fluentd.vim'
 call neobundle#config('fluentd.vim',{
   \ 'lazy' : 1,
