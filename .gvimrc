@@ -13,12 +13,13 @@ source $VIMRUNTIME/menu.vim
 
 if has('win32') || has('win64')
 "  set guifont=Aicty:h12
+  set guifont=Ricty_for_PowerLine:h12:cSHIFTJIS
 elseif has('unix')
 "  set guifont=RictyforPowerline\ 12
 endif
 if has('multi_byte_ime') || has('xim')
-  highlight Cursor guifg=NONE guibg=Green
-  highlight CursorIM guifg=NONE guibg=Purple
+  highlight Cursor guifg=NONE guibg=Red
+  highlight CursorIM guifg=NONE guibg=Green
 endif
 gui
 if has('win32') || has('win64') || has('win32unix')
