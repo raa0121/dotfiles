@@ -204,7 +204,9 @@ call neobundle#config('ghcmod-vim', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'haskell' }
   \ })
-NeoBundle 'editorconfig/editorconfig-vim'
+if has('python')
+  NeoBundle 'editorconfig/editorconfig-vim'
+endif
 NeoBundle 'fuenor/qfixhowm'
 NeoBundle 'groenewege/vim-less'
 call neobundle#config('vim-less', {
