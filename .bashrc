@@ -17,7 +17,7 @@ umask 022
 
 export EDITOR=vim
 
-host=`hostname -s`
+host=`hostname`
 case $host in
   "nakako")   color="31";;
   "yumeko")   color="32";;
@@ -32,18 +32,6 @@ if [ $_uname = "Cygwin" ] ; then
   PATH=/usr/local/bin/:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
   export LANG=ja_JP.UTF-8
   DISPLAY="localhost:0.0"
-  [[ -s $HOME/android-sdk-windows ]] && export ANDROID_SDK_PATH=$HOME/android-sdk-windows
-  [[ -s $HOME/android-ndk-r8b ]] && export ANDROID_NDK_PATH=$HOME/android-ndk-r8b
-  export PATH="$ANDROID_SDK_PATH/platform-sdk-windows:~/.rbenv/bin:$PATH:$WIN_PATH"
-  eval "$(rbenv init -)"
-elif [ $_uname = "Msys" ]; then
-  export LANG=ja_JP.sjis
-  export JLESSCHARSET="japanese-sjis"
-  export OUTPUT_CHARSET=sjis
-  WIN_PATH=$PATH
-  PATH=/usr/local/bin/:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
-  export PATH="$PATH:/c/MinGW/bin:/c/MinGW/mingw32/bin:$WIN_PATH"
-  [[ -s $USERPROFILE/.pik/.pikrc ]] && source $USERPROFILE/.pik/.pikrc
 elif [ $HOSTNAME = "ryo" ] || [ $HOSTNAME = "nakako" ]; then
   export LANG=ja_JP.UTF-8
   export PATH=$HOME/bin:$PATH
