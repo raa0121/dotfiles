@@ -26,7 +26,6 @@ set title
 set hlsearch
 set list
 set listchars=tab:>-
-set nrformats+=alpha
 colorscheme elflord
 syntax on
 set enc=utf8
@@ -207,7 +206,6 @@ call neobundle#config('ghcmod-vim', {
 if has('python')
   NeoBundle 'editorconfig/editorconfig-vim'
 endif
-NeoBundle 'fuenor/qfixhowm'
 NeoBundle 'groenewege/vim-less'
 call neobundle#config('vim-less', {
   \ 'lazy' : 1,
@@ -294,12 +292,6 @@ call neobundle#config('unite-highlight', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'unite_sources' : ['highlight']},
   \ 'depends' : ['Shougo/unite.vim']
-  \ })
-NeoBundle 'osyo-manga/unite-qfixhowm'
-call neobundle#config('unite-qfixhowm', {
-  \ 'lazy' : 1,
-  \ 'autoload' : { 'unite_sources' : ['qfixhowm', 'qfixhowm/new']},
-  \ 'depends' : ['Shougo/unite.vim', 'fuenor/qfixhowm']
   \ })
 NeoBundle 'osyo-manga/unite-quickfix'
 call neobundle#config('unite-quickfix', {
@@ -414,7 +406,9 @@ call neobundle#config('neco-ghc', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'haskell' }
   \ })
-NeoBundle 'ujihisa/neco-look'
+if executable('look')
+  NeoBundle 'ujihisa/neco-look'
+endif
 NeoBundle 'ujihisa/neoclojure.vim'
 call neobundle#config('neco-ghc', {
   \ 'lazy' : 1,
@@ -613,12 +607,6 @@ let g:J6uil_display_icon     = 0
 let g:J6uil_display_interval = 0
 let g:J6uil_updatetime       = 1000
 
-let QFixHowm_Key = 'g'
-let howm_dir             = '~/howm'
-let howm_filename        = '%Y/%m/%Y-%m-%d-%H%M%S.txt'
-let howm_fileencoding    = 'utf-8'
-let howm_fileformat      = 'unix'
-let g:qfixmemo_calendar = 0
 let g:calendar_howm_syntax = 0
 
 let mygrepprg = 'grep'
