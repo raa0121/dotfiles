@@ -26,6 +26,7 @@ set title
 set hlsearch
 set list
 set listchars=tab:>-
+set ambiwidth=double
 colorscheme elflord
 syntax on
 set enc=utf8
@@ -220,6 +221,7 @@ call neobundle#config('vim-orgmode', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'org' }
   \ })
+NeoBundle 'justinmk/vim-dirvish'
 if has('python')
   NeoBundle 'kakkyz81/evervim'
 endif
@@ -514,8 +516,8 @@ if neobundle#is_installed('neocomplete.vim')
   let g:neocomplete#sources#omni#input_patterns.cs = '[^.]\.\%(\u\{2,}\)\?'
 endif
 
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_safe_mode_by_default = 0
+"let g:vimfiler_as_default_explorer = 1
+"let g:vimfiler_safe_mode_by_default = 0
 
 "let g:neocomplcache#sources#rsense#home_directory = '/opt/rsense-0.3/'
 
