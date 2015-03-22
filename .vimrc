@@ -249,6 +249,11 @@ call neobundle#config('vim-vdbc', {
 NeoBundle 'kana/vim-smartinput'
 NeoBundle 'kana/vim-textobj-function'
 NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'kchmck/vim-coffee-script'
+call neobundle#config('vim-coffee-script',{
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'coffee' }
+  \})
 NeoBundle 'mattn/benchvimrc-vim'
 call neobundle#config('benchvimrc-vim', {
   \ 'lazy' : 1,
@@ -318,6 +323,7 @@ call neobundle#config('vim-snowdrop', {
   \ })
 NeoBundle 'osyo-manga/vim-watchdogs'
 NeoBundle 'raa0121/vim-ulilith'
+NeoBundle 'rbtnn/game_engine.vim'
 NeoBundle 'rbtnn/vimconsole.vim'
 call neobundle#config('vimconsole.vim', {
   \ 'lazy' : 1,
@@ -556,6 +562,7 @@ autocmd vimrc FileType java setlocal noexpandtab wrap tabstop=4 shiftwidth=4
 autocmd vimrc FileType ruby setlocal tags+=$HOME/ctags/ruby.tags
 autocmd vimrc FileType c setlocal tags+=$HOME/ctags/c.tags
 autocmd vimrc BufNewFile Gemfile Template Gemfile
+autocmd vimrc User DirvishEnter let b:dirvish.showhidden = 1
 
 let g:netrw_nogx = 1
 nmap gx <Plug>(openbrowser-smart-search)
@@ -609,13 +616,6 @@ let g:J6uil_display_icon     = 0
 let g:J6uil_display_interval = 0
 let g:J6uil_updatetime       = 1000
 
-let g:calendar_howm_syntax = 0
-
-let mygrepprg = 'grep'
-if has('win32unix')
-  let MyGrep_cygwin17 = 1
-endif
-
 let g:calendar_google_calendar = 1
 let g:calendar_google_task = 1
 
@@ -623,7 +623,11 @@ let g:marching_clang_command = '/usr/bin/clang'
 let g:marching_clang_command_option="-std=c++1y"
 let g:marching_enable_neocomplete = 1
 let g:marching_include_paths = ['/usr/include/c++/4.8.2/']
-let g:snowdrop#libclang_path='/usr/lib'
+if has('win32')
+  let g:snowdrop#libclang_path = 'C:/LLVM/bin'
+else
+  let g:snowdrop#libclang_path='/usr/lib'
+end
 
 let g:conoline_auto_enable = 1
 
