@@ -28,6 +28,9 @@ set list
 set listchars=tab:>-
 set ambiwidth=double
 colorscheme elflord
+if has('gui_running')
+  colorscheme evening
+endif
 syntax on
 set enc=utf8
 set updatetime=200
@@ -198,7 +201,7 @@ NeoBundle 'dag/vim2hs'
 call neobundle#config ('vim2hs', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'haskell' }
-  \})
+  \ })
 NeoBundle 'eagletmt/ghcmod-vim'
 call neobundle#config('ghcmod-vim', {
   \ 'lazy' : 1,
@@ -232,12 +235,12 @@ call neobundle#config('unite-javaimport', {
   \ 'kamichidu/vim-javalang', 'kamichidu/vim-javaclasspath',
   \ 'Shougo/unite.vim'],
   \ 'autoload' : { 'filetypes' : ['java', 'scala', 'clojure']}
-  \})
+  \ })
 NeoBundle 'kamichidu/vim-milqi', 'dev'
 NeoBundle 'kamichidu/vim-ref-java'
 call neobundle#config('vim-ref-java', {
   \ 'depends' : [ 'mattn/wwwrenderer-vim' ],
-  \})
+  \ })
 NeoBundle 'kamichidu/vim-vdbc'
 call neobundle#config('vim-vdbc', {
   \ 'depends' : ['Shougo/vimproc.vim'] ,
@@ -245,7 +248,7 @@ call neobundle#config('vim-vdbc', {
   \     'unix' :    'make -f Makefile',
   \     'windows' : 'make -f Makefile.w64'
   \ }
-  \})
+  \ })
 NeoBundle 'kana/vim-smartinput'
 NeoBundle 'kana/vim-textobj-function'
 NeoBundle 'kana/vim-textobj-user'
@@ -253,7 +256,12 @@ NeoBundle 'kchmck/vim-coffee-script'
 call neobundle#config('vim-coffee-script',{
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'coffee' }
-  \})
+  \ })
+NeoBundle 'lambdalisue/vim-gita'
+call neobundle#config('vim-gita', {
+  \ 'lazy': 1,
+  \ 'autoload': { 'commands': ['Gita'] }
+  \ })
 NeoBundle 'mattn/benchvimrc-vim'
 call neobundle#config('benchvimrc-vim', {
   \ 'lazy' : 1,
@@ -287,6 +295,7 @@ NeoBundle 'osyo-manga/quickrun-hook-u-nya-'
 call neobundle#config('quickrun-hook-u-nya-', {
   \ 'depends' : 'thinca/vim-quickrun'
   \ })
+NeoBundle 'osyo-manga/quickrun-hook-vcvarsall'
 NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'osyo-manga/unite-filetype'
 call neobundle#config('unite-filetype', {
@@ -315,6 +324,7 @@ call neobundle#config('vim-monster', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'ruby' }
   \ })
+NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'osyo-manga/vim-reunions'
 NeoBundle 'osyo-manga/vim-snowdrop'
 call neobundle#config('vim-snowdrop', {
@@ -356,7 +366,8 @@ call neobundle#config('vim-prettyprint', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'commands' : ['PP', 'PrettyPrint']}
   \ })
-NeoBundle 'thinca/vim-quickrun'
+"NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'ujihisa/vim-quickrun', 'concproc'
 call neobundle#config('vim-quickrun', {
   \ 'lazy' : 1,
   \ 'autoload' : {
@@ -591,7 +602,7 @@ let g:quickrun_config = {
 let g:quickrun_config['markdown'] = {
   \ 'outputter': 'browser'
   \}
-let g:quickrun_config.ruby = {
+let g:quickrun_config['ruby'] = {
   \ 'command': 'ruby',
   \ 'exec': '/usr/bin/env ruby %s',
   \ 'tempfile': '{tempname()}.rb'
@@ -602,9 +613,21 @@ let g:quickrun_config['clojure/neoclojure'] = {
   \ 'command' : 'dummy',
   \ 'tempfile' : '%{tempname()}.clj'
   \}
-let g:quickrun_config.cpp = {
+let g:quickrun_config['cpp/gcc']= {
   \ 'cmdopt': '-std=c++1y -Wall' 
   \ }
+let g:quickrun_config["cpp/msvc2013"] = {
+  \ "command" : "cl",
+  \ "exec": ["%c %o %s /nologo /link 'Siv3D.lib' 'kernel32.lib' " .
+  \          "'user32.lib' 'gdi32.lib' 'winspool.lib' 'comdlg32.lib'" .
+  \          "'advapi32.lib' 'shell32.lib' 'ole32.lib' 'oleaut32.lib'" .
+  \          "'uuid.lib' 'odbc32.lib' 'odbccp32.lib'", "%s:p:r.exe %a"],
+  \ "cmdopt" : "/EHsc",
+  \ "hook/output_encode/encoding": "sjis",
+  \ "hook/vcvarsall/enable" : 1,
+  \ "hook/vcvarsall/bat" : shellescape($VS120COMNTOOLS . 'vsvars32.bat')
+  \ }
+
 
 call watchdogs#setup(g:quickrun_config)
 
@@ -698,12 +721,136 @@ set showtabline=2 " always show tabline
 
 let g:lightline = {
 \ 'colorscheme': 'wombat',
-\ 'component': {
-\   'readonly': '%{&readonly?"\u2b64":""}'
+\ 'active': {
+\   'left': [
+\     ['mode', 'paste'],
+\     ['fugitive', 'gitgutter', 'filename'],
+\   ],
+\   'right': [
+\     ['lineinfo', 'syntastic'],
+\     ['percent'],
+\     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
+\   ]
+\ },
+\ 'component_function': {
+\   'modified': 'MyModified',
+\   'readonly': 'MyReadonly',
+\   'fugitive': 'MyFugitive',
+\   'filename': 'MyFilename',
+\   'fileformat': 'MyFileformat',
+\   'filetype': 'MyFiletype',
+\   'fileencoding': 'MyFileencoding',
+\   'mode': 'MyMode',
+\   'syntastic': 'SyntasticStatuslineFlag',
+\   'charcode': 'MyCharCode',
+\   'gitgutter': 'MyGitGutter',
 \ },
 \ 'separator': { 'left': "\u2b80", 'right': "\u2b82" },
 \ 'subseparator': { 'left': "\u2b81", 'right': "\u2b83" }
 \ }
+
+
+function! MyModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! MyReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &ro ? '\u2b64' : ''
+endfunction
+
+function! MyFilename()
+  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft == 'unite' ? unite#get_status_string() :
+        \  &ft == 'vimshell' ? substitute(b:vimshell.current_dir,expand('~'),'~','') :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != MyModified() ? ' ' . MyModified() : '')
+endfunction
+
+function! MyFugitive()
+  try
+    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+      let _ = fugitive#head()
+      return strlen(_) ? '⭠ '._ : ''
+    endif
+  catch
+  endtry
+  return ''
+endfunction
+
+function! MyFileformat()
+  return winwidth('.') > 70 ? &fileformat : ''
+endfunction
+
+function! MyFiletype()
+  return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! MyFileencoding()
+  return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! MyMode()
+  return winwidth('.') > 60 ? lightline#mode() : ''
+endfunction
+
+function! MyGitGutter()
+  if ! exists('*GitGutterGetHunkSummary')
+        \ || ! get(g:, 'gitgutter_enabled', 0)
+        \ || winwidth('.') <= 90
+    return ''
+  endif
+  let symbols = [
+        \ g:gitgutter_sign_added . ' ',
+        \ g:gitgutter_sign_modified . ' ',
+        \ g:gitgutter_sign_removed . ' '
+        \ ]
+  let hunks = GitGutterGetHunkSummary()
+  let ret = []
+  for i in [0, 1, 2]
+    if hunks[i] > 0
+      call add(ret, symbols[i] . hunks[i])
+    endif
+  endfor
+  return join(ret, ' ')
+endfunction
+
+" https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim
+function! MyCharCode()
+  if winwidth('.') <= 70
+    return ''
+  endif
+
+  " Get the output of :ascii
+  redir => ascii
+  silent! ascii
+  redir END
+
+  if match(ascii, 'NUL') != -1
+    return 'NUL'
+  endif
+
+  " Zero pad hex values
+  let nrformat = '0x%02x'
+
+  let encoding = (&fenc == '' ? &enc : &fenc)
+
+  if encoding == 'utf-8'
+    " Zero pad with 4 zeroes in unicode files
+    let nrformat = '0x%04x'
+  endif
+
+  " Get the character and the numeric value from the return value of :ascii
+  " This matches the two first pieces of the return value, e.g.
+  " "<F>  70" => char: 'F', nr: '70'
+  let [str, char, nr; rest] = matchlist(ascii, '\v\<(.{-1,})\>\s*([0-9]+)')
+
+  " Format the numeric value
+  let nr = printf(nrformat, nr)
+
+  return "'". char ."' ". nr
+endfunction
+
 
 let &tabline = '%!' . s:SID_PREFIX() . 'tabline()'
 
