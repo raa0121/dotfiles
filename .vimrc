@@ -577,25 +577,26 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \: "\<TAB>"
 
 augroup vimrc
-    autocmd!
+  autocmd!
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+  autocmd FileType clojure setlocal omnifunc=neoclojure#complete#omni
+  autocmd FileType quickrun AnsiEsc
+  autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
+  autocmd BufNewFile,BufRead *.gradle setlocal filetype=groovy
+  autocmd FileType php setlocal noexpandtab wrap tabstop=4 shiftwidth=4
+  autocmd FileType java setlocal noexpandtab wrap tabstop=4 shiftwidth=4
+  autocmd FileType ruby setlocal tags+=$HOME/ctags/ruby.tags
+  autocmd FileType c setlocal tags+=$HOME/ctags/c.tags
+  autocmd FileType cpp setlocal path=.,C:/msys64/mingw64/include,C:/cocos2d-x-3.6/cocos
+  autocmd BufNewFile Gemfile Template Gemfile
+  autocmd User DirvishEnter let b:dirvish.showhidden = 1
 augroup END
 
-autocmd vimrc FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd vimrc FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd vimrc FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd vimrc FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd vimrc FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd vimrc FileType cs setlocal omnifunc=OmniSharp#Complete
-autocmd vimrc FileType clojure setlocal omnifunc=neoclojure#complete#omni
-autocmd vimrc FileType quickrun AnsiEsc
-autocmd vimrc BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
-autocmd vimrc BufNewFile,BufRead *.gradle setlocal filetype=groovy
-autocmd vimrc FileType php setlocal noexpandtab wrap tabstop=4 shiftwidth=4
-autocmd vimrc FileType java setlocal noexpandtab wrap tabstop=4 shiftwidth=4
-autocmd vimrc FileType ruby setlocal tags+=$HOME/ctags/ruby.tags
-autocmd vimrc FileType c setlocal tags+=$HOME/ctags/c.tags
-autocmd vimrc BufNewFile Gemfile Template Gemfile
-autocmd vimrc User DirvishEnter let b:dirvish.showhidden = 1
 
 let g:netrw_nogx = 1
 nmap gx <Plug>(openbrowser-smart-search)
