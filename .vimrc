@@ -262,6 +262,12 @@ call neobundle#config('vim-gita', {
   \ 'lazy': 1,
   \ 'autoload': { 'commands': ['Gita'] }
   \ })
+NeoBundle 'leafgarland/typescript-vim'
+call neobundle#config('typescript-vim', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'typescript'}
+  \ })
+NeoBundle 'machakann/vim-colorscheme-imas'
 NeoBundle 'mattn/benchvimrc-vim'
 call neobundle#config('benchvimrc-vim', {
   \ 'lazy' : 1,
@@ -334,13 +340,24 @@ call neobundle#config('vim-snowdrop', {
   \ 'autoload' : { 'filetypes' : 'cpp' }
   \ })
 NeoBundle 'osyo-manga/vim-watchdogs'
+NeoBundle 'Quramy/tsuquyomi'
+call neobundle#config('tsuquyomi', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'typescript'}
+  \ })
 NeoBundle 'raa0121/vim-ulilith'
+NeoBundle 'rbtnn/colorscheme-gochiusa.vim'
 NeoBundle 'rbtnn/game_engine.vim'
 NeoBundle 'rbtnn/vimconsole.vim'
 call neobundle#config('vimconsole.vim', {
   \ 'lazy' : 1,
   \ 'depends' : 'thinca/vim-prettyprint',
   \ 'autoload' : { 'commands' : 'VimConsoleOpen' }
+  \ })
+NeoBundle 'rhysd/vim-crystal'
+call neobundle#config('vim-crystal', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'crystal' }
   \ })
 NeoBundle 'ryutorion/vim-itunes'
 NeoBundle 'slim-template/vim-slim'
