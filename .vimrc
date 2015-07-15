@@ -317,6 +317,8 @@ call neobundle#config('unite-quickfix', {
   \ })
 NeoBundle 'osyo-manga/vim-marching'
 call neobundle#config('vim-marching', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : ['c', 'cpp'] },
   \ 'depends' : ['Shougo/vimproc.vim', 'osyo-manga/vim-reunions']
   \ })
 NeoBundle 'osyo-manga/vim-monster'
@@ -445,6 +447,9 @@ call neobundle#config('vimshell-ssh',{
   \ 'depends' : 'Shougo/vimshell',
   \ 'autoload' : { 'filetypes' : 'vimshell'}
   \ })
+NeoBundleLazy 'vim-jp/cpp-vim', {
+  \ 'autoload' : {'filetypes' : 'cpp'}
+  \ }
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'vim-jp/vital.vim'
 call neobundle#config('vital.vim', {
@@ -642,13 +647,17 @@ let g:J6uil_updatetime       = 1000
 let g:calendar_google_calendar = 1
 let g:calendar_google_task = 1
 
-let g:marching_clang_command = '/usr/bin/clang'
+
 let g:marching_clang_command_option="-std=c++1y"
 let g:marching_enable_neocomplete = 1
-let g:marching_include_paths = ['/usr/include/c++/4.8.2/']
 if has('win32')
-  let g:snowdrop#libclang_path = 'C:/LLVM/bin'
+  let g:marching_clang_command = 'C:/msys64/mingw64/bin/clang'
+  let g:marching_include_paths = ['C:/msys64/mingw64/include/c++/4.9.2/',
+                                \ 'C:/cocos2d-x-3.6/cocos/']
+  let g:snowdrop#libclang_path = 'C:/msys64/mingw64/bin'
 else
+  let g:marching_clang_command = '/usr/bin/clang'
+  let g:marching_include_paths = ['/usr/include/c++/4.8.2/']
   let g:snowdrop#libclang_path='/usr/lib'
 end
 
