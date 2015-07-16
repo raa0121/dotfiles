@@ -464,7 +464,8 @@ call neobundle#config('vimshell-ssh',{
   \ 'depends' : 'Shougo/vimshell',
   \ 'autoload' : { 'filetypes' : 'vimshell'}
   \ })
-NeoBundleLazy 'vim-jp/cpp-vim', {
+NeoBundle 'vim-jp/cpp-vim', {
+  \ 'lazy' : 1,
   \ 'autoload' : {'filetypes' : 'cpp'}
   \ }
 NeoBundle 'vim-jp/vimdoc-ja'
@@ -588,6 +589,7 @@ augroup vimrc
   autocmd FileType quickrun AnsiEsc
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
   autocmd BufNewFile,BufRead *.gradle setlocal filetype=groovy
+  autocmd BufNewFile,BufRead */Classes/*.{cpp,h,hpp} setlocal tags+=$HOME/ctags/cocos2dx.tags
   autocmd FileType php setlocal noexpandtab wrap tabstop=4 shiftwidth=4
   autocmd FileType java setlocal noexpandtab wrap tabstop=4 shiftwidth=4
   autocmd FileType ruby setlocal tags+=$HOME/ctags/ruby.tags
