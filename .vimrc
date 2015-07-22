@@ -196,6 +196,11 @@ call neobundle#config('J6uil.vim', {
   \                'unice_source' : ['J6uil/rooms', 'J6uil/members']},
   \ 'depends' : 'mattn/webapi-vim',
   \ })
+NeoBundle 'cespare/vim-toml'
+call neobundle#config ('vim-toml', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'toml' }
+  \ })
 NeoBundle 'cohama/agit.vim'
 NeoBundle 'dag/vim2hs'
 call neobundle#config ('vim2hs', {
@@ -358,6 +363,11 @@ NeoBundle 'rhysd/vim-crystal'
 call neobundle#config('vim-crystal', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'crystal' }
+  \ })
+NeoBundle 'rust-lang/rust.vim'
+call neobundle#config('rust.vim', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'rust' }
   \ })
 NeoBundle 'ryutorion/vim-itunes'
 NeoBundle 'slim-template/vim-slim'
