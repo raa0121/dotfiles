@@ -267,6 +267,7 @@ call neobundle#config('vim-gita', {
   \ 'lazy': 1,
   \ 'autoload': { 'commands': ['Gita'] }
   \ })
+NeoBundle 'lambdalisue/vim-unified-diff'
 NeoBundle 'leafgarland/typescript-vim'
 call neobundle#config('typescript-vim', {
   \ 'lazy' : 1,
@@ -720,6 +721,17 @@ let g:php_cs_fixer_php_path = "php"
 let g:php_cs_fixer_enable_default_mapping = 1
 let g:php_cs_fixer_dry_run = 0
 let g:php_cs_fixer_verbose = 0
+
+set diffexpr=unified_diff#diffexpr()
+
+" configure with the followings (default values are shown below)
+let unified_diff#executable = 'git'
+let unified_diff#arguments = [
+\   'diff', '--no-index', '--no-color', '--no-ext-diff', '--unified=0',
+\ ]
+let unified_diff#iwhite_arguments = [
+\   '--ignore--all-space',
+\ ]
 
 augroup plugin-lingr-vim
   autocmd!
