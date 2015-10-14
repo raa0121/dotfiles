@@ -563,7 +563,7 @@ if neobundle#is_installed('neocomplete.vim')
   let g:neocomplete#text_mode_filetypes = {'tex': 1, 'plaintex': 1}
   let g:neocomplete#force_omni_input_patterns.cpp =
   \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-  let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\|\h\w*::'
+  let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\|\h\w*::'
   let g:neocomplete#sources#omni#input_patterns.cs = '[^.]\.\%(\u\{2,}\)\?'
 endif
 
