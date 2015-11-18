@@ -44,7 +44,7 @@ if filereadable($VIM . '/vimrc') && filereadable($VIM . '/ViMrC')
 endif
 
 " コンソールでのカラー表示のための設定(暫定的にUNIX専用)
-if has('unix') && !has('gui_running')
+if has('unix') && !has('gui_running') && !has('nvim')
   let uname = system('uname')
   if uname =~? "linux"
     set term=builtin_linux
@@ -508,12 +508,14 @@ filetype plugin indent on
 
 if has('clientserver')
   call singleton#enable()
-end
+endif
 
 set ww+=h,l,>,<,[,]
 set mouse=a
-set ttymouse=xterm2
-set clipboard=unnamedplus
+if !has('nvim')
+  set ttymouse=xterm2
+  set clipboard=unnamed
+endif
 
 " ,is: シェルを起動
 nnoremap <silent> ,is :VimShell<CR>
@@ -587,6 +589,8 @@ imap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)"
 \: "\<TAB>"
+
+let g:OmniSharp_server_type = 'roslyn'
 
 augroup vimrc
   autocmd!
