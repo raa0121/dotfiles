@@ -175,7 +175,7 @@ else
   NeoBundle 'jnwhiteh/vim-golang'
   call neobundle#config('vim-golang', {
     \ 'lazy' : 1,
-    \ 'autoload' : { 'filetypes' : 'go'}
+    \ 'autoload' : { 'filetypes' : 'go' }
     \ })
 endif
 NeoBundle 'Shougo/vimshell'
@@ -188,12 +188,22 @@ call neobundle#config('vimshell', {
   \                     'VimShellTerminal', 'VimShellPop'],
   \     'mappings' : ['<Plug>(vimshell_switch)']
   \ }})
+NeoBundle 'StanAngeloff/php.vim'
+call neobundle#config('php.vim', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'php' }
+  \ })
 NeoBundle 'basyura/J6uil.vim'
 call neobundle#config('J6uil.vim', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'commands' : 'J6uil',
   \                'unice_source' : ['J6uil/rooms', 'J6uil/members']},
   \ 'depends' : 'mattn/webapi-vim',
+  \ })
+NeoBundle 'bpearson/vim-phpcs'
+call neobundle#config('vim-phpcs', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'php' }
   \ })
 NeoBundle 'cespare/vim-toml'
 call neobundle#config ('vim-toml', {
@@ -228,11 +238,19 @@ call neobundle#config('vim-orgmode', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'org' }
   \ })
+if has('python')
+  NeoBundle 'joonty/vdebug'
+endif
 NeoBundle 'justinmk/vim-dirvish'
+NeoBundle 'jwalton512/vim-blade'
+call neobundle#config('vim-blade', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'blade' }
+  \ })
 if has('python')
   NeoBundle 'kakkyz81/evervim'
 endif
-NeoBundle 'kamichidu/unite-javaimport', ''
+NeoBundle 'kamichidu/unite-javaimport'
 call neobundle#config('unite-javaimport', {
   \ 'lazy' : 1,
   \ 'depends' : [
@@ -240,7 +258,7 @@ call neobundle#config('unite-javaimport', {
   \ 'Shougo/unite.vim'],
   \ 'autoload' : { 'filetypes' : ['java', 'scala', 'clojure']}
   \ })
-NeoBundle 'kamichidu/vim-milqi', 'dev'
+NeoBundle 'kamichidu/vim-milqi'
 NeoBundle 'kamichidu/vim-ref-java'
 call neobundle#config('vim-ref-java', {
   \ 'depends' : [ 'mattn/wwwrenderer-vim' ],
@@ -272,7 +290,7 @@ call neobundle#config('typescript-vim', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'filetypes' : 'typescript'}
   \ })
-NeoBundle 'machakann/vim-colorscheme-imas'
+NeoBundle 'machakann/vim-swap'
 NeoBundle 'mattn/benchvimrc-vim'
 call neobundle#config('benchvimrc-vim', {
   \ 'lazy' : 1,
@@ -301,6 +319,11 @@ call neobundle#config('unite-rhythmbox', {
   \ 'depends' : 'Shougo/unite.vim'
   \ })
 NeoBundle 'mattn/webapi-vim'
+NeoBundle 'mattn/wwwrenderer-vim'
+call neobundle#config('wwwrenderer-vim', {
+  \ 'lazy' : 1,
+  \ 'depends' : 'mattn/webapi-vim'
+  \ })
 NeoBundle 'miyakogi/conoline.vim'
 NeoBundle 'osyo-manga/quickrun-hook-u-nya-'
 call neobundle#config('quickrun-hook-u-nya-', {
@@ -371,11 +394,6 @@ call neobundle#config('rust.vim', {
   \ })
 NeoBundle 'ryutorion/vim-itunes'
 NeoBundle 'slim-template/vim-slim'
-NeoBundle 'stephpy/vim-php-cs-fixer'
-call neobundle#config('vim-php-cs-fixer', {
-  \ 'lazy' : 1,
-  \ 'autoload' : { 'filetypes' : 'php' }
-  \ })
 NeoBundle 'supermomonga/thingspast.vim'
 "call neobundle#config('thingspast.vim', {
 "  \ 'build' : { 'unix' : 'bundle install' }
@@ -395,8 +413,7 @@ call neobundle#config('vim-prettyprint', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'commands' : ['PP', 'PrettyPrint']}
   \ })
-"NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'ujihisa/vim-quickrun', 'concproc'
+NeoBundle 'thinca/vim-quickrun'
 call neobundle#config('vim-quickrun', {
   \ 'lazy' : 1,
   \ 'autoload' : {
@@ -426,6 +443,16 @@ NeoBundle 'thinca/vim-threes'
 call neobundle#config('vim-threes', {
   \ 'lazy' : 1,
   \ 'autoload' : { 'commands' : 'ThreesStart' }
+  \ })
+NeoBundle 'tobyS/vmustache'
+call neobundle#config('vmustache', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'vim' }
+  \ })
+NeoBundle 'tobyS/pdv'
+call neobundle#config('pdv', {
+  \ 'lazy' : 1,
+  \ 'autoload' : { 'filetypes' : 'php' }
   \ })
 NeoBundle 'tpope/vim-cucumber'
 call neobundle#config('vim-cucumber', {
@@ -474,6 +501,7 @@ call neobundle#config('vimshell-ssh',{
   \ 'depends' : 'Shougo/vimshell',
   \ 'autoload' : { 'filetypes' : 'vimshell'}
   \ })
+NeoBundle 'yaasita/slack.vim'
 NeoBundle 'vim-jp/cpp-vim', {
   \ 'lazy' : 1,
   \ 'autoload' : {'filetypes' : 'cpp'}
@@ -657,7 +685,7 @@ let g:quickrun_config['clojure/neoclojure'] = {
   \ 'tempfile' : '%{tempname()}.clj'
   \}
 let g:quickrun_config['cpp/gcc']= {
-  \ 'cmdopt': '-std=c++1y -Wall' 
+  \ 'cmdopt': '-std=c++1y -Wall'
   \ }
 let g:quickrun_config['cpp/msvc2013'] = {
   \ 'command' : 'cl',
@@ -959,7 +987,7 @@ function! s:tabline()
         let l:nr = tabpagewinnr(l:i)
         let l:current_tabnr = tabpagenr()
 
-        "let title = bufname('') 
+        "let title = bufname('')
         if l:i ==? l:current_tabnr
             let l:title = fnamemodify(getcwd(), ':t') . '/'
             "let title = bufname('')
