@@ -1,4 +1,5 @@
 " coding:utf-8
+set enc=utf8
 scriptencoding utf-8
 " ζ*'ヮ')ζ ζ(*'ヮ'リ+
 "
@@ -32,7 +33,6 @@ if has('gui_running')
   colorscheme evening
 endif
 syntax on
-set enc=utf8
 set updatetime=200
 
 " ファイル名に大文字小文字の区別がないシステム用の設定:
@@ -48,14 +48,13 @@ if has('unix') && !has('gui_running') && !has('nvim')
   let uname = system('uname')
   if uname =~? "linux"
     set term=builtin_linux
-  elseif uname =~? "freebsd"
+  elseif g:uname =~? 'freebsd'
     set term=builtin_cons25
-  elseif uname =~? "Darwin"
+  elseif g:uname =~? 'Darwin'
     set term=beos-ansi
   else
     set term=builtin_xterm
   endif
-  unlet uname
 endif
 
 " コンソール版で環境変数$DISPLAYが設定されていると起動が遅くなる件へ対応
@@ -534,7 +533,8 @@ nnoremap <silent> ,vr :tabnew ~/.vimrc<CR>:lcd<CR>
 nnoremap <silent> ,so :so ~/.vimrc<CR>
 nnoremap <silent> ,nu :tabnew +Unite\ neobundle/update<CR>
 nnoremap <silent> ,ll :tabnew +LingrLaunch<CR>
-nnoremap <Esc><Esc> :nohlsearch<CR><ESC>
+nnoremap <silent> ,cw :cwindow<CR>
+nnoremap <Esc><Esc> :nohlsearch<CR><ESC>:HierStop<CR><ESC>
 nnoremap <silent> ,ts :<C-u>tab stj <C-R>=expand('<cword>')<CR><CR>
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
@@ -567,6 +567,7 @@ if neobundle#is_installed('neocomplete.vim')
   \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
   let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\|\h\w*::'
   let g:neocomplete#sources#omni#input_patterns.cs = '[^.]\.\%(\u\{2,}\)\?'
+  let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 endif
 
 "let g:vimfiler_as_default_explorer = 1
@@ -574,21 +575,21 @@ endif
 
 "let g:neocomplcache#sources#rsense#home_directory = '/opt/rsense-0.3/'
 
-let g:neocomplcache_text_mode_filetypes = {
-\  'tex': 1,
-\  'plaintex': 1,
-\} 
-let g:monster#completion#rcodetools#backend = "async_rct_complete"
+let g:monster#completion#rcodetools#backend = 'async_rct_complete'
 
 let g:neosnippet#snippets_directory = '~/.vim/snippet,~/.bundle/vim-snippets/snippets'
 
+let g:pdv_template_dir = $HOME . "/.hariti/bundle/pdv/templates_snip"
+
 "tabで補完候補の選択を行う
 imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-imap <expr><S-TAB> pumvisible() ? "\<C-u>" : "\<S-TAB>"
+imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 imap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)"
 \: "\<TAB>"
+inoremap <buffer> <C-P> <ESC>:call pdv#DocumentWithSnip()<CR>i
+nnoremap <buffer> <C-P> :call pdv#DocumentWithSnip()<CR>
 
 let g:OmniSharp_server_type = 'roslyn'
 
@@ -605,11 +606,13 @@ augroup vimrc
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
   autocmd BufNewFile,BufRead *.gradle setlocal filetype=groovy
   autocmd BufNewFile,BufRead */Classes/*.{cpp,h,hpp} setlocal tags+=$HOME/ctags/cocos2dx.tags
-  autocmd FileType php setlocal noexpandtab wrap tabstop=4 shiftwidth=4
+  autocmd FileType php setlocal omnifunc=phpcomplete_extended#CompletePHP noexpandtab wrap tabstop=4 shiftwidth=4 tags+=$HOME/ctags/php.tags
+  autocmd FileType smarty setlocal noexpandtab wrap tabstop=4 shiftwidth=4 softtabstop=4 tags+=$HOME/ctags/php.tags
   autocmd FileType java setlocal noexpandtab wrap tabstop=4 shiftwidth=4
   autocmd FileType ruby setlocal tags+=$HOME/ctags/ruby.tags
   autocmd FileType c setlocal tags+=$HOME/ctags/c.tags
   autocmd FileType cpp setlocal path=.,C:/msys64/mingw64/include,C:/cocos2d-x-3.6/cocos
+  autocmd FileType diff setlocal ts=4
   autocmd BufNewFile Gemfile Template Gemfile
   autocmd User DirvishEnter let b:dirvish.showhidden = 1
 augroup END
@@ -656,18 +659,54 @@ let g:quickrun_config['clojure/neoclojure'] = {
 let g:quickrun_config['cpp/gcc']= {
   \ 'cmdopt': '-std=c++1y -Wall' 
   \ }
-let g:quickrun_config["cpp/msvc2013"] = {
-  \ "command" : "cl",
-  \ "exec": ["%c %o %s /nologo /link 'Siv3D.lib' 'kernel32.lib' " .
+let g:quickrun_config['cpp/msvc2013'] = {
+  \ 'command' : 'cl',
+  \ 'exec': ["%c %o %s /nologo /link 'Siv3D.lib' 'kernel32.lib' " .
   \          "'user32.lib' 'gdi32.lib' 'winspool.lib' 'comdlg32.lib'" .
   \          "'advapi32.lib' 'shell32.lib' 'ole32.lib' 'oleaut32.lib'" .
-  \          "'uuid.lib' 'odbc32.lib' 'odbccp32.lib'", "%s:p:r.exe %a"],
-  \ "cmdopt" : "/EHsc",
-  \ "hook/output_encode/encoding": "sjis",
-  \ "hook/vcvarsall/enable" : 1,
-  \ "hook/vcvarsall/bat" : shellescape($VS120COMNTOOLS . 'vsvars32.bat')
+  \          "'uuid.lib' 'odbc32.lib' 'odbccp32.lib'", '%s:p:r.exe %a'],
+  \ 'cmdopt' : '/EHsc',
+  \ 'hook/output_encode/encoding': 'sjis',
+  \ 'hook/vcvarsall/enable' : 1,
+  \ 'hook/vcvarsall/bat' : shellescape($VS120COMNTOOLS . 'vsvars32.bat')
+  \ }
+let g:quickrun_config['php/watchdogs_checker'] = {
+  \ 'type' : 'watchdogs_checker/phpcs'
+  \ }
+let g:quickrun_config['vim/watchdogs_checker'] = {
+  \ 'type' : 'watchdogs_checker/vint'
+  \ }
+let g:quickrun_config['watchdogs_checker/_'] = {
+  \ 'hook/close_quickfix/enable_exit': 1,
+  \ 'hook/close_unite_quickfix/enable_exit' : 1,
+  \ }
+let g:quickrun_config['watchdogs_checker/phpcs'] = {
+  \ 'quickfix/errorformat': g:phpcs_errorformat,
+  \ 'command' : g:Vimphpcs_Phpcscmd,
+  \ 'cmdopt' : '--report=csv --standard=' . g:Vimphpcs_Standard,
+  \ 'exec' : '%c %o %s:p',
+  \ }
+let g:quickrun_config['watchdogs_checker/phpmd'] = {
+  \ 'quickfix/errorformat': '%E%f:%l\s%#%m',
+  \ 'command' : '$HOME/.composer/vendor/bin/phpmd',
+  \ 'cmdopt' : 'text codesize,design,unusedcode,naming',
+  \ 'exec' : '%c %s:p %o',
   \ }
 
+let g:quickrun_config['watchdogs_checker/vint'] = {
+  \ 'command'   : 'vint',
+  \ 'exec'      : '%c %o %s:p',
+ \ }
+let g:watchdogs_check_BufWritePost_enable = 1
+let g:watchdogs_check_BufWritePost_enables = {
+  \   'cpp' : 0,
+  \   'php' : 1,
+  \ }
+let g:watchdogs_check_CursorHold_enable = 1
+let g:watchdogs_check_CursorHold_enables = {
+  \   'cpp' : 0,
+  \   'php' : 1,
+  \ }
 
 call watchdogs#setup(g:quickrun_config)
 
@@ -683,7 +722,7 @@ let g:calendar_google_calendar = 1
 let g:calendar_google_task = 1
 
 
-let g:marching_clang_command_option="-std=c++1y"
+let g:marching_clang_command_option='-std=c++1y'
 let g:marching_enable_neocomplete = 1
 if has('win32')
   let g:marching_clang_command = 'C:/msys64/mingw64/bin/clang'
@@ -699,7 +738,7 @@ end
 let g:conoline_auto_enable = 1
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
-let g:unite_enable_start_insert = 1
+let g:unite_enable_start_insert = 0
 let g:unite_source_directory_mru_long_limit = 3000
 let g:unite_source_file_mru_filename_format = ''
 let g:unite_source_file_mru_long_limit = 3000
@@ -707,6 +746,15 @@ let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = 'botright'
 let g:unite_winheight = 15
 
+if executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+  let g:unite_source_grep_recursive_opt = ''
+endif
+
+nnoremap <silent> ,g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+nnoremap <silent> ,cg :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
+nnoremap <silent> ,r  :<C-u>UniteResume search-buffer<CR>
 
 call textobj#user#plugin('datetime', {
 \   'date': {
@@ -719,21 +767,15 @@ call textobj#user#plugin('datetime', {
 \   },
 \ })
 
-let g:php_cs_fixer_level = "all"
-let g:php_cs_fixer_config = "default"
-let g:php_cs_fixer_php_path = "php"
-let g:php_cs_fixer_enable_default_mapping = 1
-let g:php_cs_fixer_dry_run = 0
-let g:php_cs_fixer_verbose = 0
 
 set diffexpr=unified_diff#diffexpr()
 
 " configure with the followings (default values are shown below)
-let unified_diff#executable = 'git'
-let unified_diff#arguments = [
+let g:unified_diff#executable = 'git'
+let g:unified_diff#arguments = [
 \   'diff', '--no-index', '--no-color', '--no-ext-diff', '--unified=0',
 \ ]
-let unified_diff#iwhite_arguments = [
+let g:unified_diff#iwhite_arguments = [
 \   '--ignore--all-space',
 \ ]
 
@@ -764,7 +806,7 @@ if exists('$TMUX') || exists('$WINDOW')
 endif
 
 function! s:titlestring()
-    if &filetype =~ '^lingr'
+    if &filetype =~? '^lingr'
         let &titlestring = 'lingr: ' . lingr#unread_count()
     else
         let &titlestring = bufname('')
@@ -806,7 +848,7 @@ let g:lightline = {
 
 
 function! MyModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+  return &ft =~? 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
 endfunction
 
 function! MyReadonly()
@@ -814,19 +856,19 @@ function! MyReadonly()
 endfunction
 
 function! MyFilename()
-  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \  &ft == 'unite' ? unite#get_status_string() :
-        \  &ft == 'vimshell' ? substitute(b:vimshell.current_dir,expand('~'),'~','') :
-        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-        \ ('' != MyModified() ? ' ' . MyModified() : '')
+  return ('' !=? MyReadonly() ? MyReadonly() . ' ' : '') .
+        \ (&ft ==? 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft ==? 'unite' ? unite#get_status_string() :
+        \  &ft ==? 'vimshell' ? substitute(b:vimshell.current_dir,expand('~'),'~','') :
+        \ '' !=? expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' !=? MyModified() ? ' ' . MyModified() : '')
 endfunction
 
 function! MyFugitive()
   try
     if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
-      let _ = fugitive#head()
-      return strlen(_) ? '⭠ '._ : ''
+      let l:_ = fugitive#head()
+      return strlen(l:_) ? '⭠ '. l:_ : ''
     endif
   catch
   endtry
@@ -855,19 +897,19 @@ function! MyGitGutter()
         \ || winwidth('.') <= 90
     return ''
   endif
-  let symbols = [
+  let l:symbols = [
         \ g:gitgutter_sign_added . ' ',
         \ g:gitgutter_sign_modified . ' ',
         \ g:gitgutter_sign_removed . ' '
         \ ]
-  let hunks = GitGutterGetHunkSummary()
-  let ret = []
-  for i in [0, 1, 2]
-    if hunks[i] > 0
-      call add(ret, symbols[i] . hunks[i])
+  let l:hunks = GitGutterGetHunkSummary()
+  let l:ret = []
+  for l:i in [0, 1, 2]
+    if l:hunks[l:i] > 0
+      call add(l:ret, l:symbols[l:i] . l:hunks[l:i])
     endif
   endfor
-  return join(ret, ' ')
+  return join(l:ret, ' ')
 endfunction
 
 " https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim
@@ -886,24 +928,24 @@ function! MyCharCode()
   endif
 
   " Zero pad hex values
-  let nrformat = '0x%02x'
+  let l:nrformat = '0x%02x'
 
-  let encoding = (&fenc == '' ? &enc : &fenc)
+  let l:encoding = (&fenc ==? '' ? &enc : &fenc)
 
-  if encoding == 'utf-8'
+  if l:encoding ==? 'utf-8'
     " Zero pad with 4 zeroes in unicode files
-    let nrformat = '0x%04x'
+    let l:nrformat = '0x%04x'
   endif
 
   " Get the character and the numeric value from the return value of :ascii
   " This matches the two first pieces of the return value, e.g.
   " "<F>  70" => char: 'F', nr: '70'
-  let [str, char, nr; rest] = matchlist(ascii, '\v\<(.{-1,})\>\s*([0-9]+)')
+  let [l:str, l:char, l:nr; l:rest] = matchlist(ascii, '\v\<(.{-1,})\>\s*([0-9]+)')
 
   " Format the numeric value
-  let nr = printf(nrformat, nr)
+  let l:nr = printf(l:nrformat, l:nr)
 
-  return "'". char ."' ". nr
+  return "'". l:char ."' ". l:nr
 endfunction
 
 
@@ -911,38 +953,38 @@ let &tabline = '%!' . s:SID_PREFIX() . 'tabline()'
 
 function! s:tabline()
     " show each tab
-    let s = ''
-    for i in range(1, tabpagenr('$'))
-        let list = tabpagebuflist(i)
-        let nr = tabpagewinnr(i)
-        let current_tabnr = tabpagenr()
+    let l:s = ''
+    for l:i in range(1, tabpagenr('$'))
+        let l:list = tabpagebuflist(l:i)
+        let l:nr = tabpagewinnr(l:i)
+        let l:current_tabnr = tabpagenr()
 
         "let title = bufname('') 
-        if i == current_tabnr
-            let title = fnamemodify(getcwd(), ':t') . '/'
+        if l:i ==? l:current_tabnr
+            let l:title = fnamemodify(getcwd(), ':t') . '/'
             "let title = bufname('')
         else
-            let title = fnamemodify(gettabvar(i, 'cwd'), ':t') . '/'
+            let l:title = fnamemodify(gettabvar(l:i, 'cwd'), ':t') . '/'
         endif
-        let title = empty(title) ? '[No Name]' : title
-        let s .= i == current_tabnr ? '%#TabLineSel#' : '%#TabLine#'
-        let s .= '%' . i . 'T[' . i . '] ' . title
-        let s .= '  '
+        let l:title = empty(l:title) ? '[No Name]' : l:title
+        let l:s .= l:i ==? l:current_tabnr ? '%#TabLineSel#' : '%#TabLine#'
+        let l:s .= '%' . l:i . 'T[' . l:i . '] ' . l:title
+        let l:s .= '  '
     endfor
 
     " show lingr unread count
-    let lingr_unread = ""
+    let l:lingr_unread = ''
     if exists('*lingr#unread_count')
-        let lingr_unread_count = lingr#unread_count()
-        if lingr_unread_count > 0
-            let lingr_unread = "%#ErrorMsg#(" . lingr_unread_count . ")"
-        elseif lingr_unread_count == 0
-            let lingr_unread = "()"
+        let l:lingr_unread_count = lingr#unread_count()
+        if l:lingr_unread_count > 0
+            let l:lingr_unread = '%#ErrorMsg#(' . l:lingr_unread_count . ')'
+        elseif l:lingr_unread_count == 0
+            let l:lingr_unread = '()'
         endif
     endif
     " build tabline
-    let s .= '%#TabLineFill#%T%=%<[' . getcwd() . ']' . lingr_unread
-    return s
+    let l:s .= '%#TabLineFill#%T%=%<[' . getcwd() . ']' . l:lingr_unread
+    return l:s
 endfunction
 
 augroup vimrc-scratch-buffer
