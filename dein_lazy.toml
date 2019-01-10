@@ -1,0 +1,259 @@
+[[plugins]]
+repo = 'OmniSharp/omnisharp-vim'
+on_ft = 'cs'
+if = '''has('python')'''
+
+[[plugins]]
+repo = 'Shougo/echodoc'
+on_i = 1
+
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'
+if = '''has('lua')'''
+
+[[plugins]]
+repo = 'Shougo/neocomplcache'
+if = '''!has('lua')'''
+
+[[plugins]]
+repo = 'Shougo/neosnippet'
+on_i = 1
+on_ft = ['snippet']
+
+[[plugins]]
+repo = 'Shougo/unite-ssh'
+depends = ['unite.vim']
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+on_cmd = ['Unite']
+
+[[plugins]]
+repo = 'Shougo/vimfiler'
+depends = ['unite.vim']
+on_cmd = ['VimFiler', 'VimFilerExplorer', 'VimFilerBufferDir', 'Edit', 'Write', 'Read', 'Source']
+on_map = ['<Plug>(vimfiler_switch)']
+
+[[plugins]]
+repo = 'jnwhiteh/vim-golang'
+on_ft = 'go'
+
+[[plugins]]
+repo = 'Shougo/vimshell'
+on_cmd = ['VimShell', 'VimShellExecute', 'VimShellInteractive','VimShellTerminal', 'VimShellPop']
+on_map = ['<Plug>(vimfiler_switch)']
+
+[[plugins]]
+repo = 'StanAngeloff/php.vim'
+on_ft = 'php'
+
+[[plugins]]
+repo = 'basyura/J6uil.vim'
+depends = ['webapi-vim']
+on_cmd ='J6uil'
+
+[[plugins]]
+repo = 'bpearson/vim-phpcs'
+on_ft = 'php'
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'dag/vim2hs'
+on_ft = 'haskell'
+
+[[plugins]]
+repo = 'eagletmt/ghcmod-vim'
+on_ft = 'haskell'
+
+[[plugins]]
+repo = 'groenewege/vim-less'
+on_ft = 'less'
+
+[[plugins]]
+repo = 'jceb/vim-orgmode'
+on_ft = 'org'
+
+[[plugins]]
+repo = 'jwalton512/vim-blade'
+on_ft = 'blade'
+
+[[plugins]]
+repo = 'kamichidu/unite-javaimport'
+depends = ['vim-javalang', 'vim-javaclasspath', 'unite.vim']
+on_ft = ['java', 'scala', 'clojure']
+
+[[plugins]]
+repo = 'kchmck/vim-coffee-script'
+on_ft = 'coffee'
+
+[[plugins]]
+repo = 'lambdalisue/vim-gita'
+on_cmd = ['Gita']
+
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
+on_ft = 'typescript'
+
+[[plugins]]
+repo = 'mattn/benchvimrc-vim'
+on_cmd = 'BenchVimrc'
+
+[[plugins]]
+repo = 'mattn/flappyvird-vim'
+on_cmd = 'FlappyVird'
+
+[[plugins]]
+repo = 'mattn/gist-vim'
+on_cmd = 'Gist'
+
+[[plugins]]
+repo = 'mattn/sonictemplate-vim'
+on_cmd = 'Template'
+
+[[plugins]]
+repo = 'mattn/unite-rhythmbox'
+depends = ['unite.vim']
+on_source = ['unite.vim']
+
+[[plugins]]
+repo = 'mattn/wwwrenderer-vim'
+depends = ['webapi-vim']
+
+[[plugins]]
+repo = 'mkusher/padawan.vim'
+on_ft = 'php'
+
+[[plugins]]
+repo = 'osyo-manga/unite-filetype'
+depends = ['unite.vim']
+on_source = ['unite.vim']
+
+[[plugins]]
+repo = 'osyo-manga/unite-highlight'
+depends = ['unite.vim']
+on_source = ['unite.vim']
+
+[[plugins]]
+repo = 'osyo-manga/unite-quickfix'
+depends = ['unite.vim']
+on_source = ['unite.vim']
+
+[[plugins]]
+repo = 'osyo-manga/vim-marching'
+depends = ['vimproc.vim', 'vim-reunions']
+on_ft = ['c', 'cpp']
+
+[[plugins]]
+repo = 'osyo-manga/vim-monster'
+on_ft = 'ruby'
+
+[[plugins]]
+repo = 'osyo-manga/vim-snowdrop'
+on_ft = 'cpp'
+
+[[plugins]]
+repo = 'Quramy/tsuquyomi'
+on_ft = 'typescript'
+
+[[plugins]]
+repo = 'rbtnn/vimconsole.vim'
+depends = ['vim-prettyprint']
+on_cmd = 'VimConsoleOpen'
+
+[[plugins]]
+repo = 'rhysd/vim-crystal'
+on_ft = 'crystal'
+
+[[plugins]]
+repo = 'rust-lang/rust.vim'
+on_ft = 'rust'
+
+[[plugins]]
+repo = 'slim-template/vim-slim'
+on_ft = 'slim'
+
+[[plugins]]
+repo = 'thinca/vim-ft-clojure'
+on_ft = 'clojure'
+
+[[plugins]]
+repo = 'thinca/vim-github'
+on_cmd = 'Github'
+
+[[plugins]]
+repo = 'thinca/vim-prettyprint'
+on_cmd = ['PP', 'PrettyPrint']
+
+[[plugins]]
+repo = 'thinca/vim-ref'
+on_cmd = ['Ref', 'RefHistory']
+
+[[plugins]]
+repo = 'thinca/vim-textobj-function-javascript'
+depends = ['vim-textobj-function']
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'thinca/vim-threes'
+on_cmd = 'ThreesStart'
+
+[[plugins]]
+repo = 'tobyS/vmustache'
+on_ft = 'vim'
+
+[[plugins]]
+repo = 'tobyS/pdv'
+on_ft = 'php'
+
+[[plugins]]
+repo = 'tpope/vim-cucumber'
+on_ft = 'cucumber'
+
+[[plugins]]
+repo = 'tsukkee/lingr-vim'
+on_cmd = 'LingrLaunch'
+
+[[plugins]]
+repo = 'tyru/kirikiri.vim'
+on_ft = 'kscript'
+
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+on_map = ['<Plug>(open-browser-wwwsearch)']
+
+[[plugins]]
+repo = 'ujihisa/neco-ghc'
+on_ft = 'haskell'
+
+[[plugins]]
+repo = 'ujihisa/neoclojure.vim'
+on_ft = 'clojure'
+
+[[plugins]]
+repo = 'ujihisa/unite-colorscheme'
+on_source = ['unite.vim']
+
+[[plugins]]
+repo = 'ujihisa/vimshell-ssh'
+depends = ['vimshell']
+on_ft = 'vimshell'
+
+[[plugins]]
+repo = 'vim-jp/cpp-vim'
+on_ft = 'cpp'
+
+[[plugins]]
+repo = 'vim-jp/vital.vim'
+on_cmd = ['Vitalize']
+
+[[plugins]]
+repo = 'yoppi/fluentd.vim'
+on_ft = 'fluentd'
+
+[[plugins]]
+repo = 'yuratomo/w3m.vim'
+on_cmd = ['W3m', 'W3mTab']
+if = '''executable('w3m')'''

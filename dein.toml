@@ -1,0 +1,129 @@
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+depends = ['neosnippet']
+
+[[plugins]]
+repo = 'Shougo/unite-outline'
+
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+hook_post_update = '''
+  if dein#util#_is_windows()
+    let cmd = 'tools\\update-dll-mingw'
+  elseif dein#util#_is_cygwin()
+    let cmd = 'make -f make_cygwin.mak'
+  elseif executable('gmake')
+    let cmd = 'gmake'
+  else
+    let cmd = 'make'
+  endif
+  let g:dein#plugin.build = cmd
+'''
+
+[[plugins]]
+repo = 'cohama/agit.vim'
+  
+[[plugins]]
+repo = 'editorconfig/editorconfig-vim'
+if = '''has('python')'''
+
+[[plugins]]
+repo = 'haya14busa/incsearch.vim'
+
+[[plugins]]
+repo = 'honza/vim-snippets'
+
+[[plugins]]
+repo = 'itchyny/calendar.vim'
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+  
+[[plugins]]
+repo = 'joonty/vdebug'
+if = '''has('python')'''
+
+[[plugins]]
+repo = 'justinmk/vim-dirvish'
+  
+[[plugins]]
+repo = 'kakkyz81/evervim'
+if = '''has('python')'''
+
+[[plugins]]
+repo = 'kamichidu/vim-ref-java'
+depends = ['wwwrenderer-vim']
+
+[[plugins]]
+repo = 'kana/vim-smartinput'
+
+[[plugins]]
+repo = 'kana/vim-textobj-function'
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+
+[[plugins]]
+repo = 'lambdalisue/vim-unified-diff'
+
+[[plugins]]
+repo = 'machakann/vim-swap'
+
+[[plugins]]
+repo = 'mattn/libcallex-vim'
+
+[[plugins]]
+repo = 'mattn/webapi-vim'
+
+[[plugins]]
+repo = 'miyakogi/conoline.vim'
+
+[[plugins]]
+repo = 'osyo-manga/quickrun-hook-u-nya-'
+depends = ['vim-quickrun']
+
+[[plugins]]
+repo = 'osyo-manga/quickrun-hook-vcvarsall'
+
+[[plugins]]
+repo = 'osyo-manga/shabadou.vim'
+
+[[plugins]]
+repo = 'osyo-manga/vim-over'
+
+[[plugins]]
+repo = 'osyo-manga/vim-reunions'
+
+[[plugins]]
+repo = 'osyo-manga/vim-watchdogs'
+
+[[plugins]]
+repo = 'rbtnn/game_engine.vim'
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+
+[[plugins]]
+repo = 'thinca/vim-singleton'
+
+[[plugins]]
+repo = 'thinca/vim-splash'
+
+[[plugins]]
+repo = 'ujihisa/neco-look'
+if = '''executable('look')'''
+
+[[plugins]]
+repo = 'yaasita/slack.vim'
+
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+
+[[plugins]]
+repo = 'vim-scripts/AnsiEsc.vim'
+
+[[plugins]]
+repo = 'vim-scripts/sudo.vim'
