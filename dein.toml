@@ -19,6 +19,9 @@ repo = 'Shougo/neosnippet-snippets'
 depends = ['neosnippet', 'deoppet.nvim']
 
 [[plugins]]
+repo = 'Shougo/unite.vim'
+
+[[plugins]]
 repo = 'Shougo/unite-outline'
 
 [[plugins]]
@@ -29,8 +32,14 @@ build = 'make'
 repo = 'aklt/plantuml-syntax'
 
 [[plugins]]
+repo = 'aklt/plantuml-syntax'
+
+[[plugins]]
 repo = 'cohama/agit.vim'
   
+[[plugins]]
+repo = 'dart-lang/dart-vim-plugin'
+
 [[plugins]]
 repo = 'editorconfig/editorconfig-vim'
 if = '''has('python')'''
@@ -63,6 +72,9 @@ repo = 'kamichidu/vim-ref-java'
 depends = ['wwwrenderer-vim']
 
 [[plugins]]
+repo = 'kana/vim-fakeclip'
+
+[[plugins]]
 repo = 'kana/vim-smartinput'
 
 [[plugins]]
@@ -70,6 +82,9 @@ repo = 'kana/vim-textobj-function'
 
 [[plugins]]
 repo = 'kana/vim-textobj-user'
+
+[[plugins]]
+repo = 'lambdalisue/gina.vim'
 
 [[plugins]]
 repo = 'lambdalisue/vim-unified-diff'
@@ -110,6 +125,64 @@ repo = 'peitalin/vim-jsx-typescript'
 depends = ['typescript-vim']
 
 [[plugins]]
+repo='prabirshrestha/async.vim'
+
+[[plugins]]
+repo='prabirshrestha/asyncomplete.vim'
+
+[[plugins]]
+repo='prabirshrestha/asyncomplete-lsp.vim'
+
+[[plugins]]
+repo='prabirshrestha/asyncomplete-neosnippet.vim'
+hook_add='''
+call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
+    \ 'name': 'neosnippet',
+    \ 'whitelist': ['*'],
+    \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
+    \ }))
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+'''
+
+[[plugins]]
+repo='prabirshrestha/vim-lsp'
+hook_add='''
+let g:gopath = expand('$GOPATH') ? expand('$GOPATH') : expand('$HOME/go')
+if executable(g:gopath . '/bin/gopls')
+  augroup LspGo
+    autocmd!
+    autocmd User lsp_setup call lsp#register_server({
+      \ 'name': 'gopls',
+      \ 'cmd': {server_info->[g:gopath . '/bin/gopls', '-mode', 'stdio']},
+      \ 'whitelist': ['go'],
+      \ })
+    autocmd FileType go setlocal omnifunc=lsp#complete
+  augroup END
+endif
+
+if executable('solargraph')
+  augroup LspRuby
+    autocmd!
+    autocmd User lsp_setup call lsp#register_server({
+      \ 'name': 'solargraph',
+      \ 'cmd': {server_info->[&shell, &shellcmdflag, 'solargraph stdio']},
+      \ 'initialization_options': {"diagnostics": "true"},
+      \ 'whitelist': ['ruby'],
+      \ })
+    autocmd FileType ruby setlocal omnifunc=lsp#complete
+  augroup END
+endif
+
+let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+
+let g:lsp_signs_error = {'text': '✗'}
+let g:lsp_signs_warning = {'text': '‼'}
+'''
+
+[[plugins]]
 repo = 'rbtnn/game_engine.vim'
 
 [[plugins]]
@@ -131,6 +204,9 @@ repo = 'thinca/vim-singleton'
 
 [[plugins]]
 repo = 'thinca/vim-splash'
+
+[[plugins]]
+repo = 'thosakwe/vim-flutter'
 
 [[plugins]]
 repo = 'ujihisa/neco-look'

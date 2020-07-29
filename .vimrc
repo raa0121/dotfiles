@@ -65,6 +65,16 @@ if !has('gui_running') && has('xterm_clipboard')
   set clipboard=exclude:cons\\\|linux\\\|cygwin\\\|rxvt\\\|screen
 endif
 
+
+if has('vim_starting')
+    " 挿入モード時に非点滅の縦棒タイプのカーソル
+    let &t_SI .= "\e[6 q"
+    " ノーマルモード時に非点滅のブロックタイプのカーソル
+    let &t_EI .= "\e[2 q"
+    " 置換モード時に非点滅の下線タイプのカーソル
+    let &t_SR .= "\e[4 q"
+endif
+
 " タブページの切り替えをWindowsのように
 " CTRL+Tab SHIFT+Tabで行うように.
 if v:version >= 700
@@ -122,7 +132,6 @@ if has('clientserver') && dein#tap('vim-singleton')
 endif
 
 set ww+=h,l,>,<,[,]
-set mouse=a
 if !has('nvim')
   set ttymouse=xterm2
   set clipboard=unnamed
@@ -145,46 +154,16 @@ nnoremap <silent> ,vr :tabnew ~/.vimrc<CR>:lcd<CR>
 nnoremap <silent> ,de :tabnew ~/dotfiles/dein.toml<CR>:lcd<CR>
 nnoremap <silent> ,dl :tabnew ~/dotfiles/dein_lazy.toml<CR>:lcd<CR>
 nnoremap <silent> ,so :so ~/.vimrc<CR>
-nnoremap <silent> ,nu :tabnew +Unite\ neobundle/update<CR>
 nnoremap <silent> ,ll :tabnew +LingrLaunch<CR>
 nnoremap <silent> ,cw :cwindow<CR>
 nnoremap <Esc><Esc> :nohlsearch<CR><ESC>:HierStop<CR><ESC>
 nnoremap <silent> ,ts :<C-u>tab stj <C-R>=expand('<cword>')<CR><CR>
+nnoremap <silent> ,de :tabnew ~/dotfiles/dein.toml<CR>:lcd<CR>
+nnoremap <silent> ,dl :tabnew ~/dotfiles/dein_lazy.toml<CR>:lcd<CR>
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
-if dein#tap('neocomplcache')
-  let g:neocomplcache_enable_at_startup = 1
-  let g:neocomplcache_enable_smart_case = 1
-  let g:neocomplcache_enable_camel_case_completion = 1
-  let g:neocomplcache_enable_underbar_completion = 1
-  let g:neocomplcache_min_syntax_length = 3
-  let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-  let g:neocomplcache_keyword_patterns = get(g:, 'neocomplecache_keyword_patterns', {})
-  let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-endif
-
-if dein#tap('neocomplete.vim')
-  let g:neocomplete#enable_at_startup = 1
-  let g:neocomplete#enable_smart_case = 1
-  let g:neocomplete#enable_camel_case_completion = 1
-  let g:neocomplete#enable_underbar_completion = 1
-  let g:neocomplete#min_syntax_length = 3
-  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-  let g:neocomplete#keyword_patterns = get(g:, 'neocomplete#keyword_patterns', {})
-  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-  let g:neocomplete#force_omni_input_patterns = get(g:, 'neocomplete#force_omni_input_patterns', {})
-  let g:neocomplete#sources#omni#input_patterns = get(g:, 'neocomplete#sources#omni#input_patterns', {})
-  let g:neocomplete#text_mode_filetypes = {'tex': 1, 'plaintex': 1}
-  let g:neocomplete#force_omni_input_patterns.cpp =
-  \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-  let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\|\h\w*::'
-  let g:neocomplete#sources#omni#input_patterns.cs = '[^.]\.\%(\u\{2,}\)\?'
-  let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-  inoremap <expr><C-g>     neocomplete#undo_completion()
-  inoremap <expr><C-l>     neocomplete#complete_common_string()
-endif
 
 "let g:vimfiler_as_default_explorer = 1
 "let g:vimfiler_safe_mode_by_default = 0
@@ -242,6 +221,7 @@ augroup vimrc
   autocmd FileType c setlocal tags+=$HOME/ctags/c.tags
   autocmd FileType cpp setlocal path=.,C:/msys64/mingw64/include,C:/cocos2d-x-3.6/cocos
   autocmd FileType diff setlocal ts=4
+  autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
   autocmd BufNewFile Gemfile Template Gemfile
   autocmd User DirvishEnter let b:dirvish.showhidden = 1
   autocmd FileType denite call s:denite_my_settings()
@@ -427,6 +407,8 @@ let g:tsuquyomi_tsserver_path = '/usr/src/app/node_modules/typescript/bin/tsserv
 let g:tsuquyomi_use_dev_node_module = 2
 let g:tsuquyomi_nodejs_path = 'docker exec -it node:10.14-alpine node'
 
+let g:nyancat_offset = 24
+
 augroup plugin-lingr-vim
   autocmd!
   autocmd FileType lingr-messages nmap <silent> <buffer> t <Plug>(lingr-messages-show-say-buffer)
@@ -470,6 +452,7 @@ let g:lightline = {
 \   'left': [
 \     ['mode', 'paste'],
 \     ['fugitive', 'gitgutter', 'filename'],
+\     ['nyancat']
 \   ],
 \   'right': [
 \     ['lineinfo', 'syntastic'],
@@ -489,6 +472,7 @@ let g:lightline = {
 \   'syntastic': 'SyntasticStatuslineFlag',
 \   'charcode': 'MyCharCode',
 \   'gitgutter': 'MyGitGutter',
+\   'nyancat' : 'MyNyanCat',
 \ },
 \ 'separator': { 'left': "\ue0c0", 'right': "\ue0c2" },
 \ 'subseparator': { 'left': "\ue0c1", 'right': "\ue0c3" }
@@ -596,7 +580,6 @@ function! MyCharCode()
   return "'". l:char ."' ". l:nr
 endfunction
 
-
 let &tabline = '%!' . s:SID_PREFIX() . 'tabline()'
 
 function! s:tabline()
@@ -668,3 +651,22 @@ command! -nargs=? ExtractMatches let s:pat = empty(<q-args>) ? @/ : <q-args> | l
 let g:github_user = 'raa0121'
 
 let g:github#user = 'raa0121'
+
+let g:terminal_ansi_colors = [
+\ '#073642',
+\ '#dc322f',
+\ '#859900',
+\ '#b58900',
+\ '#268bd2',
+\ '#d33682',
+\ '#2aa198',
+\ '#eee8d5',
+\ '#002b36',
+\ '#cb4b16',
+\ '#586e75',
+\ '#657b83',
+\ '#839496',
+\ '#6c71c4',
+\ '#93a1a1',
+\ '#fdf6e3',
+\ ]
