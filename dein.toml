@@ -121,6 +121,9 @@ repo = 'roxma/vim-hug-neovim-rpc'
 if = '''!has('nvim')'''
 
 [[plugins]]
+repo = 'thinca/vim-localrc'
+
+[[plugins]]
 repo = 'thinca/vim-quickrun'
 
 [[plugins]]

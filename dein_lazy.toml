@@ -223,6 +223,7 @@ on_ft = 'kscript'
 [[plugins]]
 repo = 'tyru/open-browser.vim'
 on_map = ['<Plug>(open-browser-wwwsearch)']
+on_cmd = ['OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch']
 
 [[plugins]]
 repo = 'ujihisa/neco-ghc'
