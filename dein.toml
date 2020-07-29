@@ -1,27 +1,32 @@
 [[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'Shougo/denite.nvim'
+hook_add = '''
+  call denite#custom#option('_', 'statusline', v:false)
+'''
+
+[[plagins]]
+repo = 'Shougo/deoppet.nvim'
+if = '''has('nvim')'''
+
+[[plugins]]
 repo = 'Shougo/neomru.vim'
 
 [[plugins]]
 repo = 'Shougo/neosnippet-snippets'
-depends = ['neosnippet']
+depends = ['neosnippet', 'deoppet.nvim']
 
 [[plugins]]
 repo = 'Shougo/unite-outline'
 
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
-hook_post_update = '''
-  if dein#util#_is_windows()
-    let cmd = 'tools\\update-dll-mingw'
-  elseif dein#util#_is_cygwin()
-    let cmd = 'make -f make_cygwin.mak'
-  elseif executable('gmake')
-    let cmd = 'gmake'
-  else
-    let cmd = 'make'
-  endif
-  let g:dein#plugin.build = cmd
-'''
+build = 'make'
+
+[[plugins]]
+repo = 'aklt/plantuml-syntax'
 
 [[plugins]]
 repo = 'cohama/agit.vim'
@@ -101,7 +106,19 @@ repo = 'osyo-manga/vim-reunions'
 repo = 'osyo-manga/vim-watchdogs'
 
 [[plugins]]
+repo = 'peitalin/vim-jsx-typescript'
+depends = ['typescript-vim']
+
+[[plugins]]
 repo = 'rbtnn/game_engine.vim'
+
+[[plugins]]
+repo = 'roxma/nvim-yarp'
+if = '''!has('nvim')'''
+
+[[plugins]]
+repo = 'roxma/vim-hug-neovim-rpc'
+if = '''!has('nvim')'''
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'

@@ -117,7 +117,7 @@ if dein#check_install()
 endif
 
 
-if has('clientserver')
+if has('clientserver') && dein#tap('vim-singleton')
   call singleton#enable()
 endif
 
@@ -142,6 +142,8 @@ nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
 nnoremap <silent> ,vs :tabnew +VimShell<CR>
 " ,vr: .vimrc
 nnoremap <silent> ,vr :tabnew ~/.vimrc<CR>:lcd<CR>
+nnoremap <silent> ,de :tabnew ~/dotfiles/dein.toml<CR>:lcd<CR>
+nnoremap <silent> ,dl :tabnew ~/dotfiles/dein_lazy.toml<CR>:lcd<CR>
 nnoremap <silent> ,so :so ~/.vimrc<CR>
 nnoremap <silent> ,nu :tabnew +Unite\ neobundle/update<CR>
 nnoremap <silent> ,ll :tabnew +LingrLaunch<CR>
@@ -198,12 +200,24 @@ let g:pdv_template_dir = $HOME . "/.hariti/bundle/pdv/templates_snip"
 "tabで補完候補の選択を行う
 imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-imap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
+if dein#tap('neosnippet')
+  imap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+  \ "\<Plug>(neosnippet_expand_or_jump)"
+  \: "\<TAB>"
+endif
 inoremap <buffer> <C-P> <ESC>:call pdv#DocumentWithSnip()<CR>i
 nnoremap <buffer> <C-P> :call pdv#DocumentWithSnip()<CR>
+if dein#tap('deoppet.nvim')
+  call deoppet#initialize()
+  call deoppet#custom#option('snippets_dirs',
+  \ globpath(&runtimepath, 'neosnippets', 1, 1))
+  imap <C-k>  <Plug>(deoppet_expand)
+  imap <C-f>  <Plug>(deoppet_jump_forward)
+  imap <C-b>  <Plug>(deoppet_jump_backward)
+  smap <C-f>  <Plug>(deoppet_jump_forward)
+  smap <C-b>  <Plug>(deoppet_jump_backward)
+endif
 
 let g:OmniSharp_server_type = 'roslyn'
 
@@ -220,6 +234,7 @@ augroup vimrc
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
   autocmd BufNewFile,BufRead *.gradle setlocal filetype=groovy
   autocmd BufNewFile,BufRead */Classes/*.{cpp,h,hpp} setlocal tags+=$HOME/ctags/cocos2dx.tags
+  autocmd BufNewFile,BufRead *.{jsx,tsx} setlocal filetype=typescript.tsx
   autocmd FileType php setlocal omnifunc=padawan#Complete noexpandtab wrap tabstop=4 shiftwidth=4 tags+=$HOME/ctags/php.tags
   autocmd FileType smarty setlocal noexpandtab wrap tabstop=4 shiftwidth=4 softtabstop=4 tags+=$HOME/ctags/php.tags
   autocmd FileType java setlocal noexpandtab wrap tabstop=4 shiftwidth=4
@@ -229,6 +244,13 @@ augroup vimrc
   autocmd FileType diff setlocal ts=4
   autocmd BufNewFile Gemfile Template Gemfile
   autocmd User DirvishEnter let b:dirvish.showhidden = 1
+  autocmd FileType denite call s:denite_my_settings()
+  function! s:denite_my_settings() abort
+    if b:denite.buffer_name == 'search-buffer'
+      nnoremap <silent><buffer><expr> <CR>
+      \ denite#do_map('do_action', 'tabopen', '<cwords>')
+    endif
+  endfunction
 augroup END
 
 
@@ -364,11 +386,17 @@ if executable('ag')
   let g:unite_source_grep_command = 'ag'
   let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
   let g:unite_source_grep_recursive_opt = ''
+  if dein#tap('denite.nvim')
+    call denite#custom#var('grep', 'command', ['ag'])
+    call denite#custom#var('grep', 'default_opts', ['--follow', '--nogroup', '--nocolor'])
+    call denite#custom#var('grep', 'pattern_opt', [])
+    call denite#custom#var('grep', 'recursive_opts', [])
+  endif
 endif
 
-nnoremap <silent> ,g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
-nnoremap <silent> ,cg :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W>
-nnoremap <silent> ,r  :<C-u>UniteResume search-buffer<CR>
+nnoremap <silent> ,g  :<C-u>Denite grep:. -buffer-name=search-buffer<CR>
+nnoremap <silent> ,cg :<C-u>DeniteCursorWord grep -buffer-name=search-buffer<CR>
+nnoremap <silent> ,r  :<C-u>Denite -resume -buffer-name=search-buffer<CR>
 
 if dein#tap('vim-textobj-user')
   call textobj#user#plugin('datetime', {
@@ -394,6 +422,10 @@ let g:unified_diff#arguments = [
 let g:unified_diff#iwhite_arguments = [
 \   '--ignore--all-space',
 \ ]
+
+let g:tsuquyomi_tsserver_path = '/usr/src/app/node_modules/typescript/bin/tsserver'
+let g:tsuquyomi_use_dev_node_module = 2
+let g:tsuquyomi_nodejs_path = 'docker exec -it node:10.14-alpine node'
 
 augroup plugin-lingr-vim
   autocmd!

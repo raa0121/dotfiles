@@ -19,6 +19,7 @@ if = '''!has('lua')'''
 repo = 'Shougo/neosnippet'
 on_i = 1
 on_ft = ['snippet']
+if = '''!has('nvim')'''
 
 [[plugins]]
 repo = 'Shougo/unite-ssh'
@@ -81,9 +82,8 @@ repo = 'jwalton512/vim-blade'
 on_ft = 'blade'
 
 [[plugins]]
-repo = 'kamichidu/unite-javaimport'
-depends = ['vim-javalang', 'vim-javaclasspath', 'unite.vim']
-on_ft = ['java', 'scala', 'clojure']
+repo = 'katono/rogue.vim'
+on_cmd = ['Rogue', 'RogueRestore']
 
 [[plugins]]
 repo = 'kchmck/vim-coffee-script'
