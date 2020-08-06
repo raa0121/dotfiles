@@ -62,10 +62,6 @@ repo = 'eagletmt/ghcmod-vim'
 on_ft = 'haskell'
 
 [[plugins]]
-repo = 'fatih/vim-go'
-on_ft = 'go'
-
-[[plugins]]
 repo = 'groenewege/vim-less'
 on_ft = 'less'
 

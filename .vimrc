@@ -31,6 +31,7 @@ set hlsearch
 set list
 set listchars=tab:>-
 set ambiwidth=double
+set ffs=unix,dos
 colorscheme elflord
 if has('gui_running')
   colorscheme evening
@@ -87,27 +88,26 @@ let g:vim_indent_cont = 2
 filetype off
 
 " プラグインが実際にインストールされるディレクトリ
-let s:dein_dir = expand('~/.cache/dein')
+let s:dein_dir = '~/.cache/dein'
 " dein.vim 本体
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-
+let s:dein_repo_dir = expand(s:dein_dir . '/repos/github.com/Shougo/dein.vim')
 " dein.vim がなければ github から落としてくる
 if &runtimepath !~# '/dein.vim'
   if !isdirectory(s:dein_repo_dir)
     execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
   endif
-  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+  execute 'set runtimepath^=' . s:dein_repo_dir
 endif
 
 " 設定開始
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
+if dein#load_state(expand(s:dein_dir))
+  call dein#begin(expand(s:dein_dir))
 
   " プラグインリストを収めた TOML ファイル
   " 予め TOML ファイル（後述）を用意しておく
-  let g:rc_dir    = expand('~/dotfiles')
-  let s:toml      = g:rc_dir . '/dein.toml'
-  let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
+  let g:rc_dir    = '~/dotfiles'
+  let s:toml      = expand(g:rc_dir . '/dein.toml')
+  let s:lazy_toml = expand(g:rc_dir . '/dein_lazy.toml')
 
   " TOML を読み込み、キャッシュしておく
   call dein#load_toml(s:toml,      {'lazy': 0})
@@ -154,7 +154,6 @@ nnoremap <silent> ,vr :tabnew ~/.vimrc<CR>:lcd<CR>
 nnoremap <silent> ,de :tabnew ~/dotfiles/dein.toml<CR>:lcd<CR>
 nnoremap <silent> ,dl :tabnew ~/dotfiles/dein_lazy.toml<CR>:lcd<CR>
 nnoremap <silent> ,so :so ~/.vimrc<CR>
-nnoremap <silent> ,ll :tabnew +LingrLaunch<CR>
 nnoremap <silent> ,cw :cwindow<CR>
 nnoremap <Esc><Esc> :nohlsearch<CR><ESC>:HierStop<CR><ESC>
 nnoremap <silent> ,ts :<C-u>tab stj <C-R>=expand('<cword>')<CR><CR>
@@ -196,6 +195,10 @@ if dein#tap('deoppet.nvim')
   imap <C-b>  <Plug>(deoppet_jump_backward)
   smap <C-f>  <Plug>(deoppet_jump_forward)
   smap <C-b>  <Plug>(deoppet_jump_backward)
+endif
+
+if dein#tap('fern.vim')
+  let g:fern#renderer = 'nerdfont'
 endif
 
 let g:OmniSharp_server_type = 'roslyn'
@@ -327,7 +330,6 @@ if dein#tap('watchdocs.vim')
   call watchdogs#setup(g:quickrun_config)
 endif
 
-let g:lingr_vim_user = 'raa0121'
 let g:J6uil_display_offline  = 0
 let g:J6uil_display_online   = 0
 let g:J6uil_echo_presence    = 1
@@ -409,21 +411,12 @@ let g:tsuquyomi_nodejs_path = 'docker exec -it node:10.14-alpine node'
 
 let g:nyancat_offset = 24
 
-augroup plugin-lingr-vim
-  autocmd!
-  autocmd FileType lingr-messages nmap <silent> <buffer> t <Plug>(lingr-messages-show-say-buffer)
-  autocmd FileType lingr-say let &syntax='clojure'
-augroup END
-
 function! s:SID_PREFIX()
     return matchstr(expand('<sfile>'), '<SNR>\d\+_')
 endfunction
 
 set titlelen=100
 set guioptions-=e
-
-autocmd vimrc BufEnter * let &titlestring = '%{' . s:SID_PREFIX() . 'titlestring()}'
-autocmd vimrc User plugin-lingr-unread let &titlestring = '%{' . s:SID_PREFIX() . 'titlestring()}'
 
 if !has('gui_running')
   set t_Co=256
@@ -434,14 +427,6 @@ if exists('$TMUX') || exists('$WINDOW')
     set t_ts=k
     set t_fs=\
 endif
-
-function! s:titlestring()
-    if &filetype =~? '^lingr'
-        let &titlestring = 'lingr: ' . lingr#unread_count()
-    else
-        let &titlestring = bufname('')
-    endif
-endfunction
 
 " tabline
 set showtabline=2 " always show tabline
@@ -603,18 +588,8 @@ function! s:tabline()
         let l:s .= '  '
     endfor
 
-    " show lingr unread count
-    let l:lingr_unread = ''
-    if exists('*lingr#unread_count')
-        let l:lingr_unread_count = lingr#unread_count()
-        if l:lingr_unread_count > 0
-            let l:lingr_unread = '%#ErrorMsg#(' . l:lingr_unread_count . ')'
-        elseif l:lingr_unread_count == 0
-            let l:lingr_unread = '()'
-        endif
-    endif
     " build tabline
-    let l:s .= '%#TabLineFill#%T%=%<[' . getcwd() . ']' . l:lingr_unread
+    let l:s .= '%#TabLineFill#%T%=%<[' . getcwd() . ']'
     return l:s
 endfunction
 

@@ -84,7 +84,17 @@ repo = 'kana/vim-textobj-function'
 repo = 'kana/vim-textobj-user'
 
 [[plugins]]
+repo = 'lambdalisue/fern.vim'
+
+[[plugins]]
+repo = 'lambdalisue/fern-renderer-nerdfont.vim'
+depends = ['lambdalisue/nerdfont.vim']
+
+[[plugins]]
 repo = 'lambdalisue/gina.vim'
+
+[[plugins]]
+repo = 'lambdalisue/nerdfont.vim'
 
 [[plugins]]
 repo = 'lambdalisue/vim-unified-diff'
@@ -150,12 +160,12 @@ xmap <C-k>     <Plug>(neosnippet_expand_target)
 repo='prabirshrestha/vim-lsp'
 hook_add='''
 let g:gopath = expand('$GOPATH') ? expand('$GOPATH') : expand('$HOME/go')
-if executable(g:gopath . '/bin/gopls')
+if executable(expand(g:gopath . '/bin/gopls'))
   augroup LspGo
     autocmd!
     autocmd User lsp_setup call lsp#register_server({
       \ 'name': 'gopls',
-      \ 'cmd': {server_info->[g:gopath . '/bin/gopls', '-mode', 'stdio']},
+      \ 'cmd': {server_info->[expand(g:gopath . '/bin/gopls'), '-mode', 'stdio']},
       \ 'whitelist': ['go'],
       \ })
     autocmd FileType go setlocal omnifunc=lsp#complete
