@@ -87,6 +87,14 @@ repo = 'kana/vim-textobj-user'
 repo = 'lambdalisue/fern.vim'
 
 [[plugins]]
+repo = 'lambdalisue/fern-git-status.vim'
+depends = ['lambdalisue/fern.vim']
+
+[[plugins]]
+repo = 'lambdalisue/fern-mapping-git.vim'
+depends = ['lambdalisue/fern.vim']
+
+[[plugins]]
 repo = 'lambdalisue/fern-renderer-nerdfont.vim'
 depends = ['lambdalisue/nerdfont.vim']
 
@@ -230,6 +238,9 @@ repo = 'yaasita/slack.vim'
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
+
+[[plugins]]
+repo = 'vim-jp/syntax-vim-ex'
 
 [[plugins]]
 repo = 'vim-scripts/AnsiEsc.vim'
