@@ -8,12 +8,6 @@ repo = 'Shougo/echodoc'
 on_i = 1
 
 [[plugins]]
-repo = 'Shougo/neosnippet'
-on_i = 1
-on_ft = ['snippet']
-if = '''!has('nvim')'''
-
-[[plugins]]
 repo = 'Shougo/unite-ssh'
 depends = ['unite.vim']
 
@@ -212,11 +206,6 @@ on_ft = 'cucumber'
 [[plugins]]
 repo = 'tsukkee/lingr-vim'
 on_cmd = 'LingrLaunch'
-
-[[plugins]]
-repo = 'tyru/open-browser.vim'
-on_map = ['<Plug>(open-browser-wwwsearch)']
-on_cmd = ['OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch']
 
 [[plugins]]
 repo = 'ujihisa/neco-ghc'

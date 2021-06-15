@@ -15,8 +15,9 @@ set guioptions-=m
 set guioptions-=r
 set guioptions-=L
 set guioptions+=!
+set guioptions+=c
 
-if has('win32') || has('win64')
+if (has('win32') || has('win64')) && !has('nvim')
   set guifont=Cica:h12:cSHIFTJIS
 elseif has('unix')
   set guifont=Cica\ 12
@@ -26,7 +27,18 @@ if has('multi_byte_ime') || has('xim')
   highlight CursorIM guifg=NONE guibg=Green
 endif
 gui
-if has('win32') || has('win64') || has('win32unix')
+if (has('win32') || has('win64') || has('win32unix')) && !has('nvim')
   set transparency=220
 endif
 
+if has('nvim')
+  if exists(':GuiFont')
+    GuiFont! Cica:h12
+  endif
+  if exists(':GuiTabline')
+    GuiTabline 0
+  endif
+  if exists(':GuiPopupmenu')
+    GuiPopupmenu 0
+  endif
+endif

@@ -227,6 +227,7 @@ augroup vimrc
   autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
   autocmd BufNewFile Gemfile Template Gemfile
   autocmd User DirvishEnter let b:dirvish.showhidden = 1
+  autocmd User StartifyBufferOpened ++nested Fern . -drwar -reveal=% -stay -width=30
   autocmd FileType denite call s:denite_my_settings()
   function! s:denite_my_settings() abort
     if b:denite.buffer_name == 'search-buffer'
