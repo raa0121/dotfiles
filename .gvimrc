@@ -42,3 +42,18 @@ if has('nvim')
     GuiPopupmenu 0
   endif
 endif
+
+if executable('fcitx')
+  set imactivatefunc=ImActivate
+  function! ImActivate(active)
+    if a:active
+      call vimproc#system_bg('fcitx-remote -o')
+    else
+      call vimproc#system_bg('fcitx-remote -c')
+    endif
+  endfunction
+  set imstatusfunc=ImStatus
+  function! ImStatus()
+    return vimproc#system('fcitx-remote')[0] is# '2'
+  endfunction
+endif

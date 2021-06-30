@@ -85,6 +85,10 @@ endif
 
 let g:vim_indent_cont = 2
 
+if filereadable(expand('~/.vimrc.local'))
+  exe 'source' expand('~/.vimrc.local')
+endif
+
 filetype off
 
 " プラグインが実際にインストールされるディレクトリ
@@ -222,12 +226,18 @@ augroup vimrc
   autocmd FileType java setlocal noexpandtab wrap tabstop=4 shiftwidth=4
   autocmd FileType ruby setlocal tags+=$HOME/ctags/ruby.tags
   autocmd FileType c setlocal tags+=$HOME/ctags/c.tags
-  autocmd FileType cpp setlocal path=.,C:/msys64/mingw64/include,C:/cocos2d-x-3.6/cocos
+  autocmd FileType cpp call s:cpp_my_settings()
+  function! s:cpp_my_settings() abort
+    if has('win32')
+      setlocal path+=.,C:\msys64\mingw64\include
+    else
+      setlocal path+=.
+    endif
+  endfunction
   autocmd FileType diff setlocal ts=4
   autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
   autocmd BufNewFile Gemfile Template Gemfile
   autocmd User DirvishEnter let b:dirvish.showhidden = 1
-  autocmd User StartifyBufferOpened ++nested Fern . -drwar -reveal=% -stay -width=30
   autocmd FileType denite call s:denite_my_settings()
   function! s:denite_my_settings() abort
     if b:denite.buffer_name == 'search-buffer'
@@ -646,3 +656,12 @@ let g:terminal_ansi_colors = [
 \ '#93a1a1',
 \ '#fdf6e3',
 \ ]
+
+set runtimepath^=~/develop/denops-bcdice-api
+let g:denops#server#service#deno_args = [
+\ '-q',
+\ '--unstable',
+\ '-A',
+\]
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')

@@ -12,10 +12,6 @@ repo = 'Shougo/unite-ssh'
 depends = ['unite.vim']
 
 [[plugins]]
-repo = 'Shougo/unite.vim'
-on_cmd = ['Unite']
-
-[[plugins]]
 repo = 'Shougo/vimfiler'
 depends = ['unite.vim']
 on_cmd = ['VimFiler', 'VimFilerExplorer', 'VimFilerBufferDir', 'Edit', 'Write', 'Read', 'Source']
