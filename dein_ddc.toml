@@ -1,0 +1,156 @@
+[[plugins]]
+repo = 'LumaKernel/ddc-file'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc.vim'
+depends = 'denops.vim'
+on_event = 'InsertEnter'
+on_source = 'denops.vim'
+hook_source = '''
+inoremap <silent><expr> <C-l> ddc#map#extend()
+inoremap <silent><expr> <TAB>
+  \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
+  \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+  \ '<TAB>' : ddc#manual_complete()
+inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
+inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>
+inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>
+inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
+inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+imap <expr><CR>
+  \ neosnippet#expandable_or_jumpable() ? '<Plug>(neosnippet_expand_or_jump)' : '<CR>'
+
+call ddc#custom#patch_global('autoCompleteEvents', [
+  \ 'InsertEnter', 'TextChangedI', 'TextChangedP',
+  \ 'CmdlineEnter', 'CmdlineChanged',
+  \ ])
+call ddc#custom#patch_global('sources', ['vim-lsp', 'around', 'file', 'neosnippet'])
+call ddc#custom#patch_global('sourceOptions', {
+  \ '_': {
+  \   'matchers': ['matcher_head'],
+  \   'sorters': ['sorter_rank'],
+  \   'ignoreCase': v:true,
+  \ },
+  \ 'vim-lsp': {
+  \   'mark': 'lsp',
+  \   'forceCompletionPattern': '\.\w*|:\w*|->\w*|"\w*',
+  \   'isVolatile': v:true
+  \ },
+  \ 'neosnippet': {
+  \   'mark': 'ns',
+  \   'dup': v:true
+  \ },
+  \ 'around': {
+  \   'mark': 'A',
+  \   'matchers': ['matcher_head'],
+  \   'minAutoCompleteLength': 4,
+  \   'maxCandidates': 5,
+  \ },
+  \ 'file': {
+  \   'mark': 'F',
+  \   'isVolatile': v:true,
+  \   'minAutoCompleteLength': 1000,
+  \   'forceCompletionPattern': '\S/\S*'
+  \ },
+  \ 'sourceParams': {
+  \   'around': {
+  \     'maxSize': 500,
+  \   },
+  \ }
+  \})
+call ddc#custom#patch_global('completionMenu', 'pum.vim')
+call ddc#enable()
+'''
+hook_add = '''
+nnoremap :       <Cmd>call CommandlinePre(':')<CR>:
+nnoremap ?       <Cmd>call CommandlinePre('/')<CR>?
+
+function! CommandlinePre(mode) abort
+  call dein#source('ddc.vim')
+  call dein#source('denops-popup-preview.vim')
+
+  " Note: It disables default command line completion!
+  cnoremap <expr> <Tab>
+  \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
+  \ ddc#manual_complete()
+  cnoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
+  cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
+  cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+
+  " Overwrite sources
+  let s:prev_buffer_config = ddc#custom#get_buffer()
+    if a:mode ==# ':'
+      call ddc#custom#patch_buffer('sources',
+              \ ['cmdline', 'cmdline-history', 'around', 'file'])
+      call ddc#custom#patch_buffer('keywordPattern', '[0-9a-zA-Z_:#]*')
+    else
+      call ddc#custom#patch_buffer('sources',
+              \ ['around', 'line'])
+    endif
+
+  autocmd vimrc User DDCCmdlineLeave ++once call CommandlinePost()
+
+  " Enable command line completion
+  call ddc#enable_cmdline_completion()
+  call ddc#enable()
+endfunction
+
+function! CommandlinePost() abort
+  " Restore sources
+  call ddc#custom#set_buffer(s:prev_buffer_config)
+  silent! cunmap <Tab>
+  set wildchar=<Tab>
+endfunction
+
+'''
+
+[[plugins]]
+repo = 'Shougo/ddc-around'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-cmdline'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-cmdline-history'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-line'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-matcher_head'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-sorter_rank'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/neco-vim'
+on_ft = ['vim', 'toml', 'markdown']
+depends = 'ddc.vim'
+hook_source = '''
+call ddc#custom#patch_filetype(
+  \ ['vim'], 'sources', has('nvim') ?
+  \ ['necovim', 'around', 'deoppet', 'file'] :
+  \ ['necovim', 'around', 'neosnippet', 'file']
+  \ )
+'''
+
+[[plugins]]
+repo = 'Shougo/pum.vim'
+
+[[plugins]]
+repo = 'matsui54/denops-popup-preview.vim'
+on_source = 'ddc.vim'
+hook_source = '''
+call popup_preview#enable()
+'''
+
+[[plugins]]
+repo = 'shun/ddc-vim-lsp'
+on_source = 'ddc.vim'

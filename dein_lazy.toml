@@ -8,16 +8,6 @@ repo = 'Shougo/echodoc'
 on_i = 1
 
 [[plugins]]
-repo = 'Shougo/unite-ssh'
-depends = ['unite.vim']
-
-[[plugins]]
-repo = 'Shougo/vimfiler'
-depends = ['unite.vim']
-on_cmd = ['VimFiler', 'VimFilerExplorer', 'VimFilerBufferDir', 'Edit', 'Write', 'Read', 'Source']
-on_map = ['<Plug>(vimfiler_switch)']
-
-[[plugins]]
 repo = 'Shougo/vimshell'
 on_cmd = ['VimShell', 'VimShellExecute', 'VimShellInteractive','VimShellTerminal', 'VimShellPop']
 on_map = ['<Plug>(vimfiler_switch)']
@@ -94,12 +84,6 @@ on_cmd = 'Gist'
 [[plugins]]
 repo = 'mattn/sonictemplate-vim'
 on_cmd = 'Template'
-on_source = ['unite.vim']
-
-[[plugins]]
-repo = 'mattn/unite-rhythmbox'
-depends = ['unite.vim']
-on_source = ['unite.vim']
 
 [[plugins]]
 repo = 'mattn/wwwrenderer-vim'
@@ -108,21 +92,6 @@ depends = ['webapi-vim']
 [[plugins]]
 repo = 'mkusher/padawan.vim'
 on_ft = 'php'
-
-[[plugins]]
-repo = 'osyo-manga/unite-filetype'
-depends = ['unite.vim']
-on_source = ['unite.vim']
-
-[[plugins]]
-repo = 'osyo-manga/unite-highlight'
-depends = ['unite.vim']
-on_source = ['unite.vim']
-
-[[plugins]]
-repo = 'osyo-manga/unite-quickfix'
-depends = ['unite.vim']
-on_source = ['unite.vim']
 
 [[plugins]]
 repo = 'osyo-manga/vim-marching'
@@ -212,10 +181,6 @@ repo = 'ujihisa/neoclojure.vim'
 on_ft = 'clojure'
 
 [[plugins]]
-repo = 'ujihisa/unite-colorscheme'
-on_source = ['unite.vim']
-
-[[plugins]]
 repo = 'ujihisa/vimshell-ssh'
 depends = ['vimshell']
 on_ft = 'vimshell'
@@ -225,8 +190,13 @@ repo = 'vim-jp/cpp-vim'
 on_ft = 'cpp'
 
 [[plugins]]
+repo = 'vim-latex/vim-latex'
+on_ft = 'tex'
+
+[[plugins]]
 repo = 'vim-jp/vital.vim'
 on_cmd = ['Vitalize']
+on_ft = 'vim'
 
 [[plugins]]
 repo = 'yoppi/fluentd.vim'

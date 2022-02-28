@@ -112,10 +112,14 @@ if dein#load_state(expand(s:dein_dir))
   let g:rc_dir    = '~/dotfiles'
   let s:toml      = expand(g:rc_dir . '/dein.toml')
   let s:lazy_toml = expand(g:rc_dir . '/dein_lazy.toml')
+  let s:ddc_toml  = expand(g:rc_dir . '/dein_ddc.toml')
+  let s:ddu_toml  = expand(g:rc_dir . '/dein_ddu.toml')
 
   " TOML を読み込み、キャッシュしておく
   call dein#load_toml(s:toml,      {'lazy': 0})
   call dein#load_toml(s:lazy_toml, {'lazy': 1})
+  call dein#load_toml(s:ddc_toml, {'lazy': 1})
+  call dein#load_toml(s:ddu_toml, {'lazy': 1})
 
   " 設定終了
   call dein#end()
