@@ -94,6 +94,10 @@ repo = 'mkusher/padawan.vim'
 on_ft = 'php'
 
 [[plugins]]
+repo = 'nelsyeung/twig.vim'
+on_ft= 'twig'
+
+[[plugins]]
 repo = 'osyo-manga/vim-marching'
 depends = ['vimproc.vim', 'vim-reunions']
 on_ft = ['c', 'cpp']
