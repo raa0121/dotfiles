@@ -669,3 +669,4 @@ let g:denops#server#service#deno_args = [
 \]
 let g:lsp_log_verbose = 1
 let g:lsp_log_file = expand('~/vim-lsp.log')
+let g:denops_server_addr = '127.0.0.1:32123'

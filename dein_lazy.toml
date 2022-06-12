@@ -69,7 +69,6 @@ on_cmd = ['Gita']
 repo = 'lambdalisue/guise.vim'
 on_ft = 'terminal'
 on_source = 'denops.vim'
-rev = 'fix-windows'
 
 [[plugins]]
 repo = 'leafgarland/typescript-vim'

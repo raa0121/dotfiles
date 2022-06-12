@@ -25,6 +25,9 @@ call ddu#custom#patch_global({
   \     'file': {
   \       'defaultAction': 'open',
   \     },
+  \     'custom-list': {
+  \       'defaultAction': 'callback',
+  \     },
   \   },
   \   'sourceParams': {
   \     'rg': {

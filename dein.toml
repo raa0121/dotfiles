@@ -170,12 +170,21 @@ repo = 'machakann/vim-swap'
 repo = 'mattn/libcallex-vim'
 
 [[plugins]]
+repo = 'mattn/vim-findroot'
+
+[[plugins]]
+repo = 'mattn/vim-lsp-icons'
+
+[[plugins]]
 repo = 'mattn/vim-lsp-settings'
 hook_add = '''
 let g:lsp_settings = {
 \  'efm-langserver': {'disabled': v:false}
 \}
 '''
+
+[[plugins]]
+repo = 'mattn/vim-notification'
 
 [[plugins]]
 repo = 'mattn/webapi-vim'
@@ -285,6 +294,7 @@ repo = 'yaasita/slack.vim'
 
 [[plugins]]
 repo = 'vim-denops/denops.vim'
+rev = 'support-global-server'
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
