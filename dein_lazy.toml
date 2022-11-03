@@ -42,6 +42,9 @@ repo = 'eagletmt/ghcmod-vim'
 on_ft = 'haskell'
 
 [[plugins]]
+repo = 'gamoutatsumi/dps-ghosttext.vim'
+
+[[plugins]]
 repo = 'groenewege/vim-less'
 on_ft = 'less'
 
@@ -73,6 +76,27 @@ on_source = 'denops.vim'
 [[plugins]]
 repo = 'leafgarland/typescript-vim'
 on_ft = 'typescript'
+
+[[plugins]]
+repo = 'leafOfTree/vim-vue-plugin'
+on_ft = 'vue'
+hook_add = '''
+let g:vim_vue_plugin_config = {
+   \ 'syntax': {
+   \    'template': ['html'],
+   \    'script': ['typescript'],
+   \    'style': ['css', 'scss', 'sass', 'less'],
+   \    'i18n': ['json', 'yaml'],
+   \    'route': 'json',
+   \ },
+   \ 'full_syntax': ['json'],
+   \ 'initial_indent': ['i18n', 'i18n.json', 'yaml'],
+   \ 'attribute': 1,
+   \ 'keyword': 1,
+   \ 'foldexpr': 1,
+   \ 'debug': 0,
+   \ }
+'''
 
 [[plugins]]
 repo = 'mattn/benchvimrc-vim'
@@ -114,10 +138,6 @@ on_ft = 'ruby'
 [[plugins]]
 repo = 'osyo-manga/vim-snowdrop'
 on_ft = 'cpp'
-
-[[plugins]]
-repo = 'posva/vim-vue'
-on_ft = 'vue'
 
 [[plugins]]
 repo = 'Quramy/tsuquyomi'
