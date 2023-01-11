@@ -99,6 +99,9 @@ let g:vim_vue_plugin_config = {
 '''
 
 [[plugins]]
+repo = 'liuchengxu/vista.vim'
+
+[[plugins]]
 repo = 'mattn/benchvimrc-vim'
 on_cmd = 'BenchVimrc'
 

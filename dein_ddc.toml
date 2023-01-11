@@ -236,6 +236,17 @@ call popup_preview#enable()
 '''
 
 [[plugins]]
+repo = 'matsui54/denops-signature_help'
+on_source = 'ddc.vim'
+hook_source = '''
+let g:signature_help_config = {
+  \   'style': 'virtual',
+  \ }
+call signature_help#enable()
+let g:lsp_signature_help_enabled = 0
+'''
+
+[[plugins]]
 repo = 'shun/ddc-vim-lsp'
 on_source = 'ddc.vim'
 

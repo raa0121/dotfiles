@@ -20,6 +20,9 @@ call ddu#custom#patch_global({
   \     '_': {
   \       'matchers': ['matcher_fzf', 'matcher_substring'],
   \     },
+  \     'dein_update': {
+  \       'matchers': ['matcher_dein_update']
+  \     }
   \   },
   \   'kindOptions': {
   \     'file': {
@@ -28,18 +31,30 @@ call ddu#custom#patch_global({
   \     'custom-list': {
   \       'defaultAction': 'callback',
   \     },
+  \     'dein_update': {
+  \       'matchers': 'viewDiff',
+  \     }
   \   },
   \   'sourceParams': {
   \     'rg': {
   \       'args': ['--column', '--no-heading', '--color', 'always']
-  \     }
-  \   }
+  \     },
+  \     'ddu_update': {
+  \       'useGraphQL': v:true,
+  \     },
+  \   },
+  \   'uiParams': {
+  \     'winHeight': 20,
+  \     'winRow': 2,
+  \     'winWidth': 60,
+  \     'winCol': 10,
+  \   },
   \ })
 call ddu#custom#patch_local('files', {
   \   'uiParams': {
   \     'ff': {
   \       'split': has('nvim') ? 'floating' : 'horizontal',
-  \     }
+  \     },
   \   },
   \ })
 '''
@@ -112,6 +127,13 @@ on_source = 'ddu.vim'
 [[plugins]]
 repo = 'Shougo/ddu-ui-ff'
 on_source = 'ddu.vim'
+
+[[plugins]]
+repo = 'matsui54/ddu-source-dein_update'
+on_source = 'ddu.vim'
+hook_add = '''
+command! DduDeinUpdate :Ddu dein_update
+'''
 
 [[plugins]]
 repo = 'yuki-yano/ddu-filter-fzf'

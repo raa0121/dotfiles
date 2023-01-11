@@ -158,15 +158,13 @@ nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
 " ,vs: vimshell
 nnoremap <silent> ,vs :tabnew +VimShell<CR>
 " ,vr: .vimrc
-nnoremap <silent> ,vr :tabnew ~/.vimrc<CR>:lcd<CR>
+nnoremap <silent> ,vr :tabnew ~/dotfiles/.vimrc<CR>:lcd<CR>
 nnoremap <silent> ,de :tabnew ~/dotfiles/dein.toml<CR>:lcd<CR>
 nnoremap <silent> ,dl :tabnew ~/dotfiles/dein_lazy.toml<CR>:lcd<CR>
 nnoremap <silent> ,so :so ~/.vimrc<CR>
 nnoremap <silent> ,cw :cwindow<CR>
 nnoremap <Esc><Esc> :nohlsearch<CR><ESC>:HierStop<CR><ESC>
 nnoremap <silent> ,ts :<C-u>tab stj <C-R>=expand('<cword>')<CR><CR>
-nnoremap <silent> ,de :tabnew ~/dotfiles/dein.toml<CR>:lcd<CR>
-nnoremap <silent> ,dl :tabnew ~/dotfiles/dein_lazy.toml<CR>:lcd<CR>
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
@@ -248,6 +246,11 @@ augroup vimrc
       nnoremap <silent><buffer><expr> <CR>
       \ denite#do_map('do_action', 'tabopen', '<cwords>')
     endif
+  endfunction
+  autocmd User lsp_buffer_enabled ++nested ++once call s:vista()
+  function s:vista() abort
+    call dein#source('vista.vim')
+    Vista vim_lsp
   endfunction
 augroup END
 
