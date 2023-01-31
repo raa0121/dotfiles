@@ -48,7 +48,6 @@ call ddc#custom#patch_global('sourceOptions', {
   \   'mark': 'A',
   \   'matchers': ['matcher_head'],
   \   'minAutoCompleteLength': 4,
-  \   'maxCandidates': 5,
   \ },
   \ 'cmdline': {
   \  'mark': 'cmdline',
@@ -70,11 +69,6 @@ call ddc#custom#patch_global('sourceOptions', {
   \ 'cmdline-history': {
   \  'mark': 'h',
   \  'sorters': [],
-  \ },
-  \ 'sourceParams': {
-  \   'around': {
-  \     'maxSize': 500,
-  \   },
   \ }
   \})
 call ddc#custom#patch_global('filterParams', {
@@ -85,7 +79,6 @@ call ddc#custom#patch_global('filterParams', {
   \     'splitMode': 'word'
   \   }
   \ })
-call ddc#custom#patch_global('completionMenu', 'pum.vim')
 call ddc#custom#patch_filetype(['FineCmdlinePrompt'], {
   \ 'keywordPattern': '[0-9a-zA-Z_:#]*',
   \ 'sources': ['cmdline-history', 'cmdline', 'around'],
