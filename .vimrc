@@ -163,7 +163,7 @@ nnoremap <silent> ,de :tabnew ~/dotfiles/dein.toml<CR>:lcd<CR>
 nnoremap <silent> ,dl :tabnew ~/dotfiles/dein_lazy.toml<CR>:lcd<CR>
 nnoremap <silent> ,so :so ~/.vimrc<CR>
 nnoremap <silent> ,cw :cwindow<CR>
-nnoremap <Esc><Esc> :nohlsearch<CR><ESC>:HierStop<CR><ESC>
+nnoremap <Esc><Esc> <Cmd>:nohlsearch<CR><ESC><Cmd>:silent! HierStop<CR><ESC>
 nnoremap <silent> ,ts :<C-u>tab stj <C-R>=expand('<cword>')<CR><CR>
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)

@@ -74,6 +74,10 @@ on_ft = 'terminal'
 on_source = 'denops.vim'
 
 [[plugins]]
+repo = 'lambdalisue/vim-manpager'
+on_cmd = ['ASMANPAGER', 'Man']
+
+[[plugins]]
 repo = 'leafgarland/typescript-vim'
 on_ft = 'typescript'
 
@@ -100,6 +104,14 @@ let g:vim_vue_plugin_config = {
 
 [[plugins]]
 repo = 'liuchengxu/vista.vim'
+hook_add = '''
+let g:vista#renderer#icons = {
+  \ 'constant': "󿣿",
+  \ 'function': "󿞔",
+  \ 'method': "󿚦",
+  \ 'variable': "󿜛",
+  \ }
+'''
 
 [[plugins]]
 repo = 'mattn/benchvimrc-vim'
