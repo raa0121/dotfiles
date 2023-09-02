@@ -27,7 +27,15 @@ call ddc#custom#patch_global('autoCompleteEvents', [
   \ ])
 call ddc#custom#patch_global('ui', 'pum')
 call ddc#custom#patch_global('sources', ['vim-lsp', 'around', 'file', 'neosnippet'])
-call ddc#custom#patch_global('cmdlineSources', ['cmdline-history', 'input', 'around', 'file'])
+call ddc#custom#patch_global('cmdlineSources', {
+ \ ':': ['cmdline-history', 'cmdline', 'around'],
+ \ '@': ['input', 'cmdline'],
+ \ '>': ['cmdline-history', 'input', 'file', 'around'],
+ \ '/': ['around', 'line'],
+ \ '?': ['around', 'line'],
+ \ '-': ['around', 'line'],
+ \ '=': ['input'],
+ \ })
 call ddc#custom#patch_global('sourceOptions', {
   \ '_': {
   \   'matchers': ['matcher_fuzzy'],

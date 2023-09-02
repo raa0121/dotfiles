@@ -1,6 +1,11 @@
 local wezterm = require 'wezterm';
 local mykeys = {}
 
+local my_default_prog = {"bash.exe", "-i", "-l"}
+if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+  my_default_prog = {"C:\\msys64\\usr\\bin\\bash.exe", "-i", "-l"}
+end
+
 for i = 1, 8 do
   -- CTRL+ALT + number to move to that position
   table.insert(mykeys, {

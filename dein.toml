@@ -91,24 +91,10 @@ depends = ['vim-quickrun']
 repo = 'honza/vim-snippets'
 
 [[plugins]]
-repo = 'hrsh7th/vim-vsnip'
-
-[[plugins]]
-repo = 'hrsh7th/vim-vsnip-integ'
-
-[[plugins]]
 repo = 'itchyny/calendar.vim'
 
 [[plugins]]
 repo = 'itchyny/lightline.vim'
-
-[[plugins]]
-repo = 'joonty/vdebug'
-if = '''has('python')'''
-
-[[plugins]]
-repo = 'kakkyz81/evervim'
-if = '''has('python')'''
 
 [[plugins]]
 repo = 'kamichidu/vim-ref-java'

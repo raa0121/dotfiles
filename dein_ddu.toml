@@ -5,13 +5,14 @@ on_source = 'denops.vim'
 hook_add = '''
 nnoremap <silent> ,g  <Cmd>Ddu
   \ -name=search rg
-  \ -source-param-input=`input('Pattern: ')`<CR>
+  \ -source-param-rg-input=`input('Pattern: ')`<CR>
 nnoremap <silent> ,cg <Cmd>Ddu
-  \ -name=search rg -source-param-input=`expand('<cword>')`
-  \ -ui-param-startFilter=v:false<CR>
+  \ -name=search rg
+  \ -source-param-rg-input=`expand('<cword>')`
+  \ -ui-param-ff-startFilter=v:false<CR>
 nnoremap <silent> ,r <Cmd>Ddu
   \ -name=search -resume
-  \ -ui-param-startFilter=v:false<CR>
+  \ -ui-param-ff-startFilter=v:false<CR>
 '''
 hook_source = '''
 call ddu#custom#patch_global({
@@ -37,17 +38,11 @@ call ddu#custom#patch_global({
   \   },
   \   'sourceParams': {
   \     'rg': {
-  \       'args': ['--column', '--no-heading', '--color', 'always']
+  \       'args': ['--json']
   \     },
   \     'ddu_update': {
   \       'useGraphQL': v:true,
   \     },
-  \   },
-  \   'uiParams': {
-  \     'winHeight': 20,
-  \     'winRow': 2,
-  \     'winWidth': 60,
-  \     'winCol': 10,
   \   },
   \ })
 call ddu#custom#patch_local('files', {
@@ -126,6 +121,10 @@ on_source = 'ddu.vim'
 
 [[plugins]]
 repo = 'Shougo/ddu-ui-ff'
+on_source = 'ddu.vim'
+
+[[plugins]]
+repo = 'kamecha/ddu-source-floaterm'
 on_source = 'ddu.vim'
 
 [[plugins]]

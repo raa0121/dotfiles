@@ -298,41 +298,6 @@ let g:quickrun_config['clojure/neoclojure'] = {
 let g:quickrun_config['cpp/gcc']= {
   \ 'cmdopt': '-std=c++1y -Wall'
   \ }
-let g:quickrun_config['cpp/msvc2013'] = {
-  \ 'command' : 'cl',
-  \ 'exec': ["%c %o %s /nologo /link 'Siv3D.lib' 'kernel32.lib' " .
-  \          "'user32.lib' 'gdi32.lib' 'winspool.lib' 'comdlg32.lib'" .
-  \          "'advapi32.lib' 'shell32.lib' 'ole32.lib' 'oleaut32.lib'" .
-  \          "'uuid.lib' 'odbc32.lib' 'odbccp32.lib'", '%s:p:r.exe %a'],
-  \ 'cmdopt' : '/EHsc',
-  \ 'hook/output_encode/encoding': 'sjis',
-  \ 'hook/vcvarsall/enable' : 1,
-  \ 'hook/vcvarsall/bat' : shellescape($VS120COMNTOOLS . 'vsvars32.bat')
-  \ }
-if executable(g:Vimphpcs_Phpcscmd)
-  let g:quickrun_config['php/watchdogs_checker'] = {
-    \ 'type' : 'watchdogs_checker/phpcs'
-    \ }
-endif
-let g:quickrun_config['watchdogs_checker/_'] = {
-  \ 'hook/close_quickfix/enable_exit': 1,
-  \ 'hook/close_unite_quickfix/enable_exit' : 1,
-  \ }
-if executable(g:Vimphpcs_Phpcscmd)
-  let g:quickrun_config['watchdogs_checker/phpcs'] = {
-    \ 'quickfix/errorformat': g:phpcs_errorformat,
-    \ 'command' : g:Vimphpcs_Phpcscmd,
-    \ 'cmdopt' : '--report=csv --standard=' . g:Vimphpcs_Standard,
-    \ 'exec' : '%c %o %s:p',
-    \ }
-endif
-let g:quickrun_config['watchdogs_checker/phpmd'] = {
-  \ 'quickfix/errorformat': '%E%f:%l\s%#%m',
-  \ 'command' : '$HOME/.composer/vendor/bin/phpmd',
-  \ 'cmdopt' : 'text codesize,design,unusedcode,naming',
-  \ 'exec' : '%c %s:p %o',
-  \ }
-
 let g:watchdogs_check_BufWritePost_enable = 1
 let g:watchdogs_check_BufWritePost_enables = {
   \   'cpp' : 0,
@@ -348,55 +313,7 @@ if dein#tap('watchdocs.vim')
   call watchdogs#setup(g:quickrun_config)
 endif
 
-let g:J6uil_display_offline  = 0
-let g:J6uil_display_online   = 0
-let g:J6uil_echo_presence    = 1
-let g:J6uil_display_icon     = 0
-let g:J6uil_display_interval = 0
-let g:J6uil_updatetime       = 1000
-
-let g:calendar_google_calendar = 1
-let g:calendar_google_task = 1
-
-
-let g:marching_clang_command_option='-std=c++1y'
-let g:marching_enable_neocomplete = 1
-if has('win32')
-  let g:marching_clang_command = 'C:/msys64/mingw64/bin/clang'
-  let g:marching_include_paths = ['C:/msys64/mingw64/include/c++/4.9.2/',
-                                \ 'C:/cocos2d-x-3.6/cocos/']
-  let g:snowdrop#libclang_path = 'C:/msys64/mingw64/bin'
-else
-  let g:marching_clang_command = '/usr/bin/clang'
-  let g:marching_include_paths = ['/usr/include/c++/4.8.2/']
-  let g:snowdrop#libclang_path='/usr/lib'
-end
-
 let g:conoline_auto_enable = 1
-
-let g:unite_enable_start_insert = 0
-let g:unite_source_directory_mru_long_limit = 3000
-let g:unite_source_file_mru_filename_format = ''
-let g:unite_source_file_mru_long_limit = 3000
-let g:unite_source_history_yank_enable = 1
-let g:unite_split_rule = 'botright'
-let g:unite_winheight = 15
-
-if executable('ag')
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-  let g:unite_source_grep_recursive_opt = ''
-  if dein#tap('denite.nvim')
-    call denite#custom#var('grep', 'command', ['ag'])
-    call denite#custom#var('grep', 'default_opts', ['--follow', '--nogroup', '--nocolor'])
-    call denite#custom#var('grep', 'pattern_opt', [])
-    call denite#custom#var('grep', 'recursive_opts', [])
-  endif
-endif
-
-nnoremap <silent> ,g  :<C-u>Denite grep:. -buffer-name=search-buffer<CR>
-nnoremap <silent> ,cg :<C-u>DeniteCursorWord grep -buffer-name=search-buffer<CR>
-nnoremap <silent> ,r  :<C-u>Denite -resume -buffer-name=search-buffer<CR>
 
 if dein#tap('vim-textobj-user')
   call textobj#user#plugin('datetime', {
@@ -422,10 +339,6 @@ let g:unified_diff#arguments = [
 let g:unified_diff#iwhite_arguments = [
 \   '--ignore--all-space',
 \ ]
-
-let g:tsuquyomi_tsserver_path = '/usr/src/app/node_modules/typescript/bin/tsserver'
-let g:tsuquyomi_use_dev_node_module = 2
-let g:tsuquyomi_nodejs_path = 'docker exec -it node:10.14-alpine node'
 
 let g:nyancat_offset = 24
 
@@ -454,8 +367,7 @@ let g:lightline = {
 \ 'active': {
 \   'left': [
 \     ['mode', 'paste'],
-\     ['fugitive', 'gitgutter', 'filename'],
-\     ['nyancat']
+\     ['fugitive', 'gitgutter', 'filename', 'method'],
 \   ],
 \   'right': [
 \     ['lineinfo', 'syntastic'],
@@ -475,7 +387,7 @@ let g:lightline = {
 \   'syntastic': 'SyntasticStatuslineFlag',
 \   'charcode': 'MyCharCode',
 \   'gitgutter': 'MyGitGutter',
-\   'nyancat' : 'MyNyanCat',
+\   'method' : 'MyMethod',
 \ },
 \ 'separator': { 'left': "\ue0c0", 'right': "\ue0c2" },
 \ 'subseparator': { 'left': "\ue0c1", 'right': "\ue0c3" }
@@ -547,40 +459,8 @@ function! MyGitGutter()
   return join(l:ret, ' ')
 endfunction
 
-" https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim
-function! MyCharCode()
-  if winwidth('.') <= 70
-    return ''
-  endif
-
-  " Get the output of :ascii
-  redir => ascii
-  silent! ascii
-  redir END
-
-  if match(ascii, 'NUL') != -1
-    return 'NUL'
-  endif
-
-  " Zero pad hex values
-  let l:nrformat = '0x%02x'
-
-  let l:encoding = (&fenc ==? '' ? &enc : &fenc)
-
-  if l:encoding ==? 'utf-8'
-    " Zero pad with 4 zeroes in unicode files
-    let l:nrformat = '0x%04x'
-  endif
-
-  " Get the character and the numeric value from the return value of :ascii
-  " This matches the two first pieces of the return value, e.g.
-  " "<F>  70" => char: 'F', nr: '70'
-  let [l:str, l:char, l:nr; l:rest] = matchlist(ascii, '\v\<(.{-1,})\>\s*([0-9]+)')
-
-  " Format the numeric value
-  let l:nr = printf(l:nrformat, l:nr)
-
-  return "'". l:char ."' ". l:nr
+function MyMethod()
+  return get(b:, 'vista_nearest_method_or_function', '')
 endfunction
 
 let &tabline = '%!' . s:SID_PREFIX() . 'tabline()'
@@ -664,7 +544,6 @@ let g:terminal_ansi_colors = [
 \ '#fdf6e3',
 \ ]
 
-set runtimepath^=~/develop/denops-bcdice-api
 let g:denops#server#service#deno_args = [
 \ '-q',
 \ '--unstable',
