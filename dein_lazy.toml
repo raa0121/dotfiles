@@ -1,9 +1,4 @@
 [[plugins]]
-repo = 'OmniSharp/omnisharp-vim'
-on_ft = 'cs'
-if = '''has('python')'''
-
-[[plugins]]
 repo = 'Shougo/echodoc'
 on_i = 1
 
@@ -14,15 +9,6 @@ on_map = ['<Plug>(vimfiler_switch)']
 
 [[plugins]]
 repo = 'StanAngeloff/php.vim'
-on_ft = 'php'
-
-[[plugins]]
-repo = 'basyura/J6uil.vim'
-depends = ['webapi-vim']
-on_cmd ='J6uil'
-
-[[plugins]]
-repo = 'bpearson/vim-phpcs'
 on_ft = 'php'
 
 [[plugins]]
@@ -40,9 +26,6 @@ on_cmd = 'DuzzleStart'
 [[plugins]]
 repo = 'eagletmt/ghcmod-vim'
 on_ft = 'haskell'
-
-[[plugins]]
-repo = 'gamoutatsumi/dps-ghosttext.vim'
 
 [[plugins]]
 repo = 'groenewege/vim-less'
@@ -190,11 +173,6 @@ on_ft = 'cpp'
 [[plugins]]
 repo = 'Quramy/tsuquyomi'
 on_ft = 'typescript'
-
-[[plugins]]
-repo = 'rbtnn/vimconsole.vim'
-depends = ['vim-prettyprint']
-on_cmd = 'VimConsoleOpen'
 
 [[plugins]]
 repo = 'rhysd/vim-crystal'
