@@ -26,7 +26,7 @@ call ddc#custom#patch_global('autoCompleteEvents', [
   \ 'CmdlineEnter', 'CmdlineChanged', 'TextChangedT',
   \ ])
 call ddc#custom#patch_global('ui', 'pum')
-call ddc#custom#patch_global('sources', ['vim-lsp', 'around', 'file', 'neosnippet'])
+call ddc#custom#patch_global('sources', ['vim-lsp', 'around', 'file', 'neosnippet', 'emoji'])
 call ddc#custom#patch_global('cmdlineSources', {
  \ ':': ['cmdline-history', 'cmdline', 'around'],
  \ '@': ['input', 'cmdline'],
@@ -36,6 +36,7 @@ call ddc#custom#patch_global('cmdlineSources', {
  \ '-': ['around', 'line'],
  \ '=': ['input'],
  \ })
+call ddc#custom#patch_global('keywordPattern', '[a-zA-Z_:]\w*')
 call ddc#custom#patch_global('sourceOptions', {
   \ '_': {
   \   'matchers': ['matcher_fuzzy'],
@@ -77,7 +78,13 @@ call ddc#custom#patch_global('sourceOptions', {
   \ 'cmdline-history': {
   \  'mark': 'h',
   \  'sorters': [],
-  \ }
+  \ },
+  \ 'emoji': {
+  \  'mark': 'emoji',
+  \  'matchers': ['emoji'],
+  \  'sorters': [],
+  \  'forceCompletionPattern': '^:'
+  \ },
   \})
 call ddc#custom#patch_global('filterParams', {
   \   'converter_fuzzy': {
@@ -228,6 +235,10 @@ hook_source = '''
 call pum#set_option('max_width', 80)
 call pum#set_option('use_complete', v:true)
 '''
+
+[[plugins]]
+repo = 'gamoutatsumi/ddc-emoji'
+on_source = 'ddc.vim' 
 
 [[plugins]]
 repo = 'matsui54/denops-popup-preview.vim'

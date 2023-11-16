@@ -47,6 +47,107 @@ repo = 'honza/vim-snippets'
 
 [[plugins]]
 repo = 'itchyny/lightline.vim'
+hook_add = '''
+let g:lightline = {
+\ 'colorscheme': 'wombat',
+\ 'active': {
+\   'left': [
+\     ['mode', 'paste'],
+\     ['fugitive', 'gitgutter', 'filename', 'method'],
+\   ],
+\   'right': [
+\     ['lineinfo', 'syntastic'],
+\     ['percent'],
+\     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
+\   ]
+\ },
+\ 'component_function': {
+\   'modified': 'MyModified',
+\   'readonly': 'MyReadonly',
+\   'fugitive': 'MyFugitive',
+\   'filename': 'MyFilename',
+\   'fileformat': 'MyFileformat',
+\   'filetype': 'MyFiletype',
+\   'fileencoding': 'MyFileencoding',
+\   'mode': 'MyMode',
+\   'syntastic': 'SyntasticStatuslineFlag',
+\   'charcode': 'MyCharCode',
+\   'gitgutter': 'MyGitGutter',
+\   'method' : 'MyMethod',
+\ },
+\ 'separator': { 'left': "\ue0c0", 'right': "\ue0c2" },
+\ 'subseparator': { 'left': "\ue0c1", 'right': "\ue0c3" }
+\ }
+
+
+function! MyModified()
+  return &ft =~? 'help\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! MyReadonly()
+  return &ft !~? 'help\|gundo' && &ro ? '\u2b64' : ''
+endfunction
+
+function! MyFilename()
+  return ('' !=? MyReadonly() ? MyReadonly() . ' ' : '') .
+        \ ( &ft ==? 'unite' ? unite#get_status_string() :
+        \  &ft ==? 'vimshell' ? substitute(b:vimshell.current_dir,expand('~'),'~','') :
+        \ '' !=? expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' !=? MyModified() ? ' ' . MyModified() : '')
+endfunction
+
+function! MyFugitive()
+  try
+    if &ft !~? 'gundo' && exists('*fugitive#head')
+      let l:_ = fugitive#head()
+      return strlen(l:_) ? '⭠ '. l:_ : ''
+    endif
+  catch
+  endtry
+  return ''
+endfunction
+
+function! MyFileformat()
+  return winwidth('.') > 70 ? &fileformat : ''
+endfunction
+
+function! MyFiletype()
+  return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! MyFileencoding()
+  return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! MyMode()
+  return winwidth('.') > 60 ? lightline#mode() : ''
+endfunction
+
+function! MyGitGutter()
+  if ! exists('*GitGutterGetHunkSummary')
+        \ || ! get(g:, 'gitgutter_enabled', 0)
+        \ || winwidth('.') <= 90
+    return ''
+  endif
+  let l:symbols = [
+        \ g:gitgutter_sign_added . ' ',
+        \ g:gitgutter_sign_modified . ' ',
+        \ g:gitgutter_sign_removed . ' '
+        \ ]
+  let l:hunks = GitGutterGetHunkSummary()
+  let l:ret = []
+  for l:i in [0, 1, 2]
+    if l:hunks[l:i] > 0
+      call add(l:ret, l:symbols[l:i] . l:hunks[l:i])
+    endif
+  endfor
+  return join(l:ret, ' ')
+endfunction
+
+function MyMethod()
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+'''
 
 [[plugins]]
 repo = 'kamichidu/vim-ref-java'
@@ -63,9 +164,25 @@ repo = 'kana/vim-textobj-function'
 
 [[plugins]]
 repo = 'kana/vim-textobj-user'
+hook_add = '''
+call textobj#user#plugin('datetime', {
+\   'date': {
+\     'pattern': '\<\d\d\d\d-\d\d-\d\d\>',
+\     'select': ['ad', 'id'],
+\   },
+\   'time': {
+\     'pattern': '\<\d\d:\d\d:\d\d\>',
+\     'select': ['at', 'it'],
+\   },
+\ })
+'''
+
 
 [[plugins]]
 repo = 'lambdalisue/fern.vim'
+hook_add = '''
+let g:fern#renderer = 'nerdfont'
+'''
 
 [[plugins]]
 repo = 'lambdalisue/fern-bookmark.vim'
@@ -107,6 +224,18 @@ let g:nerdfont#path#extension#customs = {
 
 [[plugins]]
 repo = 'lambdalisue/vim-unified-diff'
+hook_add = '''
+set diffexpr=unified_diff#diffexpr()
+
+" configure with the followings (default values are shown below)
+let g:unified_diff#executable = 'git'
+let g:unified_diff#arguments = [
+\   'diff', '--no-index', '--no-color', '--no-ext-diff', '--unified=0',
+\ ]
+let g:unified_diff#iwhite_arguments = [
+\   '--ignore--all-space',
+\ ]
+'''
 
 [[plugins]]
 repo = 'machakann/vim-swap'
@@ -139,6 +268,9 @@ repo = 'mhinz/vim-startify'
 
 [[plugins]]
 repo = 'miyakogi/conoline.vim'
+hook_add = '''
+let g:conoline_auto_enable = 1
+'''
 
 [[plugins]]
 repo = 'osyo-manga/quickrun-hook-u-nya-'
@@ -159,11 +291,11 @@ depends = ['context_filetype.vim']
 hook_add='''
 " カーソル移動時の自動切り替えを無効化
 let g:precious_enable_switch_CursorMoved = {
-  \	"vue" : 0
-  \}
+  \ "vue" : 0
+  \ }
 let g:precious_enable_switch_CursorMoved_i = {
-  \	"vue" : 0
-  \}
+  \ "vue" : 0
+  \ }
 '''
 
 [[plugins]]
@@ -171,6 +303,20 @@ repo = 'osyo-manga/vim-reunions'
 
 [[plugins]]
 repo = 'osyo-manga/vim-watchdogs'
+depends = ['quickrun.vim']
+hook_source = '''
+let g:watchdogs_check_BufWritePost_enable = 1
+let g:watchdogs_check_BufWritePost_enables = {
+  \   'cpp' : 0,
+  \   'php' : 1,
+  \ }
+let g:watchdogs_check_CursorHold_enable = 1
+let g:watchdogs_check_CursorHold_enables = {
+  \   'cpp' : 0,
+  \   'php' : 1,
+  \ }
+call watchdogs#setup(g:quickrun_config)
+'''
 
 [[plugins]]
 repo = 'peitalin/vim-jsx-typescript'
@@ -262,9 +408,52 @@ repo = 'thinca/vim-localrc'
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
+hook_add = '''
+let g:quickrun_config = {}
+let g:quickrun_config = {
+  \ '_' : {
+    \ 'hook/close_unite_quickfix/enable_hook_loaded' : 1,
+    \ 'hook/unite_quickfix/enable_failure' : 1,
+    \ 'hook/close_quickfix/enable_exit' : 1,
+    \ 'hook/close_buffer/enable_failure' : 1,
+    \ 'hook/close_buffer/enable_empty_data' : 1,
+    \ 'outputter' : 'multi:buffer:quickfix',
+    \ 'hook/u_nya_/enable' : 1,
+    \ 'hook/sweep/enable' : 0,
+    \ 'outputter/buffer/split' : ':botright 15sp',
+    \ 'outputter/buffer/running_mark' : 'ﾊﾞﾝ（∩`･ω･）ﾊﾞﾝﾊﾞﾝﾊﾞﾝﾊﾞﾝﾞﾝ',
+    \ 'runner' : 'vimproc',
+    \ 'runner/vimproc/updatetime' : 40,
+    \ 'runner/vimproc/sleep' : 0,
+  \ }
+\ }
+
+let g:quickrun_config['markdown'] = {
+  \ 'outputter': 'browser'
+  \}
+let g:quickrun_config['ruby'] = {
+  \ 'command': 'ruby',
+  \ 'exec': '/usr/bin/env ruby %s',
+  \ 'tempfile': '{tempname()}.rb'
+  \}
+let g:quickrun_config['clojure/neoclojure'] = {
+  \ 'type' : 'clojure/neoclojure',
+  \ 'runner' : 'neoclojure',
+  \ 'command' : 'dummy',
+  \ 'tempfile' : '%{tempname()}.clj'
+  \}
+let g:quickrun_config['cpp/gcc']= {
+  \ 'cmdopt': '-std=c++1y -Wall'
+  \ }
+'''
 
 [[plugins]]
 repo = 'thinca/vim-singleton'
+hook_add = '''
+if has('clientserver')
+  call singleton#enable()
+endif
+'''
 
 [[plugins]]
 repo = 'thinca/vim-splash'
@@ -281,6 +470,10 @@ depends = ['vim-lsp']
 
 [[plugins]]
 repo = 'tyru/open-browser.vim'
+hook_add = '''
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
+'''
 
 [[plugins]]
 repo = 'tyru/kirikiri.vim'
@@ -294,6 +487,13 @@ repo = 'yaasita/slack.vim'
 
 [[plugins]]
 repo = 'vim-denops/denops.vim'
+hook_add = '''
+let g:denops#server#service#deno_args = [
+\ '-q',
+\ '--unstable',
+\ '-A',
+\]
+'''
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'

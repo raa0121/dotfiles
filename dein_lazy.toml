@@ -5,7 +5,6 @@ on_i = 1
 [[plugins]]
 repo = 'Shougo/vimshell'
 on_cmd = ['VimShell', 'VimShellExecute', 'VimShellInteractive','VimShellTerminal', 'VimShellPop']
-on_map = ['<Plug>(vimfiler_switch)']
 
 [[plugins]]
 repo = 'StanAngeloff/php.vim'
@@ -140,6 +139,10 @@ on_cmd = 'FlappyVird'
 [[plugins]]
 repo = 'mattn/gist-vim'
 on_cmd = 'Gist'
+hook_add = '''
+let g:github_user = 'raa0121'
+let g:github#user = 'raa0121'
+'''
 
 [[plugins]]
 repo = 'mattn/sonictemplate-vim'

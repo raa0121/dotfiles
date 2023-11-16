@@ -68,12 +68,12 @@ endif
 
 
 if has('vim_starting')
-    " 挿入モード時に非点滅の縦棒タイプのカーソル
-    let &t_SI .= "\e[6 q"
-    " ノーマルモード時に非点滅のブロックタイプのカーソル
-    let &t_EI .= "\e[2 q"
-    " 置換モード時に非点滅の下線タイプのカーソル
-    let &t_SR .= "\e[4 q"
+  " 挿入モード時に非点滅の縦棒タイプのカーソル
+  let &t_SI .= "\e[6 q"
+  " ノーマルモード時に非点滅のブロックタイプのカーソル
+  let &t_EI .= "\e[2 q"
+  " 置換モード時に非点滅の下線タイプのカーソル
+  let &t_SR .= "\e[4 q"
 endif
 
 " タブページの切り替えをWindowsのように
@@ -90,6 +90,7 @@ if filereadable(expand('~/.vimrc.local'))
 endif
 
 filetype off
+
 
 " プラグインが実際にインストールされるディレクトリ
 let s:dein_dir = '~/.cache/dein'
@@ -126,6 +127,37 @@ if dein#load_state(expand(s:dein_dir))
   call dein#save_state()
 endif
 
+if 0 " ddp
+" プラグインが実際にインストールされるディレクトリ
+let s:dpp_dir = '~/.cache/dpp'
+" dpp.vim の 依存をインストール
+let s:dpp_plugins = [
+  \ 'Shougo/dpp.vim',
+  \ 'Shougo/dpp-ext-installer',
+  \ 'Shougo/dpp-ext-lazy',
+  \ 'Shougo/dpp-ext-toml',
+  \ 'Shougo/dpp-protocol-git',
+  \ 'vim-denops/denops.vim',
+  \ ]
+let g:denops_server_addr = '127.0.0.1:32123'
+for s:plugin in s:dpp_plugins->filter({_, val -> &runtimepath !~# '/' .. val->fnamemodify(':t')})
+  let s:dir = expand(s:dpp_dir .. '/repos/github.com/' .. s:plugin)
+  if !(s:dir->isdirectory())
+    execute '!git clone https://github.com/' .. s:plugin s:dir
+  endif
+  execute 'set runtimepath^=' . s:dir->fnamemodify(':p')->substitute('[/\\]$', '', '')
+endfor
+
+" 設定開始
+if dpp#min#load_state(expand(s:dpp_dir))
+  augroup dpp-load
+    autocmd!
+    autocmd User DenopsReady call dpp#make_state(s:dpp_dir, expand('~/dotfiles/dpp.ts'))
+  augroup END
+endif
+
+endif
+
 filetype plugin indent on
 syntax enable
 
@@ -134,9 +166,8 @@ if dein#check_install()
   call dein#install()
 endif
 
-
-if has('clientserver') && dein#tap('vim-singleton')
-  call singleton#enable()
+if 0 " ddp
+call dpp#async_ext_action('installer','install')
 endif
 
 set ww+=h,l,>,<,[,]
@@ -145,24 +176,11 @@ if !has('nvim')
   set clipboard=unnamed
 endif
 
-" ,is: シェルを起動
-nnoremap <silent> ,is :VimShell<CR>
-" ,ipy: pythonを非同期で起動
-nnoremap <silent> ,ipy :VimShellInteractive python<CR>
-" ,irb: irbを非同期で起動
-nnoremap <silent> ,irb :VimShellInteractive irb<CR>
-" ,ss: 非同期で開いたインタプリタに現在の行を評価させる
-vmap <silent> ,ss :VimShellSendString<CR>
-" 選択中に,ss: 非同期で開いたインタプリタに選択行を評価させる
-nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
-" ,vs: vimshell
-nnoremap <silent> ,vs :tabnew +VimShell<CR>
-" ,vr: .vimrc
 nnoremap <silent> ,vr :tabnew ~/dotfiles/.vimrc<CR>:lcd<CR>
 nnoremap <silent> ,de :tabnew ~/dotfiles/dein.toml<CR>:lcd<CR>
 nnoremap <silent> ,dl :tabnew ~/dotfiles/dein_lazy.toml<CR>:lcd<CR>
 nnoremap <silent> ,so :so ~/.vimrc<CR>
-nnoremap <silent> ,cw :cwindow<CR>
+nnoremap <silent> ,cw :botrigiht cwindow<CR>
 nnoremap <Esc><Esc> <Cmd>:nohlsearch<CR><ESC><Cmd>:silent! HierStop<CR><ESC>
 nnoremap <silent> ,ts :<C-u>tab stj <C-R>=expand('<cword>')<CR><CR>
 map /  <Plug>(incsearch-forward)
@@ -170,42 +188,9 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 
-"let g:vimfiler_as_default_explorer = 1
-"let g:vimfiler_safe_mode_by_default = 0
-
-"let g:neocomplcache#sources#rsense#home_directory = '/opt/rsense-0.3/'
-
 let g:monster#completion#rcodetools#backend = 'async_rct_complete'
 
 let g:neosnippet#snippets_directory = '~/.vim/snippet,~/.cache/dein/honza/vim-snippets/snippets'
-
-let g:pdv_template_dir = $HOME . "/.hariti/bundle/pdv/templates_snip"
-
-"tabで補完候補の選択を行う
-imap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-if dein#tap('neosnippet')
-  imap <expr><CR> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-  \ "\<Plug>(neosnippet_expand_or_jump)"
-  \: "\<TAB>"
-endif
-inoremap <buffer> <C-P> <ESC>:call pdv#DocumentWithSnip()<CR>i
-nnoremap <buffer> <C-P> :call pdv#DocumentWithSnip()<CR>
-if dein#tap('deoppet.nvim')
-  call deoppet#initialize()
-  call deoppet#custom#option('snippets_dirs',
-  \ globpath(&runtimepath, 'neosnippets', 1, 1))
-  imap <C-k>  <Plug>(deoppet_expand)
-  imap <C-f>  <Plug>(deoppet_jump_forward)
-  imap <C-b>  <Plug>(deoppet_jump_backward)
-  smap <C-f>  <Plug>(deoppet_jump_forward)
-  smap <C-b>  <Plug>(deoppet_jump_backward)
-endif
-
-if dein#tap('fern.vim')
-  let g:fern#renderer = 'nerdfont'
-endif
 
 let g:OmniSharp_server_type = 'roslyn'
 
@@ -240,13 +225,6 @@ augroup vimrc
   autocmd FileType go setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
   autocmd BufNewFile Gemfile Template Gemfile
   autocmd User DirvishEnter let b:dirvish.showhidden = 1
-  autocmd FileType denite call s:denite_my_settings()
-  function! s:denite_my_settings() abort
-    if b:denite.buffer_name == 'search-buffer'
-      nnoremap <silent><buffer><expr> <CR>
-      \ denite#do_map('do_action', 'tabopen', '<cwords>')
-    endif
-  endfunction
   autocmd User lsp_buffer_enabled ++nested ++once call s:vista()
   function s:vista() abort
     call dein#source('vista.vim')
@@ -256,91 +234,6 @@ augroup END
 
 
 let g:netrw_nogx = 1
-nmap gx <Plug>(openbrowser-smart-search)
-vmap gx <Plug>(openbrowser-smart-search)
-
-let g:Vimphpcs_Phpcscmd = expand('~/.config/composer/vendor/bin/phpcs')
-
-let g:quickrun_config = {}
-
-let g:quickrun_config = {
-  \ '_' : {
-    \ 'hook/close_unite_quickfix/enable_hook_loaded' : 1,
-    \ 'hook/unite_quickfix/enable_failure' : 1,
-    \ 'hook/close_quickfix/enable_exit' : 1,
-    \ 'hook/close_buffer/enable_failure' : 1,
-    \ 'hook/close_buffer/enable_empty_data' : 1,
-    \ 'outputter' : 'multi:buffer:quickfix',
-    \ 'hook/u_nya_/enable' : 1,
-    \ 'hook/sweep/enable' : 0,
-    \ 'outputter/buffer/split' : ':botright 15sp',
-    \ 'outputter/buffer/running_mark' : 'ﾊﾞﾝ（∩`･ω･）ﾊﾞﾝﾊﾞﾝﾊﾞﾝﾊﾞﾝﾞﾝ',
-    \ 'runner' : 'vimproc',
-    \ 'runner/vimproc/updatetime' : 40,
-    \ 'runner/vimproc/sleep' : 0,
-  \ }
-\ }
-
-let g:quickrun_config['markdown'] = {
-  \ 'outputter': 'browser'
-  \}
-let g:quickrun_config['ruby'] = {
-  \ 'command': 'ruby',
-  \ 'exec': '/usr/bin/env ruby %s',
-  \ 'tempfile': '{tempname()}.rb'
-  \}
-let g:quickrun_config['clojure/neoclojure'] = {
-  \ 'type' : 'clojure/neoclojure',
-  \ 'runner' : 'neoclojure',
-  \ 'command' : 'dummy',
-  \ 'tempfile' : '%{tempname()}.clj'
-  \}
-let g:quickrun_config['cpp/gcc']= {
-  \ 'cmdopt': '-std=c++1y -Wall'
-  \ }
-let g:watchdogs_check_BufWritePost_enable = 1
-let g:watchdogs_check_BufWritePost_enables = {
-  \   'cpp' : 0,
-  \   'php' : 1,
-  \ }
-let g:watchdogs_check_CursorHold_enable = 1
-let g:watchdogs_check_CursorHold_enables = {
-  \   'cpp' : 0,
-  \   'php' : 1,
-  \ }
-
-if dein#tap('watchdocs.vim')
-  call watchdogs#setup(g:quickrun_config)
-endif
-
-let g:conoline_auto_enable = 1
-
-if dein#tap('vim-textobj-user')
-  call textobj#user#plugin('datetime', {
-  \   'date': {
-  \     'pattern': '\<\d\d\d\d-\d\d-\d\d\>',
-  \     'select': ['ad', 'id'],
-  \   },
-  \   'time': {
-  \     'pattern': '\<\d\d:\d\d:\d\d\>',
-  \     'select': ['at', 'it'],
-  \   },
-  \ })
-endif
-
-
-set diffexpr=unified_diff#diffexpr()
-
-" configure with the followings (default values are shown below)
-let g:unified_diff#executable = 'git'
-let g:unified_diff#arguments = [
-\   'diff', '--no-index', '--no-color', '--no-ext-diff', '--unified=0',
-\ ]
-let g:unified_diff#iwhite_arguments = [
-\   '--ignore--all-space',
-\ ]
-
-let g:nyancat_offset = 24
 
 function! s:SID_PREFIX()
     return matchstr(expand('<sfile>'), '<SNR>\d\+_')
@@ -361,107 +254,6 @@ endif
 
 " tabline
 set showtabline=2 " always show tabline
-
-let g:lightline = {
-\ 'colorscheme': 'wombat',
-\ 'active': {
-\   'left': [
-\     ['mode', 'paste'],
-\     ['fugitive', 'gitgutter', 'filename', 'method'],
-\   ],
-\   'right': [
-\     ['lineinfo', 'syntastic'],
-\     ['percent'],
-\     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
-\   ]
-\ },
-\ 'component_function': {
-\   'modified': 'MyModified',
-\   'readonly': 'MyReadonly',
-\   'fugitive': 'MyFugitive',
-\   'filename': 'MyFilename',
-\   'fileformat': 'MyFileformat',
-\   'filetype': 'MyFiletype',
-\   'fileencoding': 'MyFileencoding',
-\   'mode': 'MyMode',
-\   'syntastic': 'SyntasticStatuslineFlag',
-\   'charcode': 'MyCharCode',
-\   'gitgutter': 'MyGitGutter',
-\   'method' : 'MyMethod',
-\ },
-\ 'separator': { 'left': "\ue0c0", 'right': "\ue0c2" },
-\ 'subseparator': { 'left': "\ue0c1", 'right': "\ue0c3" }
-\ }
-
-
-function! MyModified()
-  return &ft =~? 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-
-function! MyReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &ro ? '\u2b64' : ''
-endfunction
-
-function! MyFilename()
-  return ('' !=? MyReadonly() ? MyReadonly() . ' ' : '') .
-        \ (&ft ==? 'vimfiler' ? vimfiler#get_status_string() :
-        \  &ft ==? 'unite' ? unite#get_status_string() :
-        \  &ft ==? 'vimshell' ? substitute(b:vimshell.current_dir,expand('~'),'~','') :
-        \ '' !=? expand('%:t') ? expand('%:t') : '[No Name]') .
-        \ ('' !=? MyModified() ? ' ' . MyModified() : '')
-endfunction
-
-function! MyFugitive()
-  try
-    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
-      let l:_ = fugitive#head()
-      return strlen(l:_) ? '⭠ '. l:_ : ''
-    endif
-  catch
-  endtry
-  return ''
-endfunction
-
-function! MyFileformat()
-  return winwidth('.') > 70 ? &fileformat : ''
-endfunction
-
-function! MyFiletype()
-  return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! MyFileencoding()
-  return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! MyMode()
-  return winwidth('.') > 60 ? lightline#mode() : ''
-endfunction
-
-function! MyGitGutter()
-  if ! exists('*GitGutterGetHunkSummary')
-        \ || ! get(g:, 'gitgutter_enabled', 0)
-        \ || winwidth('.') <= 90
-    return ''
-  endif
-  let l:symbols = [
-        \ g:gitgutter_sign_added . ' ',
-        \ g:gitgutter_sign_modified . ' ',
-        \ g:gitgutter_sign_removed . ' '
-        \ ]
-  let l:hunks = GitGutterGetHunkSummary()
-  let l:ret = []
-  for l:i in [0, 1, 2]
-    if l:hunks[l:i] > 0
-      call add(l:ret, l:symbols[l:i] . l:hunks[l:i])
-    endif
-  endfor
-  return join(l:ret, ' ')
-endfunction
-
-function MyMethod()
-  return get(b:, 'vista_nearest_method_or_function', '')
-endfunction
 
 let &tabline = '%!' . s:SID_PREFIX() . 'tabline()'
 
@@ -521,10 +313,6 @@ augroup END
 
 command! -nargs=? ExtractMatches let s:pat = empty(<q-args>) ? @/ : <q-args> | let s:result = filter(getline(1, '$'), 'v:val =~# s:pat') | new | put =s:result
 
-let g:github_user = 'raa0121'
-
-let g:github#user = 'raa0121'
-
 let g:terminal_ansi_colors = [
 \ '#073642',
 \ '#dc322f',
@@ -544,11 +332,3 @@ let g:terminal_ansi_colors = [
 \ '#fdf6e3',
 \ ]
 
-let g:denops#server#service#deno_args = [
-\ '-q',
-\ '--unstable',
-\ '-A',
-\]
-let g:lsp_log_verbose = 1
-let g:lsp_log_file = expand('~/vim-lsp.log')
-let g:denops_server_addr = '127.0.0.1:32123'
