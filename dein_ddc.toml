@@ -18,15 +18,18 @@ inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>
 inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>
 inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
 inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+"imap <expr><CR>
+"  \ neosnippet#expandable_or_jumpable() ? '<Plug>(neosnippet_expand_or_jump)' : '<CR>'
 imap <expr><CR>
-  \ neosnippet#expandable_or_jumpable() ? '<Plug>(neosnippet_expand_or_jump)' : '<CR>'
+  \ neosnippet#expandable_or_jumpable() ? '<Plug>(neosnippet_expand_or_jump)' :
+  \ pum#entered() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
 
 call ddc#custom#patch_global('autoCompleteEvents', [
   \ 'InsertEnter', 'TextChangedI', 'TextChangedP',
   \ 'CmdlineEnter', 'CmdlineChanged', 'TextChangedT',
   \ ])
 call ddc#custom#patch_global('ui', 'pum')
-call ddc#custom#patch_global('sources', ['vim-lsp', 'around', 'file', 'neosnippet'])
+call ddc#custom#patch_global('sources', ['lsp', 'around', 'file', 'neosnippet'])
 call ddc#custom#patch_global('cmdlineSources', {
  \ ':': ['cmdline-history', 'cmdline', 'around'],
  \ '@': ['input', 'cmdline'],
@@ -37,6 +40,16 @@ call ddc#custom#patch_global('cmdlineSources', {
  \ '=': ['input'],
  \ })
 call ddc#custom#patch_global('keywordPattern', '[a-zA-Z_:]\w*')
+call ddc#custom#patch_global('sourceParams', {
+  \ 'lsp': {
+  \   'lspEngine': 'vim-lsp',
+  \   'snippetEngine': denops#callback#register({
+  \      body -> vsnip#anonymous(body)
+  \    }),
+  \    'enableResolveItem': v:true,
+  \    'enableAdditionalTextEdit': v:true,
+  \ }
+  \ })
 call ddc#custom#patch_global('sourceOptions', {
   \ '_': {
   \   'matchers': ['matcher_fuzzy'],
@@ -44,9 +57,10 @@ call ddc#custom#patch_global('sourceOptions', {
   \   'converters': ['converter_fuzzy'],
   \   'ignoreCase': v:true,
   \ },
-  \ 'vim-lsp': {
+  \ 'lsp': {
   \   'mark': 'lsp',
-  \   'forceCompletionPattern': '\.\w*|:\w*|->\w*|"\w*',
+  \   'forceCompletionPattern': '\.\w*|:\w*|->\w*',
+  \   'sorters': ['sorter_lsp-kind'],
   \   'isVolatile': v:true
   \ },
   \ 'neosnippet': {
@@ -196,6 +210,10 @@ repo = 'Shougo/ddc-sorter_rank'
 on_source = 'ddc.vim'
 
 [[plugins]]
+repo = 'Shougo/ddc-source-lsp'
+on_source = 'ddc.vim'
+
+[[plugins]]
 repo = 'Shougo/ddc-ui-native'
 on_source = 'ddc.vim'
 
@@ -246,10 +264,6 @@ let g:signature_help_config = {
 call signature_help#enable()
 let g:lsp_signature_help_enabled = 0
 '''
-
-[[plugins]]
-repo = 'shun/ddc-vim-lsp'
-on_source = 'ddc.vim'
 
 [[plugins]]
 repo = 'tani/ddc-fuzzy'
