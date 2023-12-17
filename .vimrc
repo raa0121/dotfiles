@@ -91,43 +91,6 @@ endif
 
 filetype off
 
-
-" プラグインが実際にインストールされるディレクトリ
-let s:dein_dir = '~/.cache/dein'
-" dein.vim 本体
-let s:dein_repo_dir = expand(s:dein_dir . '/repos/github.com/Shougo/dein.vim')
-" dein.vim がなければ github から落としてくる
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-  endif
-  execute 'set runtimepath^=' . s:dein_repo_dir
-endif
-
-" 設定開始
-if dein#load_state(expand(s:dein_dir))
-  call dein#begin(expand(s:dein_dir))
-
-  " プラグインリストを収めた TOML ファイル
-  " 予め TOML ファイル（後述）を用意しておく
-  let g:rc_dir    = '~/dotfiles'
-  let s:toml      = expand(g:rc_dir . '/dein.toml')
-  let s:lazy_toml = expand(g:rc_dir . '/dein_lazy.toml')
-  let s:ddc_toml  = expand(g:rc_dir . '/dein_ddc.toml')
-  let s:ddu_toml  = expand(g:rc_dir . '/dein_ddu.toml')
-
-  " TOML を読み込み、キャッシュしておく
-  call dein#load_toml(s:toml,      {'lazy': 0})
-  call dein#load_toml(s:lazy_toml, {'lazy': 1})
-  call dein#load_toml(s:ddc_toml, {'lazy': 1})
-  call dein#load_toml(s:ddu_toml, {'lazy': 1})
-
-  " 設定終了
-  call dein#end()
-  call dein#save_state()
-endif
-
-if 0 " ddp
 " プラグインが実際にインストールされるディレクトリ
 let s:dpp_dir = '~/.cache/dpp'
 " dpp.vim の 依存をインストール
@@ -154,20 +117,27 @@ if dpp#min#load_state(expand(s:dpp_dir))
     autocmd!
     autocmd User DenopsReady call dpp#make_state(s:dpp_dir, expand('~/dotfiles/dpp.ts'))
   augroup END
+else
+  augroup dpp-load
+    autocmd!
+    autocmd BufWritePost *.lua,*.vim,*.toml,*.ts,vimrc,.vimrc
+        \ call dpp#check_files()
+  augroup END
 endif
 
-endif
+augroup dpp-load-after
+    autocmd!
+    autocmd User Dpp:makeStatePost
+      \ : echohl WarningMsg
+      \ | echomsg 'dpp make_state() is done'
+      \ | echohl NONE
+augroup END
 
 filetype plugin indent on
 syntax enable
 
-" もし、未インストールものものがあったらインストール
-if dein#check_install()
-  call dein#install()
-endif
-
-if 0 " ddp
-call dpp#async_ext_action('installer','install')
+if dpp#sync_ext_action('installer', 'checkNotInstalled')
+  call dpp#async_ext_action('installer','install')
 endif
 
 set ww+=h,l,>,<,[,]

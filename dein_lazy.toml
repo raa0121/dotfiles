@@ -174,10 +174,6 @@ repo = 'osyo-manga/vim-snowdrop'
 on_ft = 'cpp'
 
 [[plugins]]
-repo = 'Quramy/tsuquyomi'
-on_ft = 'typescript'
-
-[[plugins]]
 repo = 'rhysd/vim-crystal'
 on_ft = 'crystal'
 

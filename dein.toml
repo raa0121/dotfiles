@@ -46,6 +46,9 @@ depends = ['vim-quickrun']
 repo = 'honza/vim-snippets'
 
 [[plugins]]
+repo = 'hrsh7th/vim-vsnip'
+
+[[plugins]]
 repo = 'itchyny/lightline.vim'
 hook_add = '''
 let g:lightline = {
@@ -186,27 +189,27 @@ let g:fern#renderer = 'nerdfont'
 
 [[plugins]]
 repo = 'lambdalisue/fern-bookmark.vim'
-depends = ['lambdalisue/fern.vim']
+depends = ['fern.vim']
 
 [[plugins]]
 repo = 'lambdalisue/fern-comparator-lexical.vim'
-depends = ['lambdalisue/fern.vim']
+depends = ['fern.vim']
 
 [[plugins]]
 repo = 'lambdalisue/fern-git-status.vim'
-depends = ['lambdalisue/fern.vim']
+depends = ['fern.vim']
 
 [[plugins]]
 repo = 'lambdalisue/fern-hijack.vim'
-depends = ['lambdalisue/fern.vim']
+depends = ['fern.vim']
 
 [[plugins]]
 repo = 'lambdalisue/fern-mapping-git.vim'
-depends = ['lambdalisue/fern.vim']
+depends = ['fern.vim']
 
 [[plugins]]
 repo = 'lambdalisue/fern-renderer-nerdfont.vim'
-depends = ['lambdalisue/nerdfont.vim']
+depends = ['nerdfont.vim']
 
 [[plugins]]
 repo = 'lambdalisue/gina.vim'
@@ -303,7 +306,7 @@ repo = 'osyo-manga/vim-reunions'
 
 [[plugins]]
 repo = 'osyo-manga/vim-watchdogs'
-depends = ['quickrun.vim']
+depends = ['vim-quickrun']
 hook_source = '''
 let g:watchdogs_check_BufWritePost_enable = 1
 let g:watchdogs_check_BufWritePost_enables = {
