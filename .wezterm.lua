@@ -43,6 +43,6 @@ return {
   },
   tab_bar_at_bottom = true,
   leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 },
-  keys = mykeys
-  set_enviroment_variables = envs
+  keys = mykeys,
+  set_environment_variables = envs
 }
