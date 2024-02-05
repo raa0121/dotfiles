@@ -39,7 +39,6 @@ call ddc#custom#patch_global('cmdlineSources', {
  \ '-': ['around', 'line'],
  \ '=': ['input'],
  \ })
-call ddc#custom#patch_global('keywordPattern', '[a-zA-Z_:]\w*')
 call ddc#custom#patch_global('sourceParams', {
   \ 'lsp': {
   \   'lspEngine': 'vim-lsp',
@@ -56,6 +55,7 @@ call ddc#custom#patch_global('sourceOptions', {
   \   'sorters': ['sorter_fuzzy'],
   \   'converters': ['converter_fuzzy'],
   \   'ignoreCase': v:true,
+  \   'keywordPattern': '[a-zA-Z_:]\w*',
   \ },
   \ 'lsp': {
   \   'mark': 'lsp',
@@ -146,13 +146,18 @@ function! CommandlinePre(mode) abort
   \ ddc#map#manual_complete() : "\<C-t>"
 
   " Overwrite sources
-  if !exists('b:prev_buffer_config')
-    let s:prev_buffer_config = ddc#custom#get_buffer()
+  if exists('b:prev_buffer_config')
+    call ddc#custom#set_buffer(b:prev_buffer_config)
+    unlet b:prev_buffer_config
   endif
   if a:mode ==# ':'
     call ddc#custom#patch_buffer('cmdlineSources',
       \ ['cmdline', 'cmdline-history', 'around', 'file'])
-    call ddc#custom#patch_buffer('keywordPattern', '[0-9a-zA-Z_:#]*')
+    call ddc#custom#patch_buffer('sourceOptions', {
+      \ '_': {
+      \  'keywordPattern': '[0-9a-zA-Z_:#]*',
+      \ }
+      \})
   else
     call ddc#custom#patch_buffer('cmdlineSources',
       \ ['around', 'line'])
