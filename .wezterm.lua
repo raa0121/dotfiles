@@ -1,9 +1,13 @@
 local wezterm = require 'wezterm';
 local mykeys = {}
+local envs = {}
 
 local my_default_prog = {"bash", "-i", "-l"}
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
   my_default_prog = {"C:\\msys64\\usr\\bin\\bash.exe", "-i", "-l"}
+  envs = {
+    MSYSTEM = "MINGW64"
+  }
 end
 
 for i = 1, 8 do
@@ -40,4 +44,5 @@ return {
   tab_bar_at_bottom = true,
   leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 },
   keys = mykeys
+  set_enviroment_variables = envs
 }
