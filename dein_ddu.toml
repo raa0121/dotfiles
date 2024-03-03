@@ -22,8 +22,11 @@ call ddu#custom#patch_global({
   \       'matchers': ['matcher_fzf', 'matcher_substring'],
   \     },
   \     'dein_update': {
-  \       'matchers': ['matcher_dein_update']
-  \     }
+  \       'matchers': ['matcher_dein_update'],
+  \     },
+  \     'file_rec': {
+  \       'converters': [{'name': 'converter_hl_dir'}],
+  \     },
   \   },
   \   'kindOptions': {
   \     'file': {
@@ -34,7 +37,10 @@ call ddu#custom#patch_global({
   \     },
   \     'dein_update': {
   \       'matchers': 'viewDiff',
-  \     }
+  \     },
+  \     'lsp_codeAction': {
+  \       'defaultAction': 'apply',
+  \     },
   \   },
   \   'sourceParams': {
   \     'rg': {
@@ -44,11 +50,29 @@ call ddu#custom#patch_global({
   \       'useGraphQL': v:true,
   \     },
   \   },
-  \ })
-call ddu#custom#patch_local('files', {
   \   'uiParams': {
   \     'ff': {
-  \       'split': has('nvim') ? 'floating' : 'horizontal',
+  \       'autoAction': {
+  \         'name': 'preview',
+  \       },
+  \       'previewFloating': v:true,
+  \       'previewHeight': 40,
+  \       'split': 'horizontal',
+  \       'prompt': '> '
+  \     },
+  \   },
+  \ })
+call ddu#custom#set_local('file', {
+  \   'uiParams': {
+  \     'ff': {
+  \       'floatingTitle': 'file',
+  \     },
+  \   },
+  \ })
+call ddu#custom#set_local('lsp', {
+  \   'uiParams': {
+  \     'ff': {
+  \       'floatingTitle': 'lsp',
   \     },
   \   },
   \ })
@@ -57,34 +81,34 @@ call ddu#custom#patch_local('files', {
 [plugins.ftplugin]
 ddu-ff = '''
 nnoremap <buffer><silent> <CR>
-  \ <Cmd>call ddu#ui#ff#do_action('itemAction')<CR>
+  \ <Cmd>call ddu#ui#do_action('itemAction')<CR>
 nnoremap <buffer><silent> <Space>
-  \ <Cmd>call ddu#ui#ff#do_action('toggleSelectItem')<CR>
+  \ <Cmd>call ddu#ui#do_action('toggleSelectItem')<CR>
 nnoremap <buffer><silent> i
-  \ <Cmd>call ddu#ui#ff#do_action('openFilterWindow')<CR>
+  \ <Cmd>call ddu#ui#do_action('openFilterWindow')<CR>
 nnoremap <buffer><silent> <C-l>
-  \ <Cmd>call ddu#ui#ff#do_action('refreshItems')<CR>
+  \ <Cmd>call ddu#ui#do_action('refreshItems')<CR>
 nnoremap <buffer><silent> p
-  \ <Cmd>call ddu#ui#ff#do_action('preview')<CR>
+  \ <Cmd>call ddu#ui#do_action('togglePreview')<CR>
 nnoremap <buffer><silent> q
-  \ <Cmd>call ddu#ui#ff#do_action('quit')<CR>
+  \ <Cmd>call ddu#ui#do_action('quit')<CR>
 nnoremap <buffer><silent> a
-  \ <Cmd>call ddu#ui#ff#do_action('chooseAction')<CR>
+  \ <Cmd>call ddu#ui#do_action('chooseAction')<CR>
 nnoremap <buffer><silent> c
-  \ <Cmd>call ddu#ui#ff#do_action('itemAction', {'name': 'cd'})<CR>
+  \ <Cmd>call ddu#ui#do_action('itemAction', {'name': 'cd'})<CR>
 nnoremap <buffer><silent> d
-  \ <Cmd>call ddu#ui#ff#do_action('itemAction', {'name': 'delete'})<CR>
+  \ <Cmd>call ddu#ui#do_action('itemAction', {'name': 'delete'})<CR>
 nnoremap <buffer><silent> e
-  \ <Cmd>call ddu#ui#ff#do_action('itemAction', {'name': 'edit'})<CR>
+  \ <Cmd>call ddu#ui#do_action('itemAction', {'name': 'edit'})<CR>
 nnoremap <buffer><silent> v
-  \ <Cmd>call ddu#ui#ff#do_action('itemAction',
+  \ <Cmd>call ddu#ui#do_action('itemAction',
   \ {'name': 'open', 'params': {'command': 'vsplit'}})<CR>
 nnoremap <buffer><silent> N
-  \ <Cmd>call ddu#ui#ff#do_action('itemAction', {'name': 'new'})<CR>
+  \ <Cmd>call ddu#ui#do_action('itemAction', {'name': 'new'})<CR>
 nnoremap <buffer><silent> r
-  \ <Cmd>call ddu#ui#ff#do_action('itemAction', {'name': 'quickfix'})<CR>
+  \ <Cmd>call ddu#ui#do_action('itemAction', {'name': 'quickfix'})<CR>
 nnoremap <buffer><silent> u
-  \ <Cmd>call ddu#ui#ff#do_action('updateOptions', {
+  \ <Cmd>call ddu#ui#do_action('updateOptions', {
   \   'sourceOptions': {
   \     '_': {
   \       'matchers': [],
@@ -93,10 +117,24 @@ nnoremap <buffer><silent> u
   \ })<CR>
 '''
 ddu-ff-filter = '''
-inoremap <buffer><silent> <CR>
-  \ <Esc><Cmd>close<CR>
-nnoremap <buffer><silent> <CR>
-  \ <Cmd>close<CR>
+inoremap <buffer> <CR>
+  \ <Esc><Cmd>call ddu#ui#do_action('itemAction')<CR>
+inoremap <buffer> <C-f>
+  \ <Cmd>call ddu#ui#do_action('cursorNext', {'loop': v:true})<CR>
+inoremap <buffer> <C-b>
+  \ <Cmd>call ddu#ui#do_action('cursorPrevious', {'loop': v:true})<CR>
+inoremap <buffer> <C-v>
+  \ <Cmd>call ddu#ui#do_action('toggleAutoAction')<CR>
+nnoremap <buffer> <C-n>
+  \ <Cmd>call ddu#ui#do_action('cursorNext', {'loop': v:true})<CR>
+nnoremap <buffer> <C-p>
+  \ <Cmd>call ddu#ui#do_action('cursorPrevious', {'loop': v:true})<CR>
+nnoremap <buffer> <CR>
+  \ <Cmd>call ddu#ui#do_action('itemAction')<CR>
+nnoremap <buffer> P
+  \ <Cmd>call ddu#ui#do_action('togglePreview')<CR>
+nnoremap <buffer> a
+  \ <Cmd>call ddu#ui#do_action('chooseAction')<CR>
 '''
 
 [[plugins]]
@@ -128,6 +166,10 @@ repo = 'kamecha/ddu-source-floaterm'
 on_source = 'ddu.vim'
 
 [[plugins]]
+repo = 'kyoh86/ddu-filter-converter_hl_dir'
+on_source = 'ddu.vim'
+
+[[plugins]]
 repo = 'matsui54/ddu-source-dein_update'
 on_source = 'ddu.vim'
 hook_add = '''
@@ -135,10 +177,20 @@ command! DduDeinUpdate :Ddu dein_update
 '''
 
 [[plugins]]
-repo = 'yuki-yano/ddu-filter-fzf'
+repo = 'matsui54/ddu-vim-ui-select'
 on_source = 'ddu.vim'
 
 [[plugins]]
 repo = 'shun/ddu-source-rg'
 on_source = 'ddu.vim'
 
+[[plugins]]
+repo = 'uga-rosa/ddu-source-lsp'
+on_source = 'ddu.vim'
+hook_add = '''
+let g:ddu_source_lsp_clientName = 'vim-lsp'
+'''
+
+[[plugins]]
+repo = 'yuki-yano/ddu-filter-fzf'
+on_source = 'ddu.vim'

@@ -153,6 +153,9 @@ endfunction
 '''
 
 [[plugins]]
+repo = 'itchyny/vim-qfedit'
+
+[[plugins]]
 repo = 'kamichidu/vim-ref-java'
 depends = ['wwwrenderer-vim']
 
@@ -185,6 +188,18 @@ call textobj#user#plugin('datetime', {
 repo = 'lambdalisue/fern.vim'
 hook_add = '''
 let g:fern#renderer = 'nerdfont'
+function! s:fern_settings() abort
+  nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
+  nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
+  nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
+  nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
+  setlocal nonumber
+endfunction
+
+augroup fern-settings
+  autocmd!
+  autocmd FileType fern call s:fern_settings()
+augroup END
 '''
 
 [[plugins]]
@@ -371,6 +386,8 @@ let g:lsp_signs_warning = {'text': '‼'}
 
 let g:lsp_log_verbose = 1
 let g:lsp_log_file = expand('~/vim-lsp.log')
+
+let g:lsp_code_action_ui = 'float'
 '''
 
 [[plugins]]
@@ -437,6 +454,9 @@ repo = 'raa0121/vim-ulilith'
 
 [[plugins]]
 repo = 'rbtnn/game_engine.vim'
+
+[[plugins]]
+repo = 'rbtnn/vim-ambiwidth'
 
 [[plugins]]
 repo = 'rhysd/try-colorscheme.vim'
@@ -522,6 +542,10 @@ if = '''executable('look')'''
 
 [[plugins]]
 repo = 'yaasita/slack.vim'
+
+[[plugins]]
+repo = 'yuki-yano/fern-preview.vim'
+depends = ['fern.vim']
 
 [[plugins]]
 repo = 'vim-denops/denops.vim'

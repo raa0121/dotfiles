@@ -47,6 +47,7 @@ call ddc#custom#patch_global('sourceParams', {
   \    }),
   \    'enableResolveItem': v:true,
   \    'enableAdditionalTextEdit': v:true,
+  \    'enableDisplayDetail': v:true,
   \ }
   \ })
 call ddc#custom#patch_global('sourceOptions', {
@@ -61,7 +62,8 @@ call ddc#custom#patch_global('sourceOptions', {
   \   'mark': 'lsp',
   \   'forceCompletionPattern': '\.\w*|:\w*|->\w*',
   \   'sorters': ['sorter_lsp-kind'],
-  \   'isVolatile': v:true
+  \   'isVolatile': v:true,
+  \   'dup': v:true,
   \ },
   \ 'neosnippet': {
   \   'mark': 'ns',
@@ -110,10 +112,10 @@ call ddc#custom#patch_filetype(['FineCmdlinePrompt'], {
 
 " For insert mode completion
 inoremap <silent><expr> <TAB>
-  \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
+  \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1, "empty")<CR>' :
   \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
   \ '<TAB>' : ddc#map#manual_complete()
-inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
+inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1, "empty")<CR>
 inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>
 inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>
 inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>

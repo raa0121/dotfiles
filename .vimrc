@@ -30,7 +30,7 @@ set title
 set hlsearch
 set list
 set listchars=tab:>-
-set ambiwidth=double
+set ambiwidth=single
 set ffs=unix,dos
 colorscheme elflord
 if has('gui_running')
@@ -136,9 +136,9 @@ augroup END
 filetype plugin indent on
 syntax enable
 
-if dpp#sync_ext_action('installer', 'checkNotInstalled')
-  call dpp#async_ext_action('installer','install')
-endif
+"if dpp#sync_ext_action('installer', 'checkNotInstalled')
+"  call dpp#async_ext_action('installer','install')
+"endif
 
 set ww+=h,l,>,<,[,]
 if !has('nvim')
