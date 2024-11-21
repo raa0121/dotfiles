@@ -12,7 +12,6 @@ repo = 'Shougo/neomru.vim'
 
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
-if = '''!has('nvim')'''
 
 [[plugins]]
 repo = 'Shougo/neosnippet-snippets'
@@ -269,7 +268,9 @@ repo = 'mattn/vim-lsp-icons'
 
 [[plugins]]
 repo = 'mattn/vim-lsp-settings'
+
 hook_add = '''
+let g:lsp_settings_filetype_typescript = ['typescript-language-server', 'deno']
 let g:lsp_settings = {
   \ 'gopls': {
   \   'capabilities': {

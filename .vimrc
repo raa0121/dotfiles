@@ -108,7 +108,7 @@ for s:plugin in s:dpp_plugins->filter({_, val -> &runtimepath !~# '/' .. val->fn
   if !(s:dir->isdirectory())
     execute '!git clone https://github.com/' .. s:plugin s:dir
   endif
-  execute 'set runtimepath^=' . s:dir->fnamemodify(':p')->substitute('[/\\]$', '', '')
+  execute 'set runtimepath^=' .. s:dir->fnamemodify(':p')->substitute('[/\\]$', '', '')
 endfor
 
 " 設定開始
@@ -149,9 +149,11 @@ endif
 nnoremap <silent> ,vr :tabnew ~/dotfiles/.vimrc<CR>:lcd<CR>
 nnoremap <silent> ,de :tabnew ~/dotfiles/dein.toml<CR>:lcd<CR>
 nnoremap <silent> ,dl :tabnew ~/dotfiles/dein_lazy.toml<CR>:lcd<CR>
+nnoremap <silent> ,ddc :tabnew ~/dotfiles/dein_ddc.toml<CR>:lcd<CR>
+nnoremap <silent> ,ddu :tabnew ~/dotfiles/dein_ddu.toml<CR>:lcd<CR>
 nnoremap <silent> ,so :so ~/.vimrc<CR>
 nnoremap <silent> ,cw :botrigiht cwindow<CR>
-nnoremap <Esc><Esc> <Cmd>:nohlsearch<CR><ESC><Cmd>:silent! HierStop<CR><ESC>
+nnoremap <Esc><Esc> <Cmd>:silent! nohlsearch<CR><ESC><Cmd>:silent! HierStop<CR><ESC>
 nnoremap <silent> ,ts :<C-u>tab stj <C-R>=expand('<cword>')<CR><CR>
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
@@ -177,7 +179,6 @@ augroup vimrc
   autocmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} setlocal filetype=markdown
   autocmd BufNewFile,BufRead *.gradle setlocal filetype=groovy
   autocmd BufNewFile,BufRead */Classes/*.{cpp,h,hpp} setlocal tags+=$HOME/ctags/cocos2dx.tags
-  autocmd BufNewFile,BufRead *.{jsx,tsx} setlocal filetype=typescript.tsx
   autocmd FileType php setlocal omnifunc=padawan#Complete noexpandtab wrap tabstop=4 shiftwidth=4 tags+=$HOME/ctags/php.tags
   autocmd FileType smarty setlocal noexpandtab wrap tabstop=4 shiftwidth=4 softtabstop=4 tags+=$HOME/ctags/php.tags
   autocmd FileType java setlocal noexpandtab wrap tabstop=4 shiftwidth=4
@@ -302,3 +303,12 @@ let g:terminal_ansi_colors = [
 \ '#fdf6e3',
 \ ]
 
+function! ToggleVerbose()
+    if !&verbose
+        let &verbosefile = expand('~/.log/vim/verbose.log')
+        set verbose=14
+    else
+        set verbose=0
+        set verbosefile=
+    endif
+endfunction
