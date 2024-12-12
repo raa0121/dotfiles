@@ -2,14 +2,14 @@ import {
   ContextBuilder,
   ExtOptions,
   Plugin,
-} from "jsr:@shougo/dpp-vim@~3.0.0/types";
+} from "jsr:@shougo/dpp-vim@~4.1.0/types";
 import {
   BaseConfig,
   type ConfigReturn,
   type MultipleHook,
-} from "jsr:@shougo/dpp-vim@~3.0.0/config";
-import { Protocol } from "jsr:@shougo/dpp-vim@~3.0.0/protocol";
-import { mergeFtplugins } from "jsr:@shougo/dpp-vim@~3.0.0/utils";
+} from "jsr:@shougo/dpp-vim@~4.1.0/config";
+import { Protocol } from "jsr:@shougo/dpp-vim@~4.1.0/protocol";
+import { mergeFtplugins } from "jsr:@shougo/dpp-vim@~4.1.0/utils";
 
 import type {
   Ext as LazyExt,
@@ -29,8 +29,8 @@ import type {
   Params as TomlParams,
 } from "jsr:@shougo/dpp-ext-toml@~1.3.0";
 
-import type { Denops } from "jsr:@denops/std@~7.1.0";
-import * as fn from "jsr:@denops/std@~7.1.0/function";
+import type { Denops } from "jsr:@denops/std@~7.4.0";
+import * as fn from "jsr:@denops/std@~7.4.0/function";
 
 import { expandGlob } from "jsr:@std/fs@~1.0.0/expand-glob";
 
@@ -46,7 +46,10 @@ export class Config extends BaseConfig {
     });
 
     const [context, options] = await args.contextBuilder.get(args.denops);
-
+    const protocols = await args.denops.dispatcher.getProtocols() as Record<
+      string,
+      Protocol
+    >;
     const recordPlugins: Record<string, Plugin> = {};
     const ftplugins: Record<string, Plugin> = {};
     const hooksFiles: string[] = [];
@@ -63,10 +66,10 @@ export class Config extends BaseConfig {
     if (tomlExt) {
       const action = tomlExt.actions.load;
       const tomlPromises = [
-        { path: `${BASE_DIR}/dein.toml`, lazy: false, }
-        { path: `${BASE_DIR}/dein_lazy.toml`, lazy: true, }
-        { path: `${BASE_DIR}/dein_ddu.toml`, lazy: true, }
-        { path: `${BASE_DIR}/dein_dcc.toml`, lazy: true, }
+        { path: `${BASE_DIR}/dein.toml`, lazy: false, },
+        { path: `${BASE_DIR}/dein_lazy.toml`, lazy: true, },
+        { path: `${BASE_DIR}/dein_ddu.toml`, lazy: true, },
+        { path: `${BASE_DIR}/dein_ddc.toml`, lazy: true, },
       ].map((tomlFile) =>
         action.callback({
           denops: args.denops,
@@ -112,13 +115,13 @@ export class Config extends BaseConfig {
     if (lazyExt) {
       const action = lazyExt.actions.makeState;
       lazyResult = await action.callback({
-        args.denops,
+        denops: args.denops,
         context,
         options,
         protocols,
         extOptions: lazyOptions,
         extParams: lazyParams,
-        actioParams: {
+        actionParams: {
           plugins: Object.values(recordPlugins),
         },
       });

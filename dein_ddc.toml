@@ -34,51 +34,51 @@ call ddc#custom#patch_global('sourceParams', {
   \ }
   \ })
 call ddc#custom#patch_global('sourceOptions', {
-  \ '_': {
-  \   'matchers': ['matcher_fuzzy'],
-  \   'sorters': ['sorter_fuzzy'],
-  \   'converters': ['converter_fuzzy'],
-  \   'ignoreCase': v:true,
-  \   'keywordPattern': '[a-zA-Z_:]\w*',
-  \ },
-  \ 'lsp': {
-  \   'mark': 'lsp',
-  \   'forceCompletionPattern': '\.\w*|:\w*|->\w*',
-  \   'sorters': ['sorter_lsp-kind'],
-  \   'isVolatile': v:true,
-  \   'dup': v:true,
-  \ },
-  \ 'neosnippet': {
-  \   'mark': 'ns',
-  \   'dup': v:true
-  \ },
-  \ 'around': {
-  \   'mark': 'A',
-  \   'matchers': ['matcher_head'],
-  \   'minAutoCompleteLength': 4,
-  \ },
-  \ 'cmdline': {
-  \  'mark': 'cmdline',
-  \  'forceCompletionPattern': '\S/\S*',
-  \  'dup': v:true,
-  \ },
-  \ 'input': {
-  \   'mark': 'input',
-  \   'forceCompletionPattern': '\S/\S*',
-  \   'isVolatile': v:true,
-  \   'dup': v:true,
-  \ },
-  \ 'file': {
-  \   'mark': 'F',
-  \   'isVolatile': v:true,
-  \   'minAutoCompleteLength': 1000,
-  \   'forceCompletionPattern': '\S/\S*'
-  \ },
-  \ 'cmdline-history': {
-  \  'mark': 'h',
-  \  'sorters': [],
-  \ },
-  \})
+  \   '_': {
+  \     'matchers': ['matcher_fuzzy'],
+  \     'sorters': ['sorter_fuzzy'],
+  \     'converters': ['converter_fuzzy'],
+  \     'ignoreCase': v:true,
+  \     'keywordPattern': '[a-zA-Z_:]\w*',
+  \   },
+  \   'lsp': {
+  \     'mark': 'lsp',
+  \     'forceCompletionPattern': '\.\w*|:\w*|->\w*',
+  \     'sorters': ['sorter_lsp-kind'],
+  \     'isVolatile': v:true,
+  \     'dup': v:true,
+  \   },
+  \   'neosnippet': {
+  \     'mark': 'ns',
+  \     'dup': v:true
+  \   },
+  \   'around': {
+  \     'mark': 'A',
+  \     'matchers': ['matcher_head'],
+  \     'minAutoCompleteLength': 4,
+  \   },
+  \   'cmdline': {
+  \    'mark': 'cmdline',
+  \    'forceCompletionPattern': '\S/\S*',
+  \    'dup': v:true,
+  \   },
+  \   'input': {
+  \     'mark': 'input',
+  \     'forceCompletionPattern': '\S/\S*',
+  \     'isVolatile': v:true,
+  \     'dup': v:true,
+  \   },
+  \   'file': {
+  \     'mark': 'F',
+  \     'isVolatile': v:true,
+  \     'minAutoCompleteLength': 1000,
+  \     'forceCompletionPattern': '\S/\S*'
+  \   },
+  \   'cmdline-history': {
+  \    'mark': 'h',
+  \    'sorters': [],
+  \   },
+  \ })
 call ddc#custom#patch_global('filterParams', {
   \   'converter_fuzzy': {
   \     'hlGroup': 'SpellBad'
@@ -151,7 +151,7 @@ function! CommandlinePre(mode) abort
           \     'cmdline', 'cmdline-history', 'around',
           \   ],
           \ } : {} })
-
+  endif
   autocmd vimrc User DDCCmdlineLeave ++once call CommandlinePost()
 
   " Enable command line completion

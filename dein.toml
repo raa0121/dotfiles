@@ -528,6 +528,9 @@ repo = 'tsuyoshicho/vim-efm-langserver-settings'
 depends = ['vim-lsp']
 
 [[plugins]]
+repo = 'towolf/vim-helm'
+
+[[plugins]]
 repo = 'tyru/open-browser.vim'
 hook_add = '''
 nmap gx <Plug>(openbrowser-smart-search)
