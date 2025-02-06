@@ -31,7 +31,7 @@ import type {
 
 import type { Denops } from "jsr:@denops/std@~7.4.0";
 import * as fn from "jsr:@denops/std@~7.4.0/function";
-
+import * as vars from "jsr:@denops/std/variable";
 import { expandGlob } from "jsr:@std/fs@~1.0.0/expand-glob";
 
 export class Config extends BaseConfig {
@@ -42,6 +42,13 @@ export class Config extends BaseConfig {
   }): Promise<ConfigReturn> {
     const BASE_DIR = await fn.expand(args.denops, '~/dotfiles');
     args.contextBuilder.setGlobal({
+      extParams: {
+        installer: {
+          checkDiff: true,
+          logFilePath: await fn.expand(args.denops, '~/.cache/dpp/installer-log.txt'),
+          githubAPIToken: vars.g.get(args.denops, 'dein#install_github_api_token'),
+        },
+      },
       protocols: ["git"],
     });
 

@@ -187,7 +187,18 @@ call textobj#user#plugin('datetime', {
 repo = 'lambdalisue/fern.vim'
 hook_add = '''
 let g:fern#renderer = 'nerdfont'
+
+function! YankFernName() abort
+  let helper = fern#helper#new()
+  let node = helper.sync.get_cursor_node()
+  if !empty(node)
+    call setreg(v:register, node.name)
+    redraw | echo "Yanked name: " . node.name
+  endif
+endfunction
+
 function! s:fern_settings() abort
+  nmap <silent> <buffer> Y     <Cmd>call YankFernName()<CR>
   nmap <silent> <buffer> p     <Plug>(fern-action-preview:toggle)
   nmap <silent> <buffer> <C-p> <Plug>(fern-action-preview:auto:toggle)
   nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
@@ -232,6 +243,10 @@ repo = 'lambdalisue/gina.vim'
 repo = 'lambdalisue/nerdfont.vim'
 hook_add = '''
 let g:nerdfont#path#extension#customs = {
+  \ 'go': '',
+  \ 'exe': '',
+  \ 'toml': '',
+  \ 'bat': '',
   \ 'vue': '󿵂',
   \ 'node': '󿢘',
   \ 'rtf': '󿜘',
@@ -344,10 +359,7 @@ repo = 'osyo-manga/vim-precious'
 depends = ['context_filetype.vim']
 hook_add='''
 " カーソル移動時の自動切り替えを無効化
-let g:precious_enable_switch_CursorMoved = {
-  \ "vue" : 0
-  \ }
-let g:precious_enable_switch_CursorMoved_i = {
+let g:precious_enable_switchers = {
   \ "vue" : 0
   \ }
 '''
