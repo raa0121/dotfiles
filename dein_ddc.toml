@@ -175,7 +175,7 @@ repo = 'Shougo/ddc-filter-matcher_head'
 on_source = 'ddc.vim'
 
 [[plugins]]
-repo = 'Shougo/ddc-filtersorter_rank'
+repo = 'Shougo/ddc-filter-sorter_rank'
 on_source = 'ddc.vim'
 
 [[plugins]]
